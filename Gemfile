@@ -9,6 +9,3 @@ gem 'dm-sqlite-adapter', :group => :development
 gem "sinatra"
 gem "haml"
 gem "shotgun"
-gem "dm-validations"
-gem "dm-timestamps"
-gem "dm-migrations"

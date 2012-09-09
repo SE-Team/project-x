@@ -3,7 +3,7 @@ require 'dm-migrations'
 require './helpers/helpers'
 
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/db/base.db")
+DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_ROSE'] || "sqlite://#{Dir.pwd}/db/base.db")
 
 class Profile
 	include DataMapper::Resource

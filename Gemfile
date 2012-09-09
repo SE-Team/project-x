@@ -4,6 +4,7 @@ gem 'dm-core'
 gem 'dm-migrations'
 gem "sinatra", '1.3.3'
 gem "haml"
+gem 'json'
 gem "shotgun"
 
 

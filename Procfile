@@ -1,1 +1,1 @@
-web: shotgun config.ru -p $PORT
+web: shotgun config.ru -p "0.0.0.0:$PORT"

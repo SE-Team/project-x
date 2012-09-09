@@ -14,11 +14,16 @@ GEM
     dm-postgres-adapter (1.2.0)
       dm-do-adapter (~> 1.2.0)
       do_postgres (~> 0.10.6)
+    dm-sqlite-adapter (1.2.0)
+      dm-do-adapter (~> 1.2.0)
+      do_sqlite3 (~> 0.10.6)
     dm-timestamps (1.2.0)
       dm-core (~> 1.2.0)
     dm-validations (1.2.0)
       dm-core (~> 1.2.0)
     do_postgres (0.10.8)
+      data_objects (= 0.10.8)
+    do_sqlite3 (0.10.8)
       data_objects (= 0.10.8)
     haml (3.1.4)
     rack (1.4.1)
@@ -39,6 +44,7 @@ DEPENDENCIES
   dm-core
   dm-migrations
   dm-postgres-adapter
+  dm-sqlite-adapter
   dm-timestamps
   dm-validations
   haml

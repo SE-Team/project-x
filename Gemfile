@@ -1,9 +1,11 @@
 source :rubygems
 
-gem 'sinatra'
 gem 'dm-core'
 gem 'dm-migrations'
-gem 'shotgun'
+gem "sinatra", '1.3.3'
+gem "haml"
+gem "shotgun"
+
 
 group :development do
   gem 'dm-sqlite-adapter'

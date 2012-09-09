@@ -1,1 +1,1 @@
-web: shotgun config.ru -p "0.0.0.0:$PORT"
+web: bundle exec rackup config.ru -p $PORT

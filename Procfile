@@ -1,1 +1,0 @@
-web: shotgun -p $PORT app.rb

@@ -28,6 +28,8 @@ class User
 	property :created_at,       	DateTime, default: DateTime.now
 	property :upadted_at,       	DateTime
 
+	has n, :events
+
 	has 1, :profile
 
 	def username= new_username

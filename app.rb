@@ -46,7 +46,7 @@ end
 def event_info
   {title: "Event Info",
    input_fields: [{name: "title", type: :text, placeholder: "title"},
-                  {name: "description", type: :text, placeholder: "description"}]}
+                  {name: "body", type: :text, placeholder: "body"}]}
 end
 
 def event_form
@@ -68,9 +68,14 @@ end
 
 get '/user/:user_name/dashboard' do
   @user = session[:user]
-  @user_name = session[:user].user_name
-  @user_events = Event.all(:user => @user)
-  haml :user_dashboard
+  @content = partial(:user_dashboard, {user: @user})
+  @items = [["Test", "/test/link"],
+            ["Test", "/test/link"],
+            ["Test", "/test/link"],
+            ["Test", "/test/link"],
+            ["Test", "/test/link"]]
+  @sidebar = partial(:sidebar, {items: @items})
+  haml :with_sidebar
 end
 
 get '/user/:user_name/create-event' do
@@ -91,6 +96,7 @@ post'/user/:user_name/create-event' do
   event.user = @user
   event.title = params["title"]
   event.body = params["body"]
+  event.body = params["body"]
   event.img_url = params["img_url"]
   
   time = Time.new
@@ -98,6 +104,9 @@ post'/user/:user_name/create-event' do
 
   location = Location.new
   location.event = event
+  location.geo_location = params["country-code"]
+  location.city = params["city"]
+  location.country = params["country"]
 
   if event.save && time.save && location.save
     flash("Event created")

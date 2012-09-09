@@ -7,9 +7,9 @@ gem "haml"
 gem "shotgun"
 
 
-# group :development do
-#   gem 'dm-sqlite-adapter'
-# end
+group :development do
+  gem 'dm-sqlite-adapter'
+end
 
 group :production do 
   gem 'dm-postgres-adapter'

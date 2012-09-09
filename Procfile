@@ -1,1 +1,1 @@
-web: production run -m heroku-app.web
+web: bundle exec shotgun config.ru -p $PORT

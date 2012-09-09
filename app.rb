@@ -1,5 +1,6 @@
 require './model/dm'
 require 'sinatra'
+require 'json'
 require './helpers/sinatra'
 require './helpers/helpers'
 require 'haml'
@@ -207,6 +208,11 @@ post '/register' do
   end
 end
 
-
+get '/json/users' do
+  # JSON.generate
+  @users = User.first(:fields => [:id, :user_name])
+  puts @users
+  JSON.generate [@users]
+end
 
 

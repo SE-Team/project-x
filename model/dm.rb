@@ -160,14 +160,3 @@ def get_month(creation_date)
 end
 
 DataMapper.auto_upgrade!
-
-
-
-
-
-
-@new_user = User.create(user_name: "test", 
-						email: "test@test-email.com",
-						password: "test")
-
-

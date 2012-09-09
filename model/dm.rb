@@ -1,6 +1,4 @@
 require 'dm-core'
-require 'dm-validations'
-require 'dm-timestamps'
 require 'dm-migrations'
 require './helpers/helpers'
 

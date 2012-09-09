@@ -1,0 +1,10 @@
+.bs-docs-example
+	%form{action: form_map.has_key?("action") ? form_map[:action] : "", method: form_map.has_key?("method") ? form_map[:method] : "post"}
+		%legend= form_map[:title]
+		-form_map[:elements].each do |element|
+			%h4= element[:title]
+			- element[:input_fields].each do |input|
+				%label= input[:placeholder].capitalize
+				%input.input-xlarge{type: input[:type], placeholder: input[:placeholder], name: input[:name]}
+		%br
+		%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}

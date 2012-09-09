@@ -15,5 +15,13 @@
 				redirect '/'
 			%small
 				%a{href: "/user/" << @user.user_name.to_s << "/profile"} profile
-		.container#main-topic-nav
-			// do your user data tables etc. here
+
+
+	.row
+		%a{href: "./create-event"}
+			%h3= "Create an event"
+	.row-fluid
+		-@user_events.each do |event|
+			.row
+				%h3= event.title
+				%p= event.body

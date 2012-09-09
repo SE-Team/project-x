@@ -1,0 +1,6 @@
+%ul.nav.nav-list.bs-docs-sidenav
+	-@items.each do |item|
+		%li
+			%a{href: item[0]}
+				%i.icon-chevron-right
+				%p= item[1].to_s

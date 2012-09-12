@@ -1,9 +1,10 @@
 require './model/dm'
-require 'sinatra'
+require './helpers/helpers'
 require './helpers/sinatra'
 require 'dm-serializer'
-require './helpers/helpers'
+require 'sinatra'
 require 'haml'
+require 'json'
 
 configure do
   enable :sessions
@@ -248,9 +249,8 @@ get '/api/:api_key/user/:user_name.json' do
   User.first(user_name: params["user_name"]).to_json(only: [:user_name, :id, :email])
 end
 
-post '/api/event' do
-	ps = params.to_s
-	redirect '/dev/' +ps
+post '/api/event/?' do
+  puts params[:data]
 end
 
 get '/api/:api_key/create-event$:opts' do

@@ -1,10 +1,9 @@
 require './model/dm'
 require 'sinatra'
-require 'json'
 require './helpers/sinatra'
+require 'dm-serializer'
 require './helpers/helpers'
 require 'haml'
-
 
 configure do
   enable :sessions
@@ -122,7 +121,6 @@ post'/user/:user_name/create-event' do
   end
 end
 
-
 get '/user/dashboard' do
   if session[:user] == nil
     @user_name = session[:user].user_name
@@ -156,6 +154,8 @@ get '/user/:user_name/profile' do
 end
 
 get '/login' do
+  @map = {action: "/login",
+          title: "Login"}
   haml :login
 end
 
@@ -208,11 +208,110 @@ post '/register' do
   end
 end
 
-get '/json/users' do
-  # JSON.generate
-  @users = User.first(:fields => [:id, :user_name])
-  puts @users
-  JSON.generate [@users]
+def api_info
+  {title: "API User Info",
+   input_fields: [{name: "email", type: :text, placeholder: "email"}]}
 end
+
+def api_form
+  {title: "Register for an API key",
+   elements: [api_info],
+   action: "/api-key",
+   method: "post"}
+end
+
+get '/api-key' do
+  @content = partial(:form, {form_map: api_form})
+  haml :with_sidebar
+end
+
+post '/api-key' do
+  key = APIKey.new
+  key.email = params["email"]
+
+  if key.save
+    @key = key
+    haml :key_created
+  else
+    redirect '/api-key'
+  end
+end
+
+get '/api/:api_key/users.json' do
+  valid_key = APIKey.first(api_key: params["api_key"])
+  if !valid_key.nil?
+    User.all.to_json(only: [:id, :user_name, :email])
+  end
+end
+
+get '/api/:api_key/user/:user_name.json' do
+  User.first(user_name: params["user_name"]).to_json(only: [:user_name, :id, :email])
+end
+
+post '/api/event' do
+	ps = params.to_s
+	redirect '/dev/' +ps
+end
+
+get '/api/:api_key/create-event$:opts' do
+  valid_key = APIKey.first(api_key: params[:api_key])
+  if !valid_key.nil?
+ 	User.all.to_json(only: [:id, :user_name, :email])
+	opts_str = params[:opts].to_s
+	opts = opts_str.split "&"
+	opts.each_with_index.map{|opt, i|
+				kv = opt.split "="
+				opts[i] = [kv[0], kv[1]]}
+	event = Event.new
+	opts.each do |opt|
+		event[opt[0]] = opt[1]
+		p event[opt[0]]
+	end
+	event.user = User.first
+	if event.save
+		event.to_json
+	else
+		"BAD ENTRY"
+	end
+	end
+end
+
+get '/dev/:dev-out' do
+	params["dev-out"]
+end
+
+##############################################################################
+########### ADMIN ############################################################
+##############################################################################
+
+get '/admin/login' do
+  @map = {action: "/admin/login",
+          title: "Admin Login"}
+  haml :login
+end
+
+post '/admin/login' do
+  if session[:user] = Admin.authenticate(params["username"], params["password"])
+    flash("Admin login successful")
+    redirect "/admin/" << session[:user].user_name << "/dashboard"
+  else
+    flash("Admin login failed - Try again")
+    redirect '/admin/login'
+  end
+end
+
+get '/admin/:admin_user/dashboard' do
+  @admin = session[:user]
+  @users = User.all
+  @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: APIKey.all})
+  @items = [["Test", "/test/link"],
+            ["Test", "/test/link"],
+            ["Test", "/test/link"],
+            ["Test", "/test/link"],
+            ["Test", "/test/link"]]
+  @sidebar = partial(:sidebar, {items: @items})
+  haml :with_sidebar
+end
+
 
 

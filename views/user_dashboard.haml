@@ -29,37 +29,34 @@
 					%h4= "map_canvas_#{event.id}"
 					%p= "#{event.locations.first.geo_location}"
 				.row
-					:javascript
-						function initialize() {
-							var geocoder;
-							var map;
+					/ :javascript
+					/ 	function initialize() {
+					/ 		var geocoder;
+					/ 		var map;
 	
-							geocoder = new google.maps.Geocoder();
-							var latlng = new google.maps.LatLng(-34.397, 150.644);
-							var mapOptions = {
-							  zoom: 8,
-							  center: latlng,
-							  mapTypeId: google.maps.MapTypeId.ROADMAP
-							}
-							map = new google.maps.Map(document.getElementById("map_canvas_#{event.id}"), mapOptions);
+					/ 		geocoder = new google.maps.Geocoder();
+					/ 		var latlng = new google.maps.LatLng(-34.397, 150.644);
+					/ 		var mapOptions = {
+					/ 		  zoom: 8,
+					/ 		  center: latlng,
+					/ 		  mapTypeId: google.maps.MapTypeId.ROADMAP
+					/ 		}
+					/ 		map = new google.maps.Map(document.getElementById("map_canvas_#{event.id}"), mapOptions);
 
-							var address = #{event.locations.first.geo_location}
+					/ 		var address = #{event.locations.first.geo_location}
 							
-							geocoder.geocode( { 'address': address}, function(results, status) {
-							  if (status == google.maps.GeocoderStatus.OK) {
-							    map.setCenter(results[0].geometry.location);
-							    var marker = new google.maps.Marker({
-							        map: map,
-							        position: results[0].geometry.location
-							    });
-							  } else {
-							    alert('Geocode was not successful for the following reason: ' + status);
-							  }
-							});
-						}
-
-
-					%div.map_canvas{id: "map_canvas_#{event.id}"}
-
+					/ 		geocoder.geocode( { 'address': address}, function(results, status) {
+					/ 		  if (status == google.maps.GeocoderStatus.OK) {
+					/ 		    map.setCenter(results[0].geometry.location);
+					/ 		    var marker = new google.maps.Marker({
+					/ 		        map: map,
+					/ 		        position: results[0].geometry.location
+					/ 		    });
+					/ 		  } else {
+					/ 		    alert('Geocode was not successful for the following reason: ' + status);
+					/ 		  }
+					/ 		});
+					/ 	}
+					/ %div.map_canvas{id: "map_canvas_#{event.id}"}
 				.row
 					%p= event.body

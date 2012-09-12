@@ -5,7 +5,7 @@
 				%span.icon-bar
 				%span.icon-bar
 				%span.icon-bar
-			%a.brand{:href => '/'} Project name
+			%a.brand{:href => '/'} Project X
 			.nav-collapse
 				%ul.nav
 					%li
@@ -18,7 +18,7 @@
 						%a{:href => '/contact'}Contact
 				%p.navbar-text.pull-right
 					-if logged_in?
-						%a{:href => "/user/" << @user.user_name.to_s << "/dashboard"} #{@user.user_name} 
+						%a{:href => "/user/" << session[:user].user_name << "/dashboard"} #{session[:user].user_name} 
 						Dashboard
 						|
 						%a{:href => "/logout" } Logout

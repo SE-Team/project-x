@@ -2,8 +2,8 @@
 	.container
 		.row
 			.span12
-				%form{ :action => "/login", :method => "post"}
-					%h1= 'Login'
+				%form{ :action => @map[:action], :method => "post"}
+					%h1= @map[:title]
 					%br
 					%p Name
 					%input.form-input{ :name => "username", :type => "text", :size => "20", :value => "username"}

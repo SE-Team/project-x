@@ -1,0 +1,43 @@
+%section
+	.page-header
+		-unless admin == nil?
+			.page-header
+				%h1="Admin Dashboard"  
+			%h3= admin.user_name
+		-else
+			redirect '/'
+	
+%section
+	%h1= "Users"
+	-users.each do |user|
+		%section.well
+			%span.label.label-success= user.user_name
+			%br
+			%br
+			.row
+				.offset1
+					.row
+						%table.table
+							-user.events.each do |event|
+								%tr
+									%td
+										%p= event.title
+										%small= event.body
+
+	
+%section{styles: "word-wrap: break-word;"}
+	.row
+		%h1= "API Keys"
+		%a.btn.btn-primary{href: "/api-key"}= "Create API Key"
+		%br
+		%br
+		.accordion{id: "api-accordion"}
+			-collapse_id = 0
+			-api_keys.each do |key|
+				.accordion-group
+					.accordion-heading
+						%a.accordion-toggle{"data-toggle".to_sym => "collapse", href: "#api-collapse-#{collapse_id}", "data-parent".to_sym => "#api-accordion"}= key.email
+					.accordion-body{id: "api-collapse-#{collapse_id}"}
+						.accordion-inner
+							%spane.label.label-info= key.api_key
+							-collapse_id++

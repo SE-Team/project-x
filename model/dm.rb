@@ -159,4 +159,91 @@ def get_month(creation_date)
   record.created_at.asctime.slice(4..6)
 end
 
+def random_string(len)
+	chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+	str = ""
+	1.upto(len) { |i| str << chars[rand(chars.size-1)] }
+	return str
+end
+
+class APIKey
+	include DataMapper::Resource
+
+	property :id, 		Serial
+	property :email, 	String
+	property :api_key, 	String, default: random_string(50)
+
+end
+
+class Admin
+	include DataMapper::Resource
+
+	property :id, 		Serial
+	property :user_name,        	String, key: true, length: (3..40), required: true
+	property :email,            	String
+	property :password,         	String
+	property :salt,             	String
+	property :hashed_password,  	String
+	property :created_at,       	DateTime, default: DateTime.now
+	property :upadted_at,       	DateTime
+
+	property :api_key, 	String, default: random_string(50)
+	property :access_level, Integer
+
+	def username= new_username
+		@username = new_username.downcase
+	end
+
+	def password=(pass)
+		@password = pass
+		self.salt = random_string(10) unless self.salt
+		self.hashed_password = Admin.encrypt(@password, self.salt)
+	end
+
+	def self.encrypt(pass, salt)
+		Digest::SHA1.hexdigest(pass + salt)
+	end
+
+	def self.authenticate(login, pass)
+		u = Admin.first(user_name: login)
+		return nil if u.nil?
+		return u if Admin.encrypt(pass, u.salt) == u.hashed_password
+		nil
+	end
+
+	def random_string(len)
+		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+		str = ""
+		1.upto(len) { |i| str << chars[rand(chars.size-1)] }
+		return str
+	end
+end
+
+
 DataMapper.auto_upgrade!
+
+
+
+# superman = User.first_or_create(user_name: "superman")
+# superman.password = "pass"
+# superman.email = "superman@superman.com"
+
+# batman = User.first_or_create(user_name: "batman")
+# batman.password = "pass"
+# batman.email = "batman@batman.com"
+
+# spiderman = User.first_or_create(user_name: "spiderman")
+# spiderman.password = "pass"
+# spiderman.email = "spiderman@spiderman.com"
+
+# joker = User.first_or_create(user_name: "joker")
+# joker.password = "pass"
+# joker.email = "joker@joker.com"
+
+# bane = User.first_or_create(user_name: "bane")
+# bane.password = "pass"
+# bane.email = "bane@bane.com"
+
+# lex_luther = User.first_or_create(user_name: "lex-luther")
+# lex_luther.password = "pass"
+# lex_luther.email = "lex-luther@lex-luther.com"

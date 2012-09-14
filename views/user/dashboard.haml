@@ -1,0 +1,54 @@
+// User dashboard
+
+%article
+	-comment
+	%section
+		%header.page-header
+			%h2= user.user_name.to_s
+			%image{width: 30, height: 30, src: "/images/missing_avatar_small.png"}
+			.btn-toolbar
+				.btn-group
+					%a.btn.btm-small{href: "./create-event"}
+						%i.icon-flag
+						%small= "create"
+					%a.btn.btm-small{href: "/user/" << user.user_name.to_s << "/profile"}
+						%i.icon-user
+						%small= "profile"
+	%section
+		%article
+			%h3= "Events"
+			.accordion{id: "userEventAccordion"}
+				-user.events.each_with_index do |event, i|
+					.accordion-group
+						.accordion-heading
+							%a.accordion-toggle{"data-toggle".to_sym => "collapse", href: "#userEventAccordionBody#{i}", "data-parent".to_sym => "#userEventAccordion"}= event.title
+						.accordion-body.collapse{id: "userEventAccordionBody#{i}"}
+							.accordion-inner
+								.article
+									%h4= event.title
+									%p= event.body
+									%h5= "comments"
+									.section{id: "comments-#{i}"}
+										-event.metadata.tumbler.comments.each_with_index do |comment, n|
+											.section.well
+												%small
+													%u= comment.posted_by
+												%p= comment.body
+									.section
+										.row-fluid
+											%a.btn.btn-small.add-comment-btn
+												%i.icon-pencil{"onclick".to_sym => "addCommentToTumbler(#{i});"}
+
+											.pull-right
+												%a.btn.btn-small
+													%i.icon-edit
+												%a.btn.btn-small{href: "#"}
+													%i.icon-trash
+
+:javascript
+	function addCommentToTumbler(idNum) {
+		commentStr = "a[class=add-comment-btn-";
+		btnStr = commentStr.concat(idNum);
+		sectionStr = "#comments-";
+		appendSectionStr = sectionStr + idNum;
+	}

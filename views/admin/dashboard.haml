@@ -1,9 +1,11 @@
+// Admin dashboard
+
 %section
 	.page-header
 		-unless admin == nil?
 			.page-header
 				%h1="Admin Dashboard"  
-			%h3= admin.user_name
+			%h3= "Admin"
 		-else
 			redirect '/'
 	
@@ -16,12 +18,25 @@
 					%a.accordion-toggle{"data-toggle".to_sym => "collapse", href: "#userEventAccordionBody#{i}", "data-parent".to_sym => "#userEventAccordion"}= user.user_name
 				.accordion-body.collapse{id: "userEventAccordionBody#{i}"}
 					.accordion-inner
-						%table.table
+						%article
 							-user.events.each do |event|
-								%tr
-									%td
+								%section
+									%row
 										%p= event.title
 										%small= event.body
+										.section{id: "comments-#{i}"}
+										%small= "comments"
+										%article
+										-event.metadata.tumbler.comments.each_with_index do |comment, n|
+											.section.well
+												%small
+													%u= comment.posted_by
+													%p= comment.body
+								.row-fluid
+									%a.btn.btn-small{href: "#"}	
+										%i.icon-trash
+									%a.btn.btn-small{href: "#"}	
+										%i.icon-flag
 
 	
 %section{styles: "word-wrap: break-word;"}

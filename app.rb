@@ -10,23 +10,37 @@ configure do
   enable :sessions
 end
 
-def partial(template,locals=nil)
-  if template.is_a?(String) || template.is_a?(Symbol)
-    template=(template.to_s).to_sym
-  else
-    locals=template
-    template=template.is_a?(Array) ? (template.first.class.to_s.downcase).to_sym : (template.class.to_s.downcase).to_sym
-  end
-  if locals.is_a?(Hash)
-    haml(template,{:layout => false},locals)      
-  elsif locals
-    locals=[locals] unless locals.respond_to?(:inject)
-    locals.inject([]) do |output,element|
-      output <<     erb(template,{:layout=>false},{template.to_s.delete("_").to_sym => element})
-    end.join("\n")
-  else 
-    haml(template,{:layout => false})
-  end
+include Helpers
+
+# def partial(template,locals=nil)
+#   if template.is_a?(String) || template.is_a?(Symbol)
+#     template=(template.to_s).to_sym
+#   else
+#     locals=template
+#     template=template.is_a?(Array) ? (template.first.class.to_s.downcase).to_sym : (template.class.to_s.downcase).to_sym
+#   end
+#   if locals.is_a?(Hash)
+#     haml(template,{:layout => false},locals)      
+#   elsif locals
+#     locals=[locals] unless locals.respond_to?(:inject)
+#     locals.inject([]) do |output,element|
+#       output <<     erb(template,{:layout=>false},{template.to_s.delete("_").to_sym => element})
+#     end.join("\n")
+#   else 
+#     haml(template,{:layout => false})
+#   end
+# end
+def comment
+  puts "fuck me"
+  return partial(:'tumbler/new_comment')
+end
+
+def user_sidebar_items
+  [["Stream", "user/" + @user.user_name + "/stream"],
+            ["Profile", "user/" + @user.user_name + "/profile"],
+            ["Friends", "user/" + @user.user_name + "/friends"],
+            ["Search", "user/" + @user.user_name + "/search"],
+            ["Account", "user/" + @user.user_name + "/account"]]
 end
 
 def time_info
@@ -69,12 +83,8 @@ end
 
 get '/user/:user_name/dashboard' do
   @user = session[:user]
-  @content = partial(:user_dashboard, {user: @user})
-  @items = [["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"]]
+  @content = partial(:'user/dashboard', {user: @user})
+  @items = user_sidebar_items
   @sidebar = partial(:sidebar, {items: @items})
   haml :with_sidebar
 end
@@ -82,11 +92,7 @@ end
 get '/user/:user_name/create-event' do
   @user = User.first(user_name: params[:user_name])
   @content = partial(:form, {form_map: event_form})
-  @items = [["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"]]
+  @items = user_sidebar_items
   @sidebar = partial(:sidebar, {items: @items})
   haml :with_sidebar
 end
@@ -97,8 +103,6 @@ post'/user/:user_name/create-event' do
   event.user = @user
   event.title = params["title"]
   event.body = params["body"]
-  event.body = params["body"]
-  event.img_url = params["img_url"]
   
   time = Time.new
   time.event = event
@@ -125,7 +129,7 @@ end
 get '/user/dashboard' do
   if session[:user] == nil
     @user_name = session[:user].user_name
-    haml :user_dashboard
+    haml :'user/dashboard'
   else
     haml :no_user_dash
   end
@@ -151,7 +155,7 @@ get '/user/:user_name/profile' do
   unless session[:user] == nil
     @user_name = session[:user].user_name
   end
-  haml :user_profile
+  haml :'user/profile'
 end
 
 get '/login' do
@@ -227,7 +231,7 @@ get '/api-key' do
 end
 
 post '/api-key' do
-  key = APIKey.new
+  key = ApiKey.new
   key.email = params["email"]
 
   if key.save
@@ -239,7 +243,7 @@ post '/api-key' do
 end
 
 get '/api/:api_key/users.json' do
-  valid_key = APIKey.first(api_key: params["api_key"])
+  valid_key = ApiKey.first(api_key: params["api_key"])
   if !valid_key.nil?
     User.all.to_json(only: [:id, :user_name, :email])
   end
@@ -249,12 +253,22 @@ get '/api/:api_key/user/:user_name.json' do
   User.first(user_name: params["user_name"]).to_json(only: [:user_name, :id, :email])
 end
 
-post '/api/event/?' do
-  puts params[:data]
+post '/api/:api_key/event/?' do
+  valid_key = ApiKey.first(api_key: params[:api_key])
+  if !valid_key.nil?
+    event = Event.new
+    event.title = CGI::unescape params[:title]
+    if event.save
+      event.to_json
+    else
+      "BAD ENTRY"
+    end
+  end
+  redirect '/admin/admin/dashboard'
 end
 
 get '/api/:api_key/create-event$:opts' do
-  valid_key = APIKey.first(api_key: params[:api_key])
+  valid_key = ApiKey.first(api_key: params[:api_key])
   if !valid_key.nil?
  	User.all.to_json(only: [:id, :user_name, :email])
 	opts_str = params[:opts].to_s
@@ -296,6 +310,8 @@ post '/admin/login' do
     redirect "/admin/" << session[:user].user_name << "/dashboard"
   else
     flash("Admin login failed - Try again")
+    puts params[:password]
+    puts Admin.first.password
     redirect '/admin/login'
   end
 end
@@ -303,7 +319,7 @@ end
 get '/admin/:admin_user/dashboard' do
   @admin = session[:user]
   @users = User.all
-  @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: APIKey.all})
+  @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: ApiKey.all})
   @items = [["Test", "/test/link"],
             ["Test", "/test/link"],
             ["Test", "/test/link"],
@@ -314,4 +330,8 @@ get '/admin/:admin_user/dashboard' do
 end
 
 
+
+get '/util/test.html' do
+  partial(:form, {form_map: event_form})
+end
 

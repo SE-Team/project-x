@@ -22,21 +22,28 @@
 							-user.events.each do |event|
 								%section
 									%row
-										%p= event.title
-										%small= event.body
+										%h1= event.title
+										%p= event.body
 										.section{id: "comments-#{i}"}
-										%small= "comments"
-										%article
-										-event.metadata.tumbler.comments.each_with_index do |comment, n|
-											.section.well
-												%small
-													%u= comment.posted_by
+											%hr
+											%h4= "comments"
+											%article
+											-event.metadata.tumbler.comments.each_with_index do |comment, n|
+												.section.well
+													%small= comment.created_at
+													%br
+													%br
 													%p= comment.body
+													%br
+													%p.pull-right= comment.posted_by
+													%br
+
 								.row-fluid
 									%a.btn.btn-small{href: "#"}	
 										%i.icon-trash
 									%a.btn.btn-small{href: "#"}	
 										%i.icon-flag
+									%hr
 
 	
 %section{styles: "word-wrap: break-word;"}

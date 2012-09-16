@@ -30,10 +30,7 @@ include Helpers
 #     haml(template,{:layout => false})
 #   end
 # end
-def comment
-  puts "fuck me"
-  return partial(:'tumbler/new_comment')
-end
+
 
 def user_sidebar_items
   [["Stream", "user/" + @user.user_name + "/stream"],
@@ -81,7 +78,7 @@ get '/' do
   haml :index
 end
 
-get '/user/:user_name/dashboard' do
+get '/user/:username/dashboard' do
   @user = session[:user]
   @content = partial(:'user/dashboard', {user: @user})
   @items = user_sidebar_items
@@ -89,16 +86,16 @@ get '/user/:user_name/dashboard' do
   haml :with_sidebar
 end
 
-get '/user/:user_name/create-event' do
-  @user = User.first(user_name: params[:user_name])
+get '/user/:username/create-event' do
+  @user = User.first(user_name: params[:username])
   @content = partial(:form, {form_map: event_form})
   @items = user_sidebar_items
   @sidebar = partial(:sidebar, {items: @items})
   haml :with_sidebar
 end
 
-post'/user/:user_name/create-event' do
-  @user = User.first(user_name: params[:user_name])
+post'/user/:username/create-event' do
+  @user = User.first(user_name: params[:username])
   event = Event.new
   event.user = @user
   event.title = params["title"]
@@ -122,7 +119,7 @@ post'/user/:user_name/create-event' do
       tmp << (e.join("<br/>"))
     end
     flash(tmp)
-    redirect '/user/:user_name/create-event'
+    redirect '/user/:username/create-event'
   end
 end
 
@@ -150,8 +147,8 @@ get '/contact' do
   haml :contact
 end
 
-get '/user/:user_name/profile' do
-  @user = User.first(user_name: params[:user_name])
+get '/user/:username/profile' do
+  @user = User.first(user_name: params[:username])
   unless session[:user] == nil
     @user_name = session[:user].user_name
   end
@@ -194,7 +191,7 @@ end
 
 post '/register' do
   u = User.new
-  u.user_name =   params[:user_name]
+  u.user_name =   params[:username]
   u.password =    params[:password]
   u.email =       params[:email]
   
@@ -245,12 +242,12 @@ end
 get '/api/:api_key/users.json' do
   valid_key = ApiKey.first(api_key: params["api_key"])
   if !valid_key.nil?
-    User.all.to_json(only: [:id, :user_name, :email])
+    User.all.to_json(only: [:id, :username, :email])
   end
 end
 
-get '/api/:api_key/user/:user_name.json' do
-  User.first(user_name: params["user_name"]).to_json(only: [:user_name, :id, :email])
+get '/api/:api_key/user/:username.json' do
+  User.first(user_name: params["user_name"]).to_json(only: [:username, :id, :email])
 end
 
 post '/api/:api_key/event/?' do
@@ -270,7 +267,7 @@ end
 get '/api/:api_key/create-event$:opts' do
   valid_key = ApiKey.first(api_key: params[:api_key])
   if !valid_key.nil?
- 	User.all.to_json(only: [:id, :user_name, :email])
+ 	User.all.to_json(only: [:id, :username, :email])
 	opts_str = params[:opts].to_s
 	opts = opts_str.split "&"
 	opts.each_with_index.map{|opt, i|
@@ -310,8 +307,8 @@ post '/admin/login' do
     redirect "/admin/" << session[:user].user_name << "/dashboard"
   else
     flash("Admin login failed - Try again")
-    puts params[:password]
-    puts Admin.first.password
+    # puts params[:password]
+    # puts Admin.first.password
     redirect '/admin/login'
   end
 end
@@ -320,13 +317,13 @@ get '/admin/:admin_user/dashboard' do
   @admin = session[:user]
   @users = User.all
   @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: ApiKey.all})
-  @items = [["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"],
-            ["Test", "/test/link"]]
-  @sidebar = partial(:sidebar, {items: @items})
-  haml :with_sidebar
+  # @items = [["Test", "/test/link"],
+  #           ["Test", "/test/link"],
+  #           ["Test", "/test/link"],
+  #           ["Test", "/test/link"],
+  #           ["Test", "/test/link"]]
+  # @sidebar = partial(:sidebar, {items: @items})
+  haml :'admin/dashboard', locals: {admin: @admin, users: @users, api_keys: ApiKey.all}
 end
 
 

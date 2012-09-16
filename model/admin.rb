@@ -10,9 +10,9 @@ end
 class Admin
 	include DataMapper::Resource
 
-	property :id, 		Serial
+	property :id, 					Serial
 	property :user_name,        	String, key: true, length: (3..40), required: true
-	property :email,            	String, required: true
+	property :email,            	String
 	property :password,         	String
 	property :salt,             	String
 	property :hashed_password,  	String

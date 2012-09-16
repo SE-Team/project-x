@@ -16,6 +16,8 @@ require './model/tumbler'
 require './model/meta_data'
 require './model/apikey'
 
+require './model/data_generator'
+
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/db/base.db")
 
@@ -76,19 +78,21 @@ class Time
 	belongs_to :event
 end
 
-class ApiKey
-	has 1, :admin
-end
+# class ApiKey
+# 	has 1, :admin
+# end
 
-class Admin
-	has 1, :api_key
+# class Admin
+# 	has 1, :api_key
 
-	after :create, :init_apikey
+# 	after :save, :init_apikey
 
-	def init_apikey
-		self.api_key = ApiKey.create(admin: self)
-	end
-end
+# 	def init_apikey
+# 		if self.api_key.nil?
+# 			self.api_key = ApiKey.first_or_create(admin: Admin.first(email: self.email))
+# 		end
+# 	end
+# end
 
 def get_day(record)
   record.created_at.asctime.slice(0..3)
@@ -101,12 +105,11 @@ end
 DataMapper.auto_upgrade!
 
 
-if User.all.count == 0 && Admin.all.count == 0
-	superman = User.first_or_create(user_name: "superman", password: "pass", email: "superman@superman.com")
-	batman = User.first_or_create(user_name: "batman", password: "pass", email: "batman@batman.com")
-	spiderman = User.first_or_create(user_name: "spiderman", password: "pass", email: "spiderman@spiderman.com")
-	joker = User.first_or_create(user_name: "joker", password: "pass", email: "joker@joker.com")
-	bane = User.first_or_create(user_name: "bane", password: "pass", email: "bane@bane.com")
-	lex_luther = User.first_or_create(user_name: "lex-luther", password: "pass", email: "lex-luther@lex-luther.com")
+
+if User.all.count == 0
+	dg = DataGenerator.new
+	dg.rand_users
+	dg.rand_events
+	dg.rand_comments
 	admin = Admin.first_or_create(user_name: "admin", password: "*Project-X*", email: "admin@project-x.com")
 end

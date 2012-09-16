@@ -1,7 +1,7 @@
 .content
 	.container
 		.row
-			.span12
+			.span4.offset4.well
 				%form{ :action => @map[:action], :method => "post"}
 					%h1= @map[:title]
 					%br
@@ -10,6 +10,7 @@
 					%p Password:
 					%input.form-input{ :name => "password", :type => "password", :size => "20", :value => ""}
 					%br
-					%br
+					%label.checkbox
+						%input{type: :checkbox, name: "remember", value: 1}Remember Me
 					%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
 

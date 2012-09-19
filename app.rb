@@ -80,10 +80,7 @@ end
 
 get '/user/:username/dashboard' do
   @user = session[:user]
-  @content = partial(:'user/dashboard', {user: @user})
-  @items = user_sidebar_items
-  @sidebar = partial(:sidebar, {items: @items})
-  haml :with_sidebar
+  haml :'user/dashboard'
 end
 
 get '/user/:username/create-event' do

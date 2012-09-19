@@ -178,6 +178,7 @@ class DataGenerator
 			 "pass"]]
 
 	def rand_users
+		puts "Generate random users"
 		users = @@users
 		users.each do |user|
 			new_user = User.first_or_create(user_name: user[0], email: user[1], password: user[2])
@@ -231,6 +232,16 @@ class DataGenerator
 		"Ornamental carriage shows directions to wooden armchair.",
 		"Wooden armchair needs to be used on gaff/hook, held."]
 
+	def tags
+		["work",
+		 "school",
+		 "leisure",
+		 "outdoors",
+		 "indoors",
+		 "fun",
+		 "not-fun",
+		 "boring"]
+	end
 
 	def rand_events
 		titles = ["Gonriel",
@@ -273,12 +284,14 @@ class DataGenerator
 		"Morcirith",
 		"Angorn",
 		"Orodadan"]
+		puts "Generate random events"
 		descriptions = @@rand_descriptions
 		User.all.each do |u|
-			(1..rand(10)).each do |i|
+			(1..(10 + rand(25))).each do |i|
 				title_seed = rand(titles.count)
 				description_seed = rand(descriptions.count)
 				new_event = Event.create(title: titles[title_seed], body: descriptions[description_seed], user: u)
+				category = Category.create(name: tags[rand(tags.count)], event: new_event)
 			end
 		end
 	end
@@ -333,7 +346,8 @@ class DataGenerator
 		 "Thing felis sem, adipiscing eleifend blandit eget, tempor sit amet eros. Suspendisse quis tellus sit amet lacus viverra rhoncus quis vel risus. Etiam semper tempor mauris eu volutpat. Integer a tempor metus. Nunc ac dolor in arcu ultricies feugiat."]
 	end
 	
-	def rand_comments(max_comments=20)
+	def rand_comments(max_comments=5)
+		puts "Generate random comments"
 		comments = ipsum_comments
 		Event.all.each	do |event|
 			(1..(rand(max_comments))).each do |i|

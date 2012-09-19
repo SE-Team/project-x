@@ -22,8 +22,10 @@
 		%link{ :href => "/bootstrap/css/bootstrap.css", :type => "text/css", :rel => "stylesheet" }
 		%link{ :href => "/bootstrap/css/bootstrap-responsive.css", :type => "text/css", :rel => "stylesheet" }	
 		%link{ :href => "/bootstrap/css/docs.css", :type => "text/css", :rel => "stylesheet" }	
+		%link{ :href => "/css/styles.css", :type => "text/css", :rel => "stylesheet" }	
 		/ add body padding styles
 		%link{ :href => "/css/pretify.css", :type => "text/css", :rel => "stylesheet" }
+		%script{ :type => "text/javascript", :src =>"/js/jquery-1.7.1.min.js"}
 
 	
 		/ Le fav and touch icons 
@@ -32,18 +34,14 @@
 		%link{ rel: "apple-touch-icon", sizes: "72x72", href: "/bootstrap/images/apple-touch-icon-72x72.png"}
 		%link{ rel: "apple-touch-icon", sizes: "114x114", href: "/bootstrap/images/apple-touch-icon-114x114.png"}
 	
-		%script{ :type => "text/javascript", :src =>"https://maps.googleapis.com/maps/api/js?sensor=false"}
+		/ %script{ :type => "text/javascript", :src =>"https://maps.googleapis.com/maps/api/js?sensor=false"}
 	%body
 		
 		%div= haml :navbar
 		.container
 			%div= yield
 
-
-
-
 		/ Placed at the end of the document so the pages load faster
-		%script{ :type => "text/javascript", :src =>"/bootstrap/js/jquery.js"}
 		%script{ :type => "text/javascript", :src =>"/bootstrap/js/basic/bootstrap-transition.js"}
 		%script{ :type => "text/javascript", :src =>"/bootstrap/js/basic/bootstrap-alert.js"}
 		%script{ :type => "text/javascript", :src =>"/bootstrap/js/basic/bootstrap-modal.js"}

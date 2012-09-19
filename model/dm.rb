@@ -27,14 +27,19 @@ class User
 	has 1, :profile
 end
 
-class Categorization
-	belongs_to :category
-	belongs_to :event
-end
+# class Categorization
+# 	belongs_to :category
+# 	belongs_to :event
+# end
+
+# class Category
+# 	has n, :categorizations
+# 	has n, :events,      :through => :categorizations
+# end
+
 
 class Category
-	has n, :categorizations
-	has n, :events,      :through => :categorizations
+	belongs_to :event
 end
 
 class Tumbler
@@ -55,8 +60,8 @@ class Event
 	has n, :locations
 	has n, :times
 	has 1, :metadata
-	has n, :categorizations
-	has n, :categories, :through => :categorizations
+	# has n, :categorizations
+	has 1, :category
 
 	after :create, :init_meta
 
@@ -105,11 +110,17 @@ end
 DataMapper.auto_upgrade!
 
 
-
 if User.all.count == 0
+	puts "Generate user data"
 	dg = DataGenerator.new
+	puts "."
 	dg.rand_users
+	puts ".."
 	dg.rand_events
+	puts "..."
 	dg.rand_comments
+	puts "....."
+	puts "Createing admin account"
 	admin = Admin.first_or_create(user_name: "admin", password: "*Project-X*", email: "admin@project-x.com")
+	puts "Finished generating user data and admin account"
 end

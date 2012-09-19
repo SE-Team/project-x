@@ -23,6 +23,11 @@
 								%section
 									%row
 										%h1= event.title
+										.row-fluid
+											%p
+											%small
+												#{event.category.name}
+										%br
 										%p= event.body
 										.section{id: "comments-#{i}"}
 											%hr

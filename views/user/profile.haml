@@ -1,4 +1,7 @@
+// Profile Page
+// This page gets a user local var that can be used like:
+
 .container
-	.content
-		%h2= @user.user_name.to_s << ' profile'
-		%p= 'email: ' <<  @user.email.to_s
+	%h1= "Profile"
+	%h3= @user.user_name.to_s
+	%p= @user.email

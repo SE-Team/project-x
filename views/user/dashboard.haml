@@ -1,8 +1,12 @@
 %section#content
 	#isotope-container
-		- @user.events.each_with_index do |event, i|
+		- user.events.each_with_index do |event, i|
 			%div{class: "element event-tile #{event.category.name} #{event.id}", "data-symbol".to_sym => "#{event.id}", "data-category".to_sym => "#{event.category.name}"}
-				%img{src: "/images/baloongirl.jpg"}
+				- if event.img_url != nil
+					%img{src: "#{event.img_url}"}
+					%p= event.img_url
+				- else
+					%img{src: "/images/banksy/#{(1 + rand(19))}.jpg"}
 				%h4.symbol= event.title
 				%br
 				%br
@@ -14,7 +18,6 @@
 				%o.name= event.category.name
 
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
-
 
 :javascript
 	$(function(){

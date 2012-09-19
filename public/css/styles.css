@@ -135,6 +135,14 @@
   top: 0.5em;
 }
 
+.element.btn {
+  display: none;
+}
+
+.large.btn {
+  display: block;
+}
+
 .variable-sizes .element.width2 { width: 230px; }
 
 .variable-sizes .element.height2 { height: 230px; }
@@ -181,7 +189,7 @@
 }
 
 #content {
-  margin-left: 210px;
+  /*margin-left: 210px;*/
 }
 
 .demos #content {

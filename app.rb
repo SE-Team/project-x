@@ -12,32 +12,10 @@ end
 
 include Helpers
 
-# def partial(template,locals=nil)
-#   if template.is_a?(String) || template.is_a?(Symbol)
-#     template=(template.to_s).to_sym
-#   else
-#     locals=template
-#     template=template.is_a?(Array) ? (template.first.class.to_s.downcase).to_sym : (template.class.to_s.downcase).to_sym
-#   end
-#   if locals.is_a?(Hash)
-#     haml(template,{:layout => false},locals)      
-#   elsif locals
-#     locals=[locals] unless locals.respond_to?(:inject)
-#     locals.inject([]) do |output,element|
-#       output <<     erb(template,{:layout=>false},{template.to_s.delete("_").to_sym => element})
-#     end.join("\n")
-#   else 
-#     haml(template,{:layout => false})
-#   end
-# end
-
-
 def user_sidebar_items
-  [["Stream", "user/" + @user.user_name + "/stream"],
-            ["Profile", "user/" + @user.user_name + "/profile"],
-            ["Friends", "user/" + @user.user_name + "/friends"],
-            ["Search", "user/" + @user.user_name + "/search"],
-            ["Account", "user/" + @user.user_name + "/account"]]
+  [["Profile", "profile"],
+   ["Friends", "friends"],
+   ["Account", "account"]]
 end
 
 def time_info
@@ -80,7 +58,34 @@ end
 
 get '/user/:username/dashboard' do
   @user = session[:user]
-  haml :'user/dashboard'
+  @content = partial(:'user/dashboard', {user: @user})
+  @items = user_sidebar_items
+  @sidebar = partial(:sidebar, {items: @items})
+  haml :with_sidebar
+end
+
+get '/user/:username/friends' do
+  @user = session[:user]
+  @content = partial(:'user/friends', {user: @user})
+  @items = user_sidebar_items
+  @sidebar = partial(:sidebar, {items: @items})
+  haml :with_sidebar
+end
+
+get '/user/:username/account' do
+  @user = session[:user]
+  @content = partial(:'user/account', {user: @user})
+  @items = user_sidebar_items
+  @sidebar = partial(:sidebar, {items: @items})
+  haml :with_sidebar
+end
+
+get '/user/:username/profile' do
+  @user = session[:user]
+  @content = partial(:'user/profile', {user: @user})
+  @items = user_sidebar_items
+  @sidebar = partial(:sidebar, {items: @items})
+  haml :with_sidebar
 end
 
 get '/user/:username/create-event' do

@@ -199,9 +199,9 @@ post '/register' do
     redirect '/user/' << session[:user].user_name.to_s << "/dashboard"
   else
     tmp = []
-    u.errors.each do |e|
-      tmp << (e.join("<br/>"))
-    end
+    # u.errors.each do |e|
+    #   tmp << (e.join("<br/>"))
+    # end
     flash(tmp)
     redirect '/create'
   end

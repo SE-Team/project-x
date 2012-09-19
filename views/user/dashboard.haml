@@ -1,6 +1,3 @@
-
-
-
 %section#content
 	#isotope-container
 		- @user.events.each_with_index do |event, i|
@@ -127,17 +124,11 @@
 
 		// change size of clicked element
 		$container.delegate( '.element', 'click', function(){
-		$(this).toggleClass('large');
-		var id = $(this).attr('id');
-		$(this).toggleClass('ugen-isotope-doc');
+			$(this).toggleClass('large');
+			var id = $(this).attr('id');
+			$(this).toggleClass('ugen-isotope-doc');
 
-		if($(this).hasClass('ugen-isotope-doc')){
-		addUgenDocPartial(id);
-		} else {
-		$("#" + id + "-doc").html('');          
-		}
-
-		$container.isotope('reLayout');
+			$container.isotope('reLayout');
 
 
 		});

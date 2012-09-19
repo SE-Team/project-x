@@ -5,9 +5,16 @@
 	#isotope-container
 		- @user.events.each_with_index do |event, i|
 			%div{class: "element event-tile #{event.category.name} #{event.id}", "data-symbol".to_sym => "#{event.id}", "data-category".to_sym => "#{event.category.name}"}
-				# %h4.symbol= event.title
-				%img{src: "http://www.visitraleigh.com/images/display.php?id=3918"}
-				# %p.name= event.category.name
+				%img{src: "/images/baloongirl.jpg"}
+				%h4.symbol= event.title
+				%br
+				%br
+				%br
+				%br
+				%br
+				%br
+				%br
+				%o.name= event.category.name
 
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
 

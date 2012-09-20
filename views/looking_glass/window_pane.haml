@@ -1,12 +1,15 @@
 %div{class: "element #{map[:category]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}"}
-	- if map.has_key? :img_url
-		%img{src: "#{map[:img_url]}"}
-	%h4.symbol= map[:title]
-	%br
-	%br
-	%br
-	%br
-	%br
-	%br
-	%br
-	%p.name= map[:category]
+	.container
+		.marketing
+			- if map.has_key? :img_url
+				%img{src: "#{map[:img_url]}"}
+			.row
+				%h1.window-pane= map[:title]
+			.row
+				%h3.name= map[:category]
+				%p.event-date= map[:event_time].strftime("%m/%d/%Y")
+			.row-fluid.window-pane-buttons
+				%span.btn.btn-small{href: "#"}	
+					%i.icon-trash
+				%span.btn.btn-small{href: "#"}	
+					%i.icon-flag

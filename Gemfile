@@ -5,7 +5,6 @@ gem 'dm-migrations'
 gem 'dm-serializer'
 gem "sinatra", '1.3.3'
 gem "haml"
-# gem "shotgun"
 gem 'thin'
 
 

@@ -13,7 +13,8 @@ end
 include Helpers
 
 def user_sidebar_items
-  [["Profile", "profile"],
+  [["Dashboard", "dashboard"],
+   ["Profile", "profile"],
    ["Friends", "friends"],
    ["Account", "account"]]
 end
@@ -58,7 +59,8 @@ end
 
 get '/user/:username/dashboard' do
   @user = session[:user]
-  @content = partial(:'user/dashboard', {user: @user})
+  @categories = @user.account_setting.categories.split('&')
+  @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
   @items = user_sidebar_items
   @sidebar = partial(:sidebar, {items: @items})
   haml :with_sidebar
@@ -332,5 +334,9 @@ end
 
 get '/util/test.html' do
   partial(:form, {form_map: event_form})
+end
+
+def render_pane(pane_map)
+  partial(:'looking_glass/window_pane', {map: pane_map})
 end
 

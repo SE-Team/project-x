@@ -12,6 +12,7 @@ require './model/category'
 require './model/categorization'
 require './model/admin'
 require './model/time'
+require './model/user/account_setting'
 require './model/tumbler'
 require './model/meta_data'
 require './model/apikey'
@@ -25,18 +26,12 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/db/base.d
 class User
 	has n, :events
 	has 1, :profile
+	has 1, :account_setting
 end
 
-# class Categorization
-# 	belongs_to :category
-# 	belongs_to :event
-# end
-
-# class Category
-# 	has n, :categorizations
-# 	has n, :events,      :through => :categorizations
-# end
-
+class AccountSetting
+	belongs_to :user
+end
 
 class Category
 	belongs_to :event
@@ -60,9 +55,7 @@ class Event
 	has n, :locations
 	has n, :times
 	has 1, :metadata
-	# has n, :categorizations
 	has 1, :category
-
 	after :create, :init_meta
 
 	def init_meta
@@ -83,22 +76,6 @@ class Time
 	belongs_to :event
 end
 
-# class ApiKey
-# 	has 1, :admin
-# end
-
-# class Admin
-# 	has 1, :api_key
-
-# 	after :save, :init_apikey
-
-# 	def init_apikey
-# 		if self.api_key.nil?
-# 			self.api_key = ApiKey.first_or_create(admin: Admin.first(email: self.email))
-# 		end
-# 	end
-# end
-
 def get_day(record)
   record.created_at.asctime.slice(0..3)
 end
@@ -113,13 +90,13 @@ DataMapper.auto_upgrade!
 if User.all.count == 0
 	puts "Generate user data"
 	dg = DataGenerator.new
-	puts "."
+	print "."
 	dg.rand_users
-	puts ".."
+	print "."
 	dg.rand_events
-	puts "..."
+	print "."
 	dg.rand_comments
-	puts "....."
+	print "."
 	puts "Createing admin account"
 	admin = Admin.first_or_create(user_name: "admin", password: "*Project-X*", email: "admin@project-x.com")
 	puts "Finished generating user data and admin account"

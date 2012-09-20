@@ -5,6 +5,7 @@ class Event
 	property :id,         Serial    # An auto-increment integer key
 	property :title,      String    # A varchar type string, for short strings
 	property :permission, String
+	property :event_date, DateTime, default: DateTime.now
 	property :upadted_at, DateTime
 	property :created_at, DateTime, default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       Text      # A text block, for longer string data.

@@ -1,0 +1,12 @@
+%div{class: "element #{map[:category]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}"}
+	- if map.has_key? :img_url
+		%img{src: "#{map[:img_url]}"}
+	%h4.symbol= map[:title]
+	%br
+	%br
+	%br
+	%br
+	%br
+	%br
+	%br
+	%p.name= map[:category]

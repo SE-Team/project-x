@@ -8,8 +8,12 @@
 			.row
 				%h3.name= map[:category]
 				%p.event-date= map[:event_time].strftime("%m/%d/%Y")
-			.row-fluid.window-pane-buttons
-				%span.btn.btn-small{href: "#"}	
-					%i.icon-trash
-				%span.btn.btn-small{href: "#"}	
-					%i.icon-flag
+			.row
+				%p.comment-count= "#{map[:tumbler].comments.count}"
+			/ .row-fluid.window-pane-buttons
+			/ 	%span.btn.btn-small.open-event-btn{href: ""}
+			/ 		%i.icon-picture	
+			/ 	%span.btn.btn-small.flag-event-btn{href: ""}
+			/ 		%i.icon-flag
+			/ 	%span.btn.btn-small.trash-event-btn{href: ""}
+			/ 		%i.icon-trash

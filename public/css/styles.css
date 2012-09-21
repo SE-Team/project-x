@@ -290,3 +290,22 @@
 .element.large .window-pane-buttons i{
   position: relative;
 }
+
+.element.large .window-pane-buttons .trash-event-btn{
+  left: 3.25em;
+}
+
+.element.large .window-pane-buttons .flag-event-btn{
+  left: 6.5em;
+}
+
+.element .comment-count {
+  display: none;
+}
+
+.element.large .comment-count {
+  display: inline-block;
+  top: 17.5em;
+  left: 1.0em;
+  color: white;
+}

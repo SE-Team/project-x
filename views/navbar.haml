@@ -16,12 +16,18 @@
 						%a{:href => '/register'}Register
 					%li
 						%a{:href => '/contact'}Contact
+				%ul.nav
+					%li
+						.btn-group
+							%input{placeholder: "Search"}
+								%button.btn.add-on
+									%i.icon-search
 				%p.navbar-text.pull-right
-					-if logged_in?
-						%a{:href => "/user/" << session[:user].user_name << "/dashboard"} #{session[:user].user_name} 
-						Dashboard
-						|
-						%a{:href => "/logout" } Logout
-						
-					-else 
-						%a{:href => '/login'} Login
+				-if logged_in?
+					%a{:href => "/user/" << session[:user].user_name << "/dashboard"} #{session[:user].user_name} 
+					Dashboard
+					|
+					%a{:href => "/logout" } Logout
+					
+				-else 
+					%a{:href => '/login'} Login

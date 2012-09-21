@@ -62,7 +62,7 @@ get '/user/:username/dashboard' do
   @categories = @user.account_setting.categories.split('&')
   @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
   @items = user_sidebar_items
-  @sidebar = partial(:sidebar, {items: @items})
+  @sidebar = partial(:'user/sidebar', {items: @items})
   haml :with_sidebar
 end
 
@@ -70,7 +70,7 @@ get '/user/:username/friends' do
   @user = session[:user]
   @content = partial(:'user/friends', {user: @user})
   @items = user_sidebar_items
-  @sidebar = partial(:sidebar, {items: @items})
+  @sidebar = partial(:'user/sidebar', {items: @items})
   haml :with_sidebar
 end
 
@@ -78,7 +78,7 @@ get '/user/:username/account' do
   @user = session[:user]
   @content = partial(:'user/account', {user: @user})
   @items = user_sidebar_items
-  @sidebar = partial(:sidebar, {items: @items})
+  @sidebar = partial(:'user/sidebar', {items: @items})
   haml :with_sidebar
 end
 
@@ -86,7 +86,7 @@ get '/user/:username/profile' do
   @user = session[:user]
   @content = partial(:'user/profile', {user: @user})
   @items = user_sidebar_items
-  @sidebar = partial(:sidebar, {items: @items})
+  @sidebar = partial(:'user/sidebar', {items: @items})
   haml :with_sidebar
 end
 
@@ -94,7 +94,7 @@ get '/user/:username/create-event' do
   @user = User.first(user_name: params[:username])
   @content = partial(:form, {form_map: event_form})
   @items = user_sidebar_items
-  @sidebar = partial(:sidebar, {items: @items})
+  @sidebar = partial(:'user/sidebar', {items: @items})
   haml :with_sidebar
 end
 
@@ -311,8 +311,6 @@ post '/admin/login' do
     redirect "/admin/" << session[:user].user_name << "/dashboard"
   else
     flash("Admin login failed - Try again")
-    # puts params[:password]
-    # puts Admin.first.password
     redirect '/admin/login'
   end
 end
@@ -321,22 +319,24 @@ get '/admin/:admin_user/dashboard' do
   @admin = session[:user]
   @users = User.all
   @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: ApiKey.all})
-  # @items = [["Test", "/test/link"],
-  #           ["Test", "/test/link"],
-  #           ["Test", "/test/link"],
-  #           ["Test", "/test/link"],
-  #           ["Test", "/test/link"]]
-  # @sidebar = partial(:sidebar, {items: @items})
-  haml :'admin/dashboard', locals: {admin: @admin, users: @users, api_keys: ApiKey.all}
+  @items = [{href: "#", icon: "icon-home", title: "Dashboard"},
+            {href: "#", icon: "icon-envelope", title: "Messages", badge: {value: rand(100)}},
+            {href: "#", icon: "icon-comment", title: "Comments", badge: {value: rand(100)}},
+            {href: "#", icon: "icon-user", title: "Members"},
+            :divider,
+            {href: "#", icon: "icon-wrench", title: "Settings"},
+            {href: "#", icon: "icon-share", title: "Logout"}]
+  @map = {title: "Admin",
+          items: @items}
+  @sidebar = partial(:'admin/sidebar', {map: @map})
+  haml :with_sidebar
 end
-
-
 
 get '/util/test.html' do
   partial(:form, {form_map: event_form})
 end
 
 def render_pane(pane_map)
-  partial(:'looking_glass/window_pane', {map: pane_map})
+  partial(:'looking_glass/tile', {map: pane_map})
 end
 

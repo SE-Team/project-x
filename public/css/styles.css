@@ -178,13 +178,13 @@
   display: block;
 }
 
-.variable-sizes .element.width2 { width: 230px; }
+/*.variable-sizes .element.width2 { width: 230px; }
 
 .variable-sizes .element.height2 { height: 230px; }
 
 .variable-sizes .element.width2.height2 {
   font-size: 2.0em;
-}
+}*/
 
 .element.large,
 .variable-sizes .element.large,
@@ -308,4 +308,8 @@
   top: 17.5em;
   left: 1.0em;
   color: white;
+}
+
+.input-append button.add-on {
+    height: inherit !important;
 }

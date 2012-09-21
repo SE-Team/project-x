@@ -1,0 +1,8 @@
+.sidebar-nav
+	.well
+		%ul.nav.nav-list
+			-@items.each do |item|
+				%li
+					%a{href: item[1]}
+						%i.icon-chevron-right
+						%p= item[0].to_s

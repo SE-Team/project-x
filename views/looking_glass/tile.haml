@@ -1,0 +1,19 @@
+%div{class: "element #{map[:category]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}"}
+	.container
+		.marketing
+			- if map.has_key? :img_url
+				%img{src: "#{map[:img_url]}"}
+			.row
+				%h1.window-pane= map[:title]
+			.row
+				%h3.name= map[:category]
+				%p.event-date= map[:event_time].strftime("%m/%d/%Y")
+			.row
+				%p.comment-count= "#{map[:tumbler].comments.count}"
+			.row-fluid.window-pane-buttons
+				%span.btn.btn-small.open-event-btn{href: ""}
+					%i.icon-picture	
+				%span.btn.btn-small.flag-event-btn{href: ""}
+					%i.icon-flag
+				%span.btn.btn-small.trash-event-btn{href: ""}
+					%i.icon-trash

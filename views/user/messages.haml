@@ -1,0 +1,60 @@
+.container.span12.offset1
+	%h3
+		Inbox
+	.row	
+		%table.table.table-condensed.table-hover
+			%thead
+				%tr
+					%th.span1
+						%input{type: :checkbox}			
+			%tbody
+				- user.r_messages.each do |msg|
+					%tr
+						%td
+							%input{type: :checkbox}
+								%a{href: "#", id: "message_start_id_#{msg.id}"}
+									- if msg.star
+										%i.icon-star
+									- else
+										%i.icon-star-empty
+						%td
+							%a{href: "./rmessage/#{msg.id}"}
+								%strong= msg.source
+						%td
+							-if msg.new_message
+								%span.label.label-success= "new"
+							-else
+								%span.label= "old"
+							%a{href: "./rmessage/#{msg.id}"}
+								%strong= msg.subject
+						%td= msg.created_at.strftime("%m/%d/%Y")
+	%hr
+	.row
+		%h3
+			Sent
+		%table.table.table-condensed.table-hover
+			%thead
+				%tr
+					%th.span1
+						%input{type: :checkbox}			
+			%tbody
+				- user.s_messages.each do |msg|
+					%tr
+						%td
+							%input{type: :checkbox}
+								%a{href: "#"}
+								- if msg.star
+									%i.icon-star
+								- else
+									%i.icon-star-empty
+						%td
+							%a{href: "./smessage/#{msg.id}"}
+								%strong= msg.target
+						%td
+							-if msg.sent
+								%span.label.label-info= "sent"
+							-else
+								%span.label.label-warning= "not sent"
+							%a{href: "./smessage/#{msg.id}"}
+								%strong= msg.subject
+						%td= msg.created_at.strftime("%m/%d/%Y")

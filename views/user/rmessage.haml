@@ -1,0 +1,37 @@
+.container.span9.offset1
+	.row
+		%small= msg.created_at
+		%h2= msg.subject
+		%h4= msg.source
+		%hr
+		%p= msg.body
+	.reply-message
+		.row
+			%hr
+			%form#replyForm{action: "/user/#{@user.user_name}/message/#{msg.id}", method: "post"}
+				.row
+					%small
+						To
+				.row
+					%input{type: :text, style: "width: 480px;", value: msg.source, name: "target_user"}
+				.row
+					%small
+						Subject
+				.row
+					%input{type: :text, style: "width: 480px;", value: "Re: #{msg.subject}", name: "message_subject"}
+				.row
+					%textarea{rows: 7, style: "width: 480px;", name: "message_body"}
+				.row
+					%input.btn.reply-message{ :name => "send_message", :type => "submit", :value => "send"}
+	.row
+		.btn-group
+			%a#add-reply.btn.btn-small
+				%i.icon-pencil
+				reply
+
+
+:javascript
+	$('#add-reply').click(function () {
+		$('.reply-message').toggle();
+		$('#add-reply').toggle();
+	});

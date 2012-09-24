@@ -1,0 +1,39 @@
+.container
+	%section#content
+		%section
+		.btn-group
+			%input#search-result-input{placeholder: "Search"}
+				%button.btn.add-on#search-result-btn
+					%i.icon-search
+		%section				
+			.conatiner
+				.row
+					%h4= "Search for #{search_term}"
+		%section.offset2#options
+			- if !categories.nil?
+				.btn-group#filters.option-set{"data-option-key".to_sym => "filter"}
+					%a.btn{href: "#filter", "data-option-value".to_sym => "*"} all
+					- categories.each do |cat|
+						%a.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
+
+		%br
+		#isotope-container
+			- if !events.nil?
+				- events.each_with_index do |event, i|
+					:plain
+						#{render_pane({title: event.title, classes: event.category.name, id: event.id, category: event.category.name, tumbler: event.metadata.tumbler, event_time: event.event_date, img_url: event.img_url, user_name: event.user.user_name})}
+		- if events.count == 0
+			%h4= "Sorry no search results found"
+
+
+%script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
+%script{ :type => "text/javascript", :src =>"/js/user.dash.js"}
+
+
+:javascript
+	$("#search-result-btn").click(function() {
+	  var searchTerm = $("#search-result-input").val();
+	  var msg = "search for: " + searchTerm;
+	  window.location.replace("http://localhost:9393/search/" + encodeURIComponent(searchTerm));
+	});
+	

@@ -8,6 +8,7 @@ require 'json'
 
 configure do
   enable :sessions
+  # use Rack::Session::Pool
 end
 
 include Helpers
@@ -73,12 +74,16 @@ get '/' do
   haml :index
 end
 
-get '/user/:username/dashboard' do
-  @user = session[:user]
-  @categories = @user.account_setting.categories.split('&')
-  @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
+get '/user/:user_name/dashboard' do
+  @user = User.first(user_name: params[:user_name])
+  unless @user.nil?
+    @categories = @user.account_setting.categories.split('&')
+    @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
+    @sidebar = user_sidebar(@user)
+    return haml :with_sidebar
+  else 
+    redirect '/'
+  end
 end
 
 get '/search/:args' do

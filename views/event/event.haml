@@ -1,0 +1,26 @@
+.container.span12
+	.marketing
+		%h1= event.title
+		.row-fluid
+			- unless event.img_url.nil?
+				%img{src: event.img_url}
+		.row
+			%p.pull-left
+				Category: 
+				%strong
+					#{event.category.name}
+			%br
+			%p= event.body
+			.section
+				%hr
+				%h4= "comments"
+				%article
+				-event.metadata.tumbler.comments.each_with_index do |comment, n|
+					.section.well
+						%small.pull-left= comment.created_at
+						%br
+						%br
+						%p= comment.body
+						%br
+						%p.pull-right= comment.posted_by
+						%br

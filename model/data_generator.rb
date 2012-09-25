@@ -9,201 +9,179 @@ class DataGenerator
 	@comment_res = 100
 
 	@@users = [["superman",
-			 "superman@super-hero.com",
-			 "pass"],
-			["batman",
-			 "batman@super-hero.com",
-			 "pass"],
-			["spiderman",
-			 "spiderman@super-hero.com",
-			 "pass"],
-			["joker",
-			 "joker@super-hero.com",
-			 "pass"],
-			["venom",
-			 "venom@super-hero.com",
-			 "pass"],
-			["bane",
-			 "bane@super-hero.com",
-			 "pass"],
-			["lex_luther",
-			 "lex_luther@super-hero.com",
-			 "pass"],
-			# ["lessie_ocon",
-			#  "lessie@test.com",
-			#  "pass"],
-			# ["chere_lunde",
-			#  "chere@test.com",
-			#  "pass"],
-			# ["virgilio_difiore",
-			#  "virgilio@test.com",
-			#  "pass"],
-			# ["signe_frank",
-			#  "signe@test.com",
-			#  "pass"],
-			# ["bryan_vigna",
-			#  "bryan@test.com",
-			#  "pass"],
-			# ["majorie_osei",
-			#  "majorie@test.com",
-			#  "pass"],
-			# ["carmine_cambell",
-			#  "carmine@test.com",
-			#  "pass"],
-			# ["erik_claudio",
-			#  "erik@test.com",
-			#  "pass"],
-			# ["reanna_brinegar",
-			#  "reanna@test.com",
-			#  "pass"],
-			# ["charlena_swyers",
-			#  "charlena@test.com",
-			#  "pass"],
-			# ["aundrea_konecny",
-			#  "aundrea@test.com",
-			#  "pass"],
-			# ["yvette_ziegler",
-			#  "yvette@test.com",
-			#  "pass"],
-			# ["debra_mccaw",
-			#  "debra@test.com",
-			#  "pass"],
-			# ["livia_axel",
-			#  "livia@test.com",
-			#  "pass"],
-			# ["eusebio_raiford",
-			#  "eusebio@test.com",
-			#  "pass"],
-			# ["frederica_aaron",
-			#  "frederica@test.com",
-			#  "pass"],
-			# ["jillian_starck",
-			#  "jillian@test.com",
-			#  "pass"],
-			# ["eloy_crochet",
-			#  "eloy@test.com",
-			#  "pass"],
-			# ["cindi_tobler",
-			#  "cindi@test.com",
-			#  "pass"],
-			# ["joyce_days",
-			#  "joyce@test.com",
-			#  "pass"],
-			# ["victoria_janas",
-			#  "victoria@test.com",
-			#  "pass"],
-			# ["jaqueline_bruening",
-			#  "jaqueline@test.com",
-			#  "pass"],
-			# ["nancey_kist",
-			#  "nancey@test.com",
-			#  "pass"],
-			# ["alda_hodapp",
-			#  "alda@test.com",
-			#  "pass"],
-			# ["vertie_alton",
-			#  "vertie@test.com",
-			#  "pass"],
-			# ["shena_sautter",
-			#  "shena@test.com",
-			#  "pass"],
-			# ["gerri_necaise",
-			#  "gerri@test.com",
-			#  "pass"],
-			# ["ina_schlichting",
-			#  "ina@test.com",
-			#  "pass"],
-			# ["vina_wayman",
-			#  "vina@test.com",
-			#  "pass"],
-			# ["hung_robb",
-			#  "hung@test.com",
-			#  "pass"],
-			# ["neil_massenburg",
-			#  "neil@test.com",
-			#  "pass"],
-			# ["agripina_bloodsaw",
-			#  "agripina@test.com",
-			#  "pass"],
-			# ["sharice_manney",
-			#  "sharice@test.com",
-			#  "pass"],
-			# ["teena_wolcott",
-			#  "teena@test.com",
-			#  "pass"],
-			# ["verda_boehme",
-			#  "verda@test.com",
-			#  "pass"],
-			# ["jamar_jeppesen",
-			#  "jamar@test.com",
-			#  "pass"],
-			# ["miriam_mongeau",
-			#  "miriam@test.com",
-			#  "pass"],
-			# ["marianna_hasbrouck",
-			#  "marianna@test.com",
-			#  "pass"],
-			# ["kiersten_sorber",
-			#  "kiersten@test.com",
-			#  "pass"],
-			# ["eloise_dano",
-			#  "eloise@test.com",
-			#  "pass"],
-			# ["weldon_tarleton",
-			#  "weldon@test.com",
-			#  "pass"],
-			# ["ileen_grana",
-			#  "ileen@test.com",
-			#  "pass"],
-			# ["lawana_mccune",
-			#  "lawana@test.com",
-			#  "pass"],
-			# ["trevor_dix",
-			#  "trevor@test.com",
-			#  "pass"],
-			# ["michelle_meagher",
-			#  "michelle@test.com",
-			#  "pass"],
-			# ["newton_moriarty",
-			#  "newton@test.com",
-			#  "pass"],
-			# ["cliff_fetty",
-			#  "cliff@test.com",
-			#  "pass"],
-			# ["aleen_cintron",
-			#  "aleen@test.com",
-			#  "pass"],
-			# ["cicely_walcott",
-			#  "cicely@test.com",
-			#  "pass"],
-			# ["archie_mona",
-			#  "archie@test.com",
-			#  "pass"]
-		]
+				 "superman@super-hero.com",
+				 "pass"],
+				["batman",
+				 "batman@super-hero.com",
+				 "pass"],
+				["spiderman",
+				 "spiderman@super-hero.com",
+				 "pass"],
+				["joker",
+				 "joker@super-hero.com",
+				 "pass"],
+				["venom",
+				 "venom@super-hero.com",
+				 "pass"],
+				["bane",
+				 "bane@super-hero.com",
+				 "pass"],
+				["lex_luther",
+				 "lex_luther@super-hero.com",
+				 "pass"],
+				# ["lessie_ocon",
+				#  "lessie@test.com",
+				#  "pass"],
+				# ["chere_lunde",
+				#  "chere@test.com",
+				#  "pass"],
+				# ["virgilio_difiore",
+				#  "virgilio@test.com",
+				#  "pass"],
+				# ["signe_frank",
+				#  "signe@test.com",
+				#  "pass"],
+				# ["bryan_vigna",
+				#  "bryan@test.com",
+				#  "pass"],
+				# ["majorie_osei",
+				#  "majorie@test.com",
+				#  "pass"],
+				# ["carmine_cambell",
+				#  "carmine@test.com",
+				#  "pass"],
+				# ["erik_claudio",
+				#  "erik@test.com",
+				#  "pass"],
+				# ["reanna_brinegar",
+				#  "reanna@test.com",
+				#  "pass"],
+				# ["charlena_swyers",
+				#  "charlena@test.com",
+				#  "pass"],
+				# ["aundrea_konecny",
+				#  "aundrea@test.com",
+				#  "pass"],
+				# ["yvette_ziegler",
+				#  "yvette@test.com",
+				#  "pass"],
+				# ["debra_mccaw",
+				#  "debra@test.com",
+				#  "pass"],
+				# ["livia_axel",
+				#  "livia@test.com",
+				#  "pass"],
+				# ["eusebio_raiford",
+				#  "eusebio@test.com",
+				#  "pass"],
+				# ["frederica_aaron",
+				#  "frederica@test.com",
+				#  "pass"],
+				# ["jillian_starck",
+				#  "jillian@test.com",
+				#  "pass"],
+				# ["eloy_crochet",
+				#  "eloy@test.com",
+				#  "pass"],
+				# ["cindi_tobler",
+				#  "cindi@test.com",
+				#  "pass"],
+				# ["joyce_days",
+				#  "joyce@test.com",
+				#  "pass"],
+				# ["victoria_janas",
+				#  "victoria@test.com",
+				#  "pass"],
+				# ["jaqueline_bruening",
+				#  "jaqueline@test.com",
+				#  "pass"],
+				# ["nancey_kist",
+				#  "nancey@test.com",
+				#  "pass"],
+				# ["alda_hodapp",
+				#  "alda@test.com",
+				#  "pass"],
+				# ["vertie_alton",
+				#  "vertie@test.com",
+				#  "pass"],
+				# ["shena_sautter",
+				#  "shena@test.com",
+				#  "pass"],
+				# ["gerri_necaise",
+				#  "gerri@test.com",
+				#  "pass"],
+				# ["ina_schlichting",
+				#  "ina@test.com",
+				#  "pass"],
+				# ["vina_wayman",
+				#  "vina@test.com",
+				#  "pass"],
+				# ["hung_robb",
+				#  "hung@test.com",
+				#  "pass"],
+				# ["neil_massenburg",
+				#  "neil@test.com",
+				#  "pass"],
+				# ["agripina_bloodsaw",
+				#  "agripina@test.com",
+				#  "pass"],
+				# ["sharice_manney",
+				#  "sharice@test.com",
+				#  "pass"],
+				# ["teena_wolcott",
+				#  "teena@test.com",
+				#  "pass"],
+				# ["verda_boehme",
+				#  "verda@test.com",
+				#  "pass"],
+				# ["jamar_jeppesen",
+				#  "jamar@test.com",
+				#  "pass"],
+				# ["miriam_mongeau",
+				#  "miriam@test.com",
+				#  "pass"],
+				# ["marianna_hasbrouck",
+				#  "marianna@test.com",
+				#  "pass"],
+				# ["kiersten_sorber",
+				#  "kiersten@test.com",
+				#  "pass"],
+				# ["eloise_dano",
+				#  "eloise@test.com",
+				#  "pass"],
+				# ["weldon_tarleton",
+				#  "weldon@test.com",
+				#  "pass"],
+				# ["ileen_grana",
+				#  "ileen@test.com",
+				#  "pass"],
+				# ["lawana_mccune",
+				#  "lawana@test.com",
+				#  "pass"],
+				# ["trevor_dix",
+				#  "trevor@test.com",
+				#  "pass"],
+				# ["michelle_meagher",
+				#  "michelle@test.com",
+				#  "pass"],
+				# ["newton_moriarty",
+				#  "newton@test.com",
+				#  "pass"],
+				# ["cliff_fetty",
+				#  "cliff@test.com",
+				#  "pass"],
+				# ["aleen_cintron",
+				#  "aleen@test.com",
+				#  "pass"],
+				# ["cicely_walcott",
+				#  "cicely@test.com",
+				#  "pass"],
+				# ["archie_mona",
+				#  "archie@test.com",
+				#  "pass"]
+			]
 
-	def tags
-		["work",
-		 "entertainment",
-		 "personal",
-		 "school",
-		 "outdoors",
-		 "etc"]
-	end
-
-	def rand_users
-		puts "Generate random users"
-		users = @@users
-		users.each do |user|
-			print "."
-			new_user = User.first_or_create(user_name: user[0], email: user[1], password: user[2])
-			settings = AccountSetting.create(categories: tags.join('&'), user: new_user)
-			new_user.save
-			settings.save
-		end
-		puts "."
-	end
-
-	@@rand_descriptions =
+	def rand_descriptions
 		["Better Late Than Never",
 		"Some raiders have arrived and enslaved a village. The PCs were none the wiser. The bad guys have now made good their escape, and the PCs have caught wind of it in time to chase them down before they make it back to their keep in the swamps",
 		"Common Twists & Themes: The bad guys escaped by stealing a conveyance that the PCs know better than they do. The bad guys duck down a metaphorical (or literal) side-road, trying to hide or blend into an environment (often one hostile to the PCs).",
@@ -248,64 +226,15 @@ class DataGenerator
 		"Ithill Stoutmeadow the Painter (worried adult halfling female, particularly high voice) sends party to cave in Pale Willows.",
 		"Ornamental carriage shows directions to wooden armchair.",
 		"Wooden armchair needs to be used on gaff/hook, held."]
-
-	def titles
-		["Gonriel",
-		"Donthyryr",
-		"Elrond",
-		"Angard",
-		"Nazduin",
-		"Beleggroth",
-		"Baradduin",
-		"Arost",
-		"Beleggorn",
-		"Beleggroth",
-		"Wardervalley",
-		"Cold Woodland",
-		"Prince Court",
-		"Courtchapel",
-		"Catwilds",
-		"Winter Town",
-		"Wildcatwilds",
-		"Spiderhills",
-		"Goblinwaste",
-		"Bottle Barren",
-		"Barrelrange",
-		"Kingsnock",
-		"Alder bay",
-		"Fairmarsh",
-		"Bouldercataract",
-		"Guildmead",
-		"Orc county",
-		"Narrow keep",
-		"Dank harbor",
-		"Smallpool",
-		"Galadthyryr",
-		"Dongroth",
-		"Belgorn",
-		"Oroddor",
-		"Belruin",
-		"Loththyryr",
-		"Amonthyryr",
-		"Morcirith",
-		"Angorn",
-		"Orodadan"]
 	end
 
-	def rand_events
-		puts "Generate random events"
-		descriptions = @@rand_descriptions
-		User.all.each do |user|
-			print "."
-			(1..(10 + rand(25))).each do |i|
-				title_seed = rand(titles.count)
-				description_seed = rand(descriptions.count)
-				new_event = Event.create(title: titles[title_seed], body: descriptions[description_seed], user: user, img_url: "/images/banksy/#{(1 + rand(19))}.jpg")
-				categories = user.account_setting.categories.split('&')
-				category = Category.create(name: categories[rand(tags.count)], event: new_event)
-			end
-		end
-		puts "."
+	def tags
+		["work",
+		 "entertainment",
+		 "personal",
+		 "school",
+		 "outdoors",
+		 "etc"]
 	end
 
 	def ipsum_comments
@@ -357,6 +286,77 @@ class DataGenerator
 		 "Etiam aliquet laoreet tincidunt. Curabitur eget neque lacus, nec luctus sem. Nulla facilisi. Cras consectetur, massa ut molestie vestibulum, turpis tortor hendrerit dui, quis vehicula elit ante non diam. ",
 		 "Thing felis sem, adipiscing eleifend blandit eget, tempor sit amet eros. Suspendisse quis tellus sit amet lacus viverra rhoncus quis vel risus. Etiam semper tempor mauris eu volutpat. Integer a tempor metus. Nunc ac dolor in arcu ultricies feugiat."]
 	end
+
+	def titles
+		["Gonriel",
+		"Donthyryr",
+		"Elrond",
+		"Angard",
+		"Nazduin",
+		"Beleggroth",
+		"Baradduin",
+		"Arost",
+		"Beleggorn",
+		"Beleggroth",
+		"Wardervalley",
+		"Cold Woodland",
+		"Prince Court",
+		"Courtchapel",
+		"Catwilds",
+		"Winter Town",
+		"Wildcatwilds",
+		"Spiderhills",
+		"Goblinwaste",
+		"Bottle Barren",
+		"Barrelrange",
+		"Kingsnock",
+		"Alder bay",
+		"Fairmarsh",
+		"Bouldercataract",
+		"Guildmead",
+		"Orc county",
+		"Narrow keep",
+		"Dank harbor",
+		"Smallpool",
+		"Galadthyryr",
+		"Dongroth",
+		"Belgorn",
+		"Oroddor",
+		"Belruin",
+		"Loththyryr",
+		"Amonthyryr",
+		"Morcirith",
+		"Angorn",
+		"Orodadan"]
+	end
+
+	def rand_users
+		puts "Generate random users"
+		users = @@users
+		users.each do |user|
+			print "."
+			new_user = User.first_or_create(user_name: user[0], email: user[1], password: user[2])
+			new_user.save
+		end
+		puts "."
+	end
+
+	def rand_events
+		puts "Generate random events"
+		descriptions = rand_descriptions
+		User.all.each do |user|
+			print "."
+			(1..(10 + rand(25))).each do |i|
+				categories = user.account_setting.categories.split('&')
+				rand_category = categories[rand(tags.count)]
+				title_seed = rand(titles.count)
+				description_seed = rand(descriptions.count)
+				new_event = Event.create(title: titles[title_seed], body: descriptions[description_seed], user: user, img_url: "/images/banksy/#{(1 + rand(19))}.jpg", category_name: rand_category)
+				category = Category.create(name: rand_category, event: new_event)
+			end
+		end
+		puts "."
+	end
 	
 	def rand_comments(max_comments=5)
 		puts "Generate random comments"
@@ -372,6 +372,23 @@ class DataGenerator
 		puts "."
 	end
 
+	def rand_messages(max_msg_per_user=10)
+		puts "Generate random private message between users."
+		comments = ipsum_comments
+		descriptions = rand_descriptions
+		User.all.each do |u|
+			print "."
+			(1..(rand(max_msg_per_user))).each do |i|
+				title_seed = rand(titles.count)
+				description_seed = rand(descriptions.count)
+				comment_seed = rand(comments.count)
+				rand_user = User.first(id: (1 + rand(User.all.count)))
+				msg = SMessage.create(user: u, subject: titles[title_seed], body: descriptions[description_seed])
+				msg.send(rand_user)
+			end
+		end
+		puts "."
+	end
 	
 end
 

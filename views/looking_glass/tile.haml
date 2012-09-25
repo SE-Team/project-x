@@ -1,4 +1,4 @@
-%div{class: "element #{map[:category]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}"}
+%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}", onmouseover: "showTip(#{map[:id]});"}
 	.container
 		.marketing
 			- if map.has_key? :img_url
@@ -8,12 +8,20 @@
 			.row
 				%h3.name= map[:category]
 				%p.event-date= map[:event_time].strftime("%m/%d/%Y")
+				%p.user_name= map[:user_name]
 			.row
 				%p.comment-count= "#{map[:tumbler].comments.count}"
 			.row-fluid.window-pane-buttons
 				%span.btn.btn-small.open-event-btn{href: ""}
-					%i.icon-picture	
-				%span.btn.btn-small.flag-event-btn{href: ""}
-					%i.icon-flag
-				%span.btn.btn-small.trash-event-btn{href: ""}
-					%i.icon-trash
+					%a{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
+						%i.icon-picture	
+			/ 	%span.btn.btn-small.flag-event-btn{href: ""}
+			/ 		%i.icon-flag
+			/ 	%span.btn.btn-small.trash-event-btn{href: ""}
+			/ 		%i.icon-trash
+
+:javascript
+	function showTip(objId) {
+		var obj = "#element-" + objId;
+		$(obj).tooltip('show');
+	}

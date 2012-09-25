@@ -39,8 +39,7 @@
 	%body
 		
 		%div= haml :navbar
-		.container
-			%div= yield
+		%div= yield
 
 		/ Placed at the end of the document so the pages load faster
 		%script{ :type => "text/javascript", :src =>"/bootstrap/js/basic/bootstrap-transition.js"}

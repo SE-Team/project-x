@@ -313,3 +313,7 @@
 .input-append button.add-on {
     height: inherit !important;
 }
+
+.reply-message {
+  display: none;
+}

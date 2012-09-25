@@ -6,9 +6,13 @@
 			%thead
 				%tr
 					%th.span1
-						%input{type: :checkbox}			
+						%input{type: :checkbox}
+					%th.span1
+						%p
+							From
+
 			%tbody
-				- user.r_messages.each do |msg|
+				- user.r_messages.all(order: [:id.desc]).each do |msg|
 					%tr
 						%td
 							%input{type: :checkbox}
@@ -36,9 +40,12 @@
 			%thead
 				%tr
 					%th.span1
-						%input{type: :checkbox}			
+						%input{type: :checkbox}
+					%th.span1.pull-bottom
+						%p
+							To
 			%tbody
-				- user.s_messages.each do |msg|
+				- user.s_messages.all(order: [:id.desc]).each do |msg|
 					%tr
 						%td
 							%input{type: :checkbox}

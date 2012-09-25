@@ -8,6 +8,7 @@ class SMessage
   property :created_at, DateTime, default: DateTime.now
   property :star, 	Boolean, default: false
   property :sent, Boolean, default: false
+  property :reply_id, Integer
   property :target, String
 
   def send(target_user)

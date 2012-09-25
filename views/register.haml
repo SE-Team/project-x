@@ -1,11 +1,11 @@
 .content
 	.container
 		.row
-			.span12
+			.span4.offset4.well
 				%form{ :action => "/register", :method => "post"}
 					%h1= 'Register'
 					%p Name:
-					%input.form-input{ :name => "user_name", :type => "text", :size => "30"}
+					%input.form-input{ :name => "user_name", placeholder: "user_name", :type => "text", :size => "30"}
 					%p Password:
 					%input.form-input{ :name => "password", :type => "password", :size => "30"}
 					%p Email:

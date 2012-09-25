@@ -12,13 +12,6 @@ end
 
 include Helpers
 
-def user_sidebar_items
-  [["Dashboard", "dashboard"],
-   ["Profile", "profile"],
-   ["Friends", "friends"],
-   ["Account", "account"]]
-end
-
 def time_info
   {title: "Time",
    input_fields: [{name: "start-date", type: :date, placeholder: "start-date"},
@@ -49,6 +42,29 @@ def event_form
    method: "post"}
 end
 
+def user_sidebar_items(user)
+  [{href: "/user/#{user.user_name}/dashboard", icon: "icon-home", title: "Dashboard"},
+   {href: "/user/#{user.user_name}/messages", icon: "icon-envelope", title: "Messages", badge: {value: "#{user.r_messages.all(new_message: true).count}"}},
+   {href: "/user/#{user.user_name}/dashboard", icon: "icon-comment", title: "Comments", badge: {value: rand(10)}},
+   :divider,
+   {href: "/user/#{user.user_name}/friends", icon: "icon-user", title: "Friends"},
+   {href: "/user/#{user.user_name}/following", icon: "icon-tag", title: "Following", badge: {value: "#{user.followed_people.count}"}},
+   {href: "/user/#{user.user_name}/followers", icon: "icon-tags", title: "Followers", badge: {value: "#{user.followers.count}"}},
+   :divider,
+   {href: "/user/#{user.user_name}/dashboard", icon: "icon-th", title: "Events", badge: {value: "#{user.events.all(permission: "public").count}"}},
+   {href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
+   {href: "/search/", icon: "icon-search", title: "Search"},
+   :divider,
+   {href: "/user/#{user.user_name}/account", icon:  "icon-pencil", title: "Settings"},
+   {href: "/logout", icon: "icon-off", title: "Logout"}]
+end
+
+def user_sidebar(user)
+  @map = {title: user.user_name,
+          items: user_sidebar_items(user)}
+  @sidebar = partial(:'user/sidebar', {map: @map})
+end
+
 get '/' do
   @user = session[:user]
   unless @user == nil
@@ -61,40 +77,101 @@ get '/user/:username/dashboard' do
   @user = session[:user]
   @categories = @user.account_setting.categories.split('&')
   @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
-  @items = user_sidebar_items
-  @sidebar = partial(:'user/sidebar', {items: @items})
+  @sidebar = user_sidebar(@user)
   haml :with_sidebar
+end
+
+get '/search/:args' do
+  search_term = "%"
+  search_term << params[:args].gsub('%20', '%')
+  search_term << "%"
+  e1 = Event.all(:title.like => search_term, permission: "public")
+  e2 = Event.all(:category_name.like => search_term, permission: "public")
+  @events = e1.zip(e2).flatten.compact
+  categories = Set[]
+  @events.each do |e|
+    categories.add(e.category.name)
+  end
+  @categories = categories
+  @content = partial(:'search/response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
+  haml :partial_wrapper
 end
 
 get '/user/:username/friends' do
   @user = session[:user]
   @content = partial(:'user/friends', {user: @user})
-  @items = user_sidebar_items
-  @sidebar = partial(:'user/sidebar', {items: @items})
+  @sidebar = user_sidebar(@user)
+  haml :with_sidebar
+end
+
+get '/user/:username/event/:event_id' do
+  @user = session[:user]
+  @event = Event.first(id: params[:event_id])
+  @content = partial(:'event/event', {user: @user, event: @event})
+  @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/account' do
   @user = session[:user]
   @content = partial(:'user/account', {user: @user})
-  @items = user_sidebar_items
-  @sidebar = partial(:'user/sidebar', {items: @items})
+  @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/profile' do
   @user = session[:user]
   @content = partial(:'user/profile', {user: @user})
-  @items = user_sidebar_items
-  @sidebar = partial(:'user/sidebar', {items: @items})
+  @sidebar = user_sidebar(@user)
   haml :with_sidebar
+end
+
+get '/user/:username/messages' do
+  @user = session[:user]
+  @content = partial(:'user/messages', {user: @user})
+  @sidebar = user_sidebar(@user)
+  haml :with_sidebar
+end
+
+get '/user/:username/rmessage/:msg_id' do
+  @user = session[:user]
+  @msg = RMessage.first(id: params[:msg_id])
+  if @msg.new_message
+    @msg.new_message = false
+    @msg.save
+  end
+  @content = partial(:'user/rmessage', {user: @user, msg: @msg})
+  @sidebar = user_sidebar(@user)
+  haml :with_sidebar
+end
+
+get '/user/:username/smessage/:msg_id' do
+  @user = session[:user]
+  @msg = SMessage.first(id: params[:msg_id])
+  @content = partial(:'user/smessage', {user: @user, msg: @msg})
+  @sidebar = user_sidebar(@user)
+  haml :with_sidebar
+end
+
+post '/user/:user_name/message/:msg_id' do
+  @user = session[:user]
+  target = User.first(user_name: params[:target_user])
+  message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
+  puts "try to save new message"
+  puts message.save
+  if message.save
+    target = User.first(user_name: params[:target_user])
+    message.send(target)
+    redirect "/user/#{params[:user_name]}/smessage/#{message.id}"
+  else
+    redirect "/user/#{params[:user_name]}/rmessage/#{params[:msg_id]}"
+  end
 end
 
 get '/user/:username/create-event' do
   @user = User.first(user_name: params[:username])
   @content = partial(:form, {form_map: event_form})
-  @items = user_sidebar_items
-  @sidebar = partial(:'user/sidebar', {items: @items})
+  @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
@@ -104,7 +181,7 @@ post'/user/:username/create-event' do
   event.user = @user
   event.title = params["title"]
   event.body = params["body"]
-  
+
   time = Time.new
   time.event = event
 
@@ -195,13 +272,14 @@ end
 
 post '/register' do
   u = User.new
-  u.user_name =   params[:username]
+  u.user_name =   params[:user_name]
   u.password =    params[:password]
   u.email =       params[:email]
-  
+
+  puts u.account_setting
   if u.save
     flash("User created")
-    session[:user] = User.authenticate( params["user_name"], 
+    session[:user] = User.authenticate( params["user_name"],
                                         params["password"])
     redirect '/user/' << session[:user].user_name.to_s << "/dashboard"
   else
@@ -210,7 +288,8 @@ post '/register' do
     #   tmp << (e.join("<br/>"))
     # end
     flash(tmp)
-    redirect '/create'
+    # redirect '/'
+    "didn't work"
   end
 end
 
@@ -271,28 +350,28 @@ end
 get '/api/:api_key/create-event$:opts' do
   valid_key = ApiKey.first(api_key: params[:api_key])
   if !valid_key.nil?
- 	User.all.to_json(only: [:id, :username, :email])
-	opts_str = params[:opts].to_s
-	opts = opts_str.split "&"
-	opts.each_with_index.map{|opt, i|
-				kv = opt.split "="
-				opts[i] = [kv[0], kv[1]]}
-	event = Event.new
-	opts.each do |opt|
-		event[opt[0]] = opt[1]
-		p event[opt[0]]
-	end
-	event.user = User.first
-	if event.save
-		event.to_json
-	else
-		"BAD ENTRY"
-	end
-	end
+    User.all.to_json(only: [:id, :username, :email])
+    opts_str = params[:opts].to_s
+    opts = opts_str.split "&"
+    opts.each_with_index.map{|opt, i|
+      kv = opt.split "="
+    opts[i] = [kv[0], kv[1]]}
+    event = Event.new
+    opts.each do |opt|
+      event[opt[0]] = opt[1]
+      p event[opt[0]]
+    end
+    event.user = User.first
+    if event.save
+      event.to_json
+    else
+      "BAD ENTRY"
+    end
+  end
 end
 
 get '/dev/:dev-out' do
-	params["dev-out"]
+  params["dev-out"]
 end
 
 ##############################################################################
@@ -340,3 +419,15 @@ def render_pane(pane_map)
   partial(:'looking_glass/tile', {map: pane_map})
 end
 
+def safe_to_like_message(u, id)
+  user = User.first(user_name: u)
+  messages = RMessage.all(user: user, id: id)
+  exists = messages.count == 0
+  puts exists
+  if exists
+    msg = messages.first
+    msg.start = true
+    return msg.save
+  end
+  return false
+end

@@ -5,6 +5,7 @@
 			- map[:items].each do |item|
 				- if item == :divider
 					%li.divider
+					
 				- else
 					%li
 						%a{href: item[:href].nil? ? "#" : item[:href]}

@@ -12,7 +12,7 @@ class Event
 	property :body,       Text      # A text block, for longer string data.
 	property :img_url,    String
 
-	after :update, :update_update_time
+	after :update, :update_time
 
 	def update_time
 		@updated_at = DateTime.now

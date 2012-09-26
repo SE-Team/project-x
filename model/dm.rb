@@ -109,10 +109,6 @@ class User
     account_setting = AccountSetting.create(user: self)
     account_setting.save
   end
-
-
-
-
 end
 
 class RMessage

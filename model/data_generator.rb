@@ -354,11 +354,12 @@ class DataGenerator
 							  "outdoors",
 							  "etc"]
 				rand_category = categories[rand(categories.size)]
-				puts rand_category
 				title_seed = rand(titles.count)
 				description_seed = rand(descriptions.count)
-				new_event = Event.create(title: titles[title_seed], body: descriptions[description_seed], user: user, img_url: "/images/banksy/#{(1 + rand(19))}.jpg", category_name: rand_category)
-				category = Category.create(name: rand_category, event: new_event)
+				new_event = Event.create(title: titles[title_seed], body: descriptions[description_seed], user: user, img_url: "/images/banksy/#{(1 + rand(19))}.jpg")
+				category = Category.create(event: new_event)
+				new_event.category.name = rand_category
+				new_event.save
 			end
 		end
 		puts "."

@@ -81,7 +81,7 @@ get '/user/:user_name/dashboard' do
     @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
     @sidebar = user_sidebar(@user)
     return haml :with_sidebar
-  else 
+  else
     redirect '/'
   end
 end

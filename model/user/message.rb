@@ -16,7 +16,6 @@ class SMessage
     success = msg.save
   	if success
   		self.sent = true
-      puts self.sent
       self.target = target_user.user_name
       save
   		return true

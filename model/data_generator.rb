@@ -347,8 +347,14 @@ class DataGenerator
 		User.all.each do |user|
 			print "."
 			(1..(10 + rand(25))).each do |i|
-				categories = user.account_setting.categories.split('&')
-				rand_category = categories[rand(tags.count)]
+				categories = ["work",
+							  "entertainment",
+							  "personal",
+							  "school",
+							  "outdoors",
+							  "etc"]
+				rand_category = categories[rand(categories.size)]
+				puts rand_category
 				title_seed = rand(titles.count)
 				description_seed = rand(descriptions.count)
 				new_event = Event.create(title: titles[title_seed], body: descriptions[description_seed], user: user, img_url: "/images/banksy/#{(1 + rand(19))}.jpg", category_name: rand_category)

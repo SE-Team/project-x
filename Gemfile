@@ -6,7 +6,7 @@ gem 'dm-serializer'
 gem "sinatra", '1.3.3'
 gem "haml"
 gem 'thin'
-
+gem 'shotgun'
 
 group :development do
   gem 'dm-sqlite-adapter'

@@ -255,14 +255,12 @@ get '/login' do
 end
 
 post '/login' do
-  if @user = User.authenticate(params["username"], params["password"])
     # Create a unique id for this user session
     # make sure the id saved
-    if @user.save
-      session[:user] = @user.user_name
-      flash("Login successful")
-      redirect "/user/" << session[:user] << "/dashboard"
-    end
+  if @user = User.authenticate(params["username"], params["password"])
+    session[:user] = @user.user_name
+    flash("Login successful")
+    redirect "/user/" << session[:user] << "/dashboard"
   else
     flash("Login failed - Try again")
     redirect '/login'
@@ -301,10 +299,8 @@ post '/register' do
   u.password =    params[:password]
   u.email =       params[:email]
 
-  puts u.account_setting
   if u.save
     flash("User created")
-    show_flash
     redirect '/login'
   else
     tmp = []

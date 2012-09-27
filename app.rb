@@ -264,14 +264,6 @@ post '/login' do
   end
 end
 
-def print_session_data(session, user)
-  puts "session id"
-  puts session[:session_id]
-  puts "user session id"
-  puts user.session_id
-  puts
-end
-
 get '/logout' do
   session[:user] = nil
   flash("Logout successful")

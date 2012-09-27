@@ -200,7 +200,7 @@ end
 
 DataMapper.auto_upgrade!
 
-# if User.all.count == 0
+if User.all.count == 0
   puts "Generate user data"
   dg = DataGenerator.new
   print "."
@@ -215,4 +215,4 @@ DataMapper.auto_upgrade!
   puts "Createing admin account"
   admin = Admin.first_or_create(user_name: "admin", password: "*Project-X*", email: "admin@project-x.com")
   puts "Finished generating user data and admin account"
-# end
+end

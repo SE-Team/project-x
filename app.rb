@@ -135,7 +135,6 @@ get '/user/:username/messages' do
   # authenticate the user by name and session id first
   @user = User.first(user_name: session[:user])
   puts @user
-  print_session_data(session, @user)
   unless @user == nil
     @content = partial(:'user/messages', {user: @user})
     @sidebar = user_sidebar(@user)
@@ -305,6 +304,7 @@ post '/register' do
   puts u.account_setting
   if u.save
     flash("User created")
+    show_flash
     redirect '/login'
   else
     tmp = []

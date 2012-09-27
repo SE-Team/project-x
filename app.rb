@@ -134,7 +134,6 @@ end
 get '/user/:username/messages' do
   # authenticate the user by name and session id first
   @user = User.first(user_name: session[:user])
-  puts @user
   unless @user == nil
     @content = partial(:'user/messages', {user: @user})
     @sidebar = user_sidebar(@user)
@@ -169,8 +168,6 @@ post '/user/:user_name/message/:msg_id' do
   @user = session[:user]
   target = User.first(user_name: params[:target_user])
   message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
-  puts "try to save new message"
-  puts message.save
   if message.save
     target = User.first(user_name: params[:target_user])
     message.send(target)
@@ -444,7 +441,6 @@ def safe_to_like_message(u, id)
   user = User.first(user_name: u)
   messages = RMessage.all(user: user, id: id)
   exists = messages.count == 0
-  puts exists
   if exists
     msg = messages.first
     msg.start = true

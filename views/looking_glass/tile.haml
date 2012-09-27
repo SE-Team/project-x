@@ -1,4 +1,4 @@
-%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}", onmouseover: "showTip(#{map[:id]});"}
+%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}"}
 	.container
 		.marketing
 			- if map.has_key? :img_url

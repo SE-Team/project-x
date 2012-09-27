@@ -8,7 +8,6 @@ require 'json'
 
 configure do
   enable :sessions
-  # use Rack::Session::Pool
 end
 
 include Helpers
@@ -67,15 +66,15 @@ def user_sidebar(user)
 end
 
 get '/' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   unless @user == nil
-    @user_name = session[:user].user_name
+    @user_name = session[:user]
   end
   haml :index
 end
 
 get '/user/:user_name/dashboard' do
-  @user = User.first(user_name: params[:user_name])
+  @user = User.first(user_name: session[:user])
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
     @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
@@ -103,14 +102,15 @@ get '/search/:args' do
 end
 
 get '/user/:username/friends' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   @content = partial(:'user/friends', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/event/:event_id' do
-  @user = session[:user]
+  # @user = session[:user]
+  @user = User.first(user_name: session[:user])
   @event = Event.first(id: params[:event_id])
   @content = partial(:'event/event', {user: @user, event: @event})
   @sidebar = user_sidebar(@user)
@@ -118,28 +118,36 @@ get '/user/:username/event/:event_id' do
 end
 
 get '/user/:username/account' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   @content = partial(:'user/account', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/profile' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   @content = partial(:'user/profile', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/messages' do
-  @user = session[:user]
-  @content = partial(:'user/messages', {user: @user})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
+  # authenticate the user by name and session id first
+  @user = User.first(user_name: session[:user])
+  puts @user
+  print_session_data(session, @user)
+  unless @user == nil
+    @content = partial(:'user/messages', {user: @user})
+    @sidebar = user_sidebar(@user)
+    # print_session_data(session, @user)
+    haml :with_sidebar
+  else
+    redirect '/'
+  end
 end
 
 get '/user/:username/rmessage/:msg_id' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   @msg = RMessage.first(id: params[:msg_id])
   if @msg.new_message
     @msg.new_message = false
@@ -151,7 +159,7 @@ get '/user/:username/rmessage/:msg_id' do
 end
 
 get '/user/:username/smessage/:msg_id' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   @msg = SMessage.first(id: params[:msg_id])
   @content = partial(:'user/smessage', {user: @user, msg: @msg})
   @sidebar = user_sidebar(@user)
@@ -174,14 +182,14 @@ post '/user/:user_name/message/:msg_id' do
 end
 
 get '/user/:username/create-event' do
-  @user = User.first(user_name: params[:username])
+  @user = User.first(user_name: session[:user])
   @content = partial(:form, {form_map: event_form})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 post'/user/:username/create-event' do
-  @user = User.first(user_name: params[:username])
+  @user = User.first(user_name: session[:user])
   event = Event.new
   event.user = @user
   event.title = params["title"]
@@ -198,7 +206,7 @@ post'/user/:username/create-event' do
 
   if event.save && time.save && location.save
     flash("Event created")
-    redirect '/user/' << session[:user].user_name.to_s << "/dashboard"
+    redirect '/user/' << session[:user] << "/dashboard"
   else
     tmp = []
     event.errors.each do |e|
@@ -209,22 +217,22 @@ post'/user/:username/create-event' do
   end
 end
 
-get '/user/dashboard' do
-  if session[:user] == nil
-    @user_name = session[:user].user_name
-    haml :'user/dashboard'
-  else
-    haml :no_user_dash
-  end
-end
+# get '/user/dashboard' do
+#   if session[:user] == nil
+#     @user_name = session[:user].user_name
+#     haml :'user/dashboard'
+#   else
+#     haml :no_user_dash
+#   end
+# end
 
 get '/user' do
-  redirect '/user/' + session[:user].user_name
+  redirect '/user/' + session[:user]
 end
 
 get '/about' do
   unless session[:user] == nil
-    @user_name = session[:user].user_name
+    @user_name = session[:user]
   end
   haml :about
 end
@@ -234,9 +242,9 @@ get '/contact' do
 end
 
 get '/user/:username/profile' do
-  @user = User.first(user_name: params[:username])
+  @user = User.first(user_name: session[:user])
   unless session[:user] == nil
-    @user_name = session[:user].user_name
+    @user_name = session[:user]
   end
   haml :'user/profile'
 end
@@ -248,13 +256,26 @@ get '/login' do
 end
 
 post '/login' do
-  if session[:user] = User.authenticate(params["username"], params["password"])
-    flash("Login successful")
-    redirect "/user/" << session[:user].user_name << "/dashboard"
+  if @user = User.authenticate(params["username"], params["password"])
+    # Create a unique id for this user session
+    # make sure the id saved
+    if @user.save
+      session[:user] = @user.user_name
+      flash("Login successful")
+      redirect "/user/" << session[:user] << "/dashboard"
+    end
   else
     flash("Login failed - Try again")
     redirect '/login'
   end
+end
+
+def print_session_data(session, user)
+  puts "session id"
+  puts session[:session_id]
+  puts "user session id"
+  puts user.session_id
+  puts
 end
 
 get '/logout' do
@@ -284,9 +305,7 @@ post '/register' do
   puts u.account_setting
   if u.save
     flash("User created")
-    session[:user] = User.authenticate( params["user_name"],
-                                        params["password"])
-    redirect '/user/' << session[:user].user_name.to_s << "/dashboard"
+    redirect '/login'
   else
     tmp = []
     # u.errors.each do |e|

@@ -15,6 +15,7 @@ class User
   property :email,              String
   property :password,           String
   property :salt,               String
+  property :session_id,         String
   property :hashed_password,    String
   property :created_at,         DateTime, default: DateTime.now
   property :upadted_at,         DateTime
@@ -54,10 +55,3 @@ class User
     belongs_to :followed, 'User', :key => true
   end
 end
-
-class Friendship
-  include DataMapper::Resource
-  belongs_to :source, 'User', :key => true
-  belongs_to :target, 'User', :key => true
-end
-

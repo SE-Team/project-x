@@ -11,7 +11,7 @@
 	#isotope-container
 		- events.each_with_index do |event, i|
 			:plain
-				#{render_pane({title: event.title, classes: event.category_name, id: event.id, category: event.category_name, tumbler: event.metadata.tumbler, event_time: event.event_date, img_url: event.img_url, user_name: event.user.user_name})}
+				#{render_pane({title: event.title, classes: event.category_name, id: event.id, category: event.category.name, tumbler: event.metadata.tumbler, event_time: event.event_date, img_url: event.img_url, user_name: event.user.user_name})}
 
 
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}

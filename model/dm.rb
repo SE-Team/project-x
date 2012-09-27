@@ -46,27 +46,28 @@ class User
   # In this relationship, the user is the follower
   has n, :links_to_followed_people, 'User::Link', :child_key => [:follower_id]
 
-  # In this relationship, the user is the one followed by someone
+  # # In this relationship, the user is the one followed by someone
   has n, :links_to_followers, 'User::Link', :child_key => [:followed_id]
 
-  # We can then use these two relationships to relate any user to
-  # either the people followed by the user, or to the people this
-  # user follows.
+  # # We can then use these two relationships to relate any user to
+  # # either the people followed by the user, or to the people this
+  # # user follows.
 
-  # Every 'Link' where John is a :follower points to a user that
-  # is followed by John.
+  # # Every 'Link' where John is a :follower points to a user that
+  # # is followed by John.
   has n, :followed_people, self,
     :through => :links_to_followed_people, # The user is a follower
     :via     => :followed
 
-  # Every 'Link' where Jane is :followed points to a user that
-  # is one of Jane's followers.
+  # # Every 'Link' where Jane is :followed points to a user that
+  # # is one of Jane's followers.
   has n, :followers, self,
     :through => :links_to_followers, # The user is followed by someone
     :via     => :follower
 
   # Follow one or more other people
   def follow(others)
+    # followed_people.concat(Array(others))
     followed_people.concat(Array(others))
     response = save
     puts "follow sucess = " << response.to_s
@@ -108,6 +109,20 @@ class User
   def init_account_settings
     account_setting = AccountSetting.create(user: self)
     account_setting.save
+  end
+end
+
+class Friendship
+  include DataMapper::Resource
+  belongs_to :source, 'User', :key => true
+  belongs_to :target, 'User', :key => true
+
+  after :create, :init_target
+
+  def init_target
+    f = Friendship.first_or_create(target: self.source, source: self.target)
+    f.user_user_name = self.target.user_name
+    f.save
   end
 end
 

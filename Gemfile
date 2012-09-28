@@ -7,6 +7,8 @@ gem "sinatra", '1.3.3'
 gem "haml"
 gem 'thin'
 gem 'shotgun'
+gem 'omniauth'
+gem 'openid'
 
 group :development do
   gem 'dm-sqlite-adapter'

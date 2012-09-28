@@ -6,11 +6,21 @@ require 'sinatra'
 require 'haml'
 require 'json'
 
+require 'omniauth'
+# require 'openid/store/filesystem'
+
 configure do
   enable :sessions
 end
 
 include Helpers
+
+  # use Rack::Session::Cookie
+  # use OmniAuth::Builder do
+  #   provider :open_id, OpenID::Store::Filesystem.new('/tmp')
+  #   provider :twitter, 'consumerkey', 'consumersecret'
+  # end
+
 
 def time_info
   {title: "Time",

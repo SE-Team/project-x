@@ -2,3 +2,5 @@
 .gitignore
 Gemfile.lock
 *.db
+local/*
+local

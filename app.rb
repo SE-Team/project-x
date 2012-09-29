@@ -472,18 +472,18 @@ before do
   @client.authorization.scope = 'https://www.googleapis.com/auth/buzz'
   @client.authorization.redirect_uri = to('http://intense-hamlet-3672.herokuapp.com/oauth2callback')
   @client.authorization.code = params[:code] if params[:code]
-  # if session[:token_id]
-  #   # Load the access token here if it's available
-  #   token_pair = TokenPair.get(session[:token_id])
-  #   @client.authorization.update_token!(token_pair.to_hash)
-  # end
-  # if @client.authorization.refresh_token && @client.authorization.expired?
-  #   @client.authorization.fetch_access_token!
-  # end
-  # @buzz = @client.discovered_api('buzz')
-  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
-  #   redirect to('/oauth2authorize')
-  # end
+  if session[:token_id]
+    # Load the access token here if it's available
+    token_pair = TokenPair.get(session[:token_id])
+    @client.authorization.update_token!(token_pair.to_hash)
+  end
+  if @client.authorization.refresh_token && @client.authorization.expired?
+    @client.authorization.fetch_access_token!
+  end
+  # @buzz = @client.discovered_api('indentity')
+  unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
+    redirect to('/oauth2authorize')
+  end
 end
 
 get '/oauth2authorize' do

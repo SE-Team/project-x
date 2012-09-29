@@ -466,11 +466,17 @@ end
 
 
 put '/oauth2callback' do
-  redirect '/'
+  redirect '/' << params
 end
 
 
 get '/oauth2callback' do
+  params.to_s
+end
+
+
+
+get '/oauth2callback*' do
   params.to_s
 end
 

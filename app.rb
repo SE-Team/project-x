@@ -465,12 +465,12 @@ end
 # end
 
 
-put '/google/auth*' do
+put '/google/auth' do
   redirect '/'
 end
 
 
-get '/google/auth*' do
+get '/google/auth' do
   params.to_s
 end
 

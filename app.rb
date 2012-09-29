@@ -1,11 +1,12 @@
 require './model/dm'
 require './helpers/helpers'
 require './helpers/sinatra'
-# require './local/twitter'
 require 'dm-serializer'
 require 'sinatra'
 require 'haml'
 require 'json'
+
+require 'google/api_client'
 
 configure do
   enable :sessions
@@ -464,21 +465,41 @@ end
 #   haml :partial_wrapper
 # end
 
-
-put '/oauth2callback' do
-  redirect '/' << params
+before do
+  @client = Google::APIClient.new
+  @client.authorization.client_id = '4225099662.apps.googleusercontent.com'
+  @client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
+  @client.authorization.scope = 'https://www.googleapis.com/auth/buzz'
+  @client.authorization.redirect_uri = to('http://intense-hamlet-3672.herokuapp.com/oauth2callback')
+  @client.authorization.code = params[:code] if params[:code]
+  # if session[:token_id]
+  #   # Load the access token here if it's available
+  #   token_pair = TokenPair.get(session[:token_id])
+  #   @client.authorization.update_token!(token_pair.to_hash)
+  # end
+  # if @client.authorization.refresh_token && @client.authorization.expired?
+  #   @client.authorization.fetch_access_token!
+  # end
+  # @buzz = @client.discovered_api('buzz')
+  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
+  #   redirect to('/oauth2authorize')
+  # end
 end
 
+get '/oauth2authorize' do
+  redirect @client.authorization.authorization_uri.to_s, 303
+end
 
 get '/oauth2callback' do
-  params.to_s
+  @client.authorization.fetch_access_token!
+  # Persist the token here
+  token_pair = if session[:token_id]
+    TokenPair.get(session[:token_id])
+  else
+    TokenPair.new
+  end
+  token_pair.update_token!(@client.authorization)
+  token_pair.save()
+  session[:token_id] = token_pair.id
+  redirect to('/')
 end
-
-
-
-get '/oauth2callback*' do
-  params.to_s
-end
-
-
-

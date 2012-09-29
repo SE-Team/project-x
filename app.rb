@@ -1,7 +1,7 @@
 require './model/dm'
 require './helpers/helpers'
 require './helpers/sinatra'
-require './local/twitter'
+# require './local/twitter'
 require 'dm-serializer'
 require 'sinatra'
 require 'haml'
@@ -430,9 +430,9 @@ def render_pane(pane_map)
   partial(:'looking_glass/tile', {map: pane_map})
 end
 
-def render_twitter_pane(pane_map)
-  partial(:'looking_glass/twitter_tile', {map: pane_map})
-end
+# def render_twitter_pane(pane_map)
+#   partial(:'looking_glass/twitter_tile', {map: pane_map})
+# end
 
 def safe_to_like_message(u, id)
   user = User.first(user_name: u)
@@ -448,22 +448,26 @@ end
 
 
 
-get '/twitter-search/:args' do
-  search = TwitterSearch.search({q: params[:args], count: 1000})
-  results = search["results"]
-  @events = results.map do |tweet|
-    {title: tweet["text"],
-     img_url: tweet["profile_image_url"],
-     event_time: tweet["created_at"],
-     category: "twitter",
-     classes: "twitter",
-     id: tweet["id"]}
-  end
-  @categories = ["twitter"]
-  @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
-  haml :partial_wrapper
-end
+# get '/twitter-search/:args' do
+#   search = TwitterSearch.search({q: params[:args], count: 1000})
+#   results = search["results"]
+#   @events = results.map do |tweet|
+#     {title: tweet["text"],
+#      img_url: tweet["profile_image_url"],
+#      event_time: tweet["created_at"],
+#      category: "twitter",
+#      classes: "twitter",
+#      id: tweet["id"]}
+#   end
+#   @categories = ["twitter"]
+#   @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
+#   haml :partial_wrapper
+# end
 
+
+put '/google/auth*' do
+  redirect '/'
+end
 
 
 get '/google/auth*' do

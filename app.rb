@@ -473,8 +473,8 @@ before do
   @client = Google::APIClient.new
   @client.authorization.client_id = '4225099662.apps.googleusercontent.com'
   @client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
-  @client.authorization.scope = URI.encode("https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email")
-  @client.authorization.redirect_uri = URI.encode("http://intense-hamlet-3672.herokuapp.com/oauth2callback")
+  @client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+  @client.authorization.redirect_uri = to('/oauth2callback')
   @client.authorization.code = params[:code] if params[:code]
   if session[:token_id]
     # Load the access token here if it's available

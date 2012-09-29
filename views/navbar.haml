@@ -22,14 +22,14 @@
 								%button.btn.add-on#search-btn
 									%i.icon-search
 				%p.navbar-text.pull-right
-				-if logged_in?
-					%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 
-					Dashboard
-					|
-					%a{:href => "/logout" } Logout
-					
-				-else 
-					%a{:href => '/login'} Login
+					-if logged_in?
+						%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 
+						Dashboard
+						|
+						%a{:href => "/logout" } Logout
+						
+					-else 
+						%a{:href => '/login'} Login
 
 :javascript
 	$("#search-btn").click(function() {

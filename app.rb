@@ -465,12 +465,12 @@ end
 # end
 
 
-put '/google/auth' do
+put '/oauth2callback' do
   redirect '/'
 end
 
 
-get '/google/auth' do
+get '/oauth2callback' do
   params.to_s
 end
 

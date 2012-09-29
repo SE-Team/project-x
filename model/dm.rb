@@ -13,6 +13,7 @@ require './model/category'
 require './model/categorization'
 require './model/admin'
 require './model/time'
+require './model/oauth/token_pair'
 require './model/user/account_setting'
 require './model/tumbler'
 require './model/meta_data'
@@ -110,6 +111,10 @@ class User
     account_setting = AccountSetting.create(user: self)
     account_setting.save
   end
+end
+
+class Profile
+  belongs_to :user
 end
 
 class Friendship

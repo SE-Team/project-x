@@ -1,26 +1,17 @@
 require './model/dm'
 require './helpers/helpers'
 require './helpers/sinatra'
+require './local/twitter'
 require 'dm-serializer'
 require 'sinatra'
 require 'haml'
 require 'json'
-
-require 'omniauth'
-# require 'openid/store/filesystem'
 
 configure do
   enable :sessions
 end
 
 include Helpers
-
-  # use Rack::Session::Cookie
-  # use OmniAuth::Builder do
-  #   provider :open_id, OpenID::Store::Filesystem.new('/tmp')
-  #   provider :twitter, 'consumerkey', 'consumersecret'
-  # end
-
 
 def time_info
   {title: "Time",
@@ -53,7 +44,7 @@ def event_form
 end
 
 def user_sidebar_items(user)
-  [{href: "/user/#{user.user_name}/dashboard", icon: "icon-home", title: "Dashboard"},
+  [{href: "/user/#{user.user_name}/dashboard", icon: "icon-home", title: "Stream"},
    {href: "/user/#{user.user_name}/messages", icon: "icon-envelope", title: "Messages", badge: {value: "#{user.r_messages.all(new_message: true).count}"}},
    {href: "/user/#{user.user_name}/dashboard", icon: "icon-comment", title: "Comments", badge: {value: rand(10)}},
    :divider,
@@ -439,6 +430,10 @@ def render_pane(pane_map)
   partial(:'looking_glass/tile', {map: pane_map})
 end
 
+def render_twitter_pane(pane_map)
+  partial(:'looking_glass/twitter_tile', {map: pane_map})
+end
+
 def safe_to_like_message(u, id)
   user = User.first(user_name: u)
   messages = RMessage.all(user: user, id: id)
@@ -450,3 +445,30 @@ def safe_to_like_message(u, id)
   end
   return false
 end
+
+
+
+get '/twitter-search/:args' do
+  search = TwitterSearch.search({q: params[:args], count: 1000})
+  results = search["results"]
+  @events = results.map do |tweet|
+    {title: tweet["text"],
+     img_url: tweet["profile_image_url"],
+     event_time: tweet["created_at"],
+     category: "twitter",
+     classes: "twitter",
+     id: tweet["id"]}
+  end
+  @categories = ["twitter"]
+  @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
+  haml :partial_wrapper
+end
+
+
+
+get '/google/auth*' do
+  params.to_s
+end
+
+
+

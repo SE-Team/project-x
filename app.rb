@@ -249,9 +249,12 @@ get '/user/:username/profile' do
 end
 
 get '/login' do
-  @map = {action: "/login",
-          title: "Login"}
-  haml :login
+  # @map = {action: "/login",
+  #         title: "Login"}
+  # haml :login
+  unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
+    redirect to('/oauth2authorize')
+  end
 end
 
 post '/login' do
@@ -472,7 +475,6 @@ before do
   @client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
   @client.authorization.scope = URI.encode("https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email")
   @client.authorization.redirect_uri = URI.encode("http://intense-hamlet-3672.herokuapp.com/oauth2callback")
-  @client.authorization.access_type = "online"
   @client.authorization.code = params[:code] if params[:code]
   if session[:token_id]
     # Load the access token here if it's available
@@ -483,9 +485,9 @@ before do
     @client.authorization.fetch_access_token!
   end
   # @buzz = @client.discovered_api('indentity')
-  unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
-    redirect to('/oauth2authorize')
-  end
+  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
+  #   redirect to('/oauth2authorize')
+  # end
 end
 
 get '/oauth2authorize' do

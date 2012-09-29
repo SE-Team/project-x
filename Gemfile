@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'dm-core'
+gem 'data_mapper'
 gem 'dm-migrations'
 gem 'dm-serializer'
 gem "sinatra", '1.3.3'

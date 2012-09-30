@@ -258,12 +258,12 @@ get '/user/:username/profile' do
 end
 
 get '/login' do
-  # @map = {action: "/login",
-  #         title: "Login"}
-  # haml :login
-  unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
-    redirect to('/oauth2authorize')
-  end
+  @map = {action: "/login",
+          title: "Login"}
+  haml :login
+  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
+  #   redirect to('/oauth2authorize')
+  # end
 end
 
 post '/login' do
@@ -483,7 +483,7 @@ before do
   @client.authorization.client_id = '4225099662.apps.googleusercontent.com'
   @client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
   @client.authorization.scope = "https://accounts.google.com/o/oauth2/device/code https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-  @client.authorization.redirect_uri = "https://intense-hamlet-3672.herokuapp.com/oauth2callback"
+  @client.authorization.redirect_uri = to("/oauth2callback")
   @client.authorization.code = params[:code] if params[:code]
   # if session[:token_id]
   #   # Load the access token here if it's available
@@ -535,3 +535,4 @@ get '/oauth2callback' do
   # session[:token_id] = nil
   # redirect to('/')
 end
+

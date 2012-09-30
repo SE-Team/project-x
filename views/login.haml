@@ -2,17 +2,22 @@
 	.container
 		.row
 			.span4.offset4.well
-				/ %form{ :action => @map[:action], :method => "post"}
-				/ 	%h1= @map[:title]
-				/ 	%br
-				/ 	%p Name
-				/ 	%input.form-input{ :name => "username", :type => "text", :size => "20", :placeholder => "username"}
-				/ 	%p Password:
-				/ 	%input.form-input{ :name => "password", :type => "password", :size => "20", :placeholder => ""}
-				/ 	%br
-				/ 	%label.checkbox
-				/ 		%input{type: :checkbox, name: "remember", value: 1}Remember Me
-				/ 	%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
+				%form{ :action => @map[:action], :method => "post"}
+					%h1= @map[:title]
+					%br
+					%p Name
+					%input.form-input{ :name => "username", :type => "text", :size => "20", :placeholder => "username"}
+					%p Password:
+					%input.form-input{ :name => "password", :type => "password", :size => "20", :placeholder => ""}
+					%br
+					%label.checkbox
+						%input{type: :checkbox, name: "remember", value: 1}Remember Me
+					%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
+		.row
+			.span4.offset4
+				%h4= "Or login with Gmail, AOL, or Yahoo"
+		.row
+			.span4.offset4.well	
 				:plain
 					<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 					<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>

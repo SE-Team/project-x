@@ -497,9 +497,9 @@ get '/oauth2authorize' do
 end
 
 get '/oauth2callback' do
-  puts
-  puts "oauth2callback"
-  token = @client.authorization.fetch_access_token!
+  code = params[:code]
+  client = api_client code
+  token = client.authorization.fetch_access_token!
   # Persist the token here
   token_pair = TokenPair.create(access_token: token["access_token"])
   token_pair.update(:refresh_token => token["refresh_token"],

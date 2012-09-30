@@ -478,29 +478,21 @@ end
 #   haml :partial_wrapper
 # end
 
-before do
-  @client = Google::APIClient.new
-  @client.authorization.client_id = '4225099662-9lf90nl1q64abnqg4ar0v4vmqll3avgn.apps.googleusercontent.com'
-  @client.authorization.client_secret = 'GRzkp2SkeHmtGsQ4Grtttt15'
-  @client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-  @client.authorization.redirect_uri = to("/oauth2callback")
-  @client.authorization.code = params[:code] if params[:code]
-  # if session[:token_id]
-  #   # Load the access token here if it's available
-  #   token_pair = TokenPair.get(session[:token_id])
-  #   @client.authorization.update_token!(token_pair.to_hash)
-  # end
-  if @client.authorization.refresh_token && @client.authorization.expired?
-    @client.authorization.fetch_access_token!
-  end
-  # @buzz = @client.discovered_api('indentity')
-  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
-  #   redirect to('/oauth2authorize')
-  # end
+def api_client code=""
+  @client ||= (begin
+      client = Google::APIClient.new
+      client.authorization.client_id = '4225099662-9lf90nl1q64abnqg4ar0v4vmqll3avgn.apps.googleusercontent.com'
+      client.authorization.client_secret = 'GRzkp2SkeHmtGsQ4Grtttt15'
+      client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
+      client.authorization.access_token = "AIzaSyAFRs3G31TorxeTZdYaW_sBnw1l5TLEDdU"
+      client.authorization.redirect_uri = to('/oauth2callback')
+      client.authorization.code = code
+      client
+    end)
 end
 
 get '/oauth2authorize' do
-  redirect @client.authorization.authorization_uri.to_s, 303
+  redirect api_client.authorization.authorization_uri.to_s, 303
 end
 
 get '/oauth2callback' do

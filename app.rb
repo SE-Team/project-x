@@ -177,7 +177,7 @@ get '/user/:username/smessage/:msg_id' do
 end
 
 post '/user/:user_name/message/:msg_id' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   target = User.first(user_name: params[:target_user])
   message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
   if message.save

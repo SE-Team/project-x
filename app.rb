@@ -484,12 +484,19 @@ def api_client code=""
       client.authorization.client_id = '4225099662.apps.googleusercontent.com'
       client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
       client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-      client.authorization.access_token = "AIzaSyAFRs3G31TorxeTZdYaW_sBnw1l5TLEDdU"
+      # client.authorization.access_token = "AIzaSyAFRs3G31TorxeTZdYaW_sBnw1l5TLEDdU"
       client.authorization.redirect_uri = to('/oauth2callback')
       client.authorization.code = code
+      if session[:token_id]
+        # Load the access token here if it's available
+        token_pair = TokenPair.get(session[:token_id])
+        @client.authorization.update_token!(token_pair.to_hash)
+      end
+      if @client.authorization.refresh_token && @client.authorization.expired?
+        @client.authorization.fetch_access_token!
+      end
       client
-    end)
-  return @client
+  end)
 end
 
 get '/oauth2authorize' do

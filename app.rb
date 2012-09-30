@@ -490,9 +490,9 @@ before do
   #   token_pair = TokenPair.get(session[:token_id])
   #   @client.authorization.update_token!(token_pair.to_hash)
   # end
-  # if @client.authorization.refresh_token && @client.authorization.expired?
-  #   @client.authorization.fetch_access_token!
-  # end
+  if @client.authorization.refresh_token && @client.authorization.expired?
+    @client.authorization.fetch_access_token!
+  end
   # @buzz = @client.discovered_api('indentity')
   # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
   #   redirect to('/oauth2authorize')

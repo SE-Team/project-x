@@ -486,7 +486,10 @@ def api_client code=""
       client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
       client.authorization.redirect_uri = to('/oauth2callback')
       client.authorization.code = code
+      
+      # temporary
       session[:token_id] = nil
+
       if session[:token_id]
         # Load the access token here if it's available
         token_pair = TokenPair.get(session[:token_id])

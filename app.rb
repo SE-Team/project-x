@@ -258,12 +258,12 @@ get '/user/:username/profile' do
 end
 
 get '/login' do
-  # @map = {action: "/login",
-  #         title: "Login"}
-  # haml :login
-  unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
-    redirect to('/oauth2authorize')
-  end
+  @map = {action: "/login",
+          title: "Login"}
+  haml :login
+  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
+  #   redirect to('/oauth2authorize')
+  # end
 end
 
 post '/login' do

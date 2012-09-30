@@ -508,11 +508,7 @@ get '/oauth2callback' do
   puts "oauth2callback"
   token = @client.authorization.fetch_access_token!
   # Persist the token here
-  token_pair = nil
-  if session[:token_id] && token_pair = TokenPair.first(id: session[:token_id].to_i) 
-  else
-    token_pair = TokenPair.create(access_token: token["access_token"])
-  end
+  token_pair = TokenPair.create(access_token: token["access_token"])
   token_pair.update(:refresh_token => token["refresh_token"],
                     :id_token => token["id_token"],
                     :token_type => token["token_type"],

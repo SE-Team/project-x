@@ -15,39 +15,10 @@
 					%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
 		.row
 			.span4.offset4
-				%h4= "Or login with Gmail, AOL, or Yahoo"
+				%h4= "Or login with"
 		.row
-			.span4.offset4.well	
-				:plain
-					<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-					<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
-					<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/googleapis/0.0.4/googleapis.min.js"></script>
-					<script type="text/javascript" src="//ajax.googleapis.com/jsapi"></script>
-					<script type="text/javascript">
-					  google.load("identitytoolkit", "1", {packages: ["ac"], language:"en"});
-					</script>
-					<script type="text/javascript">
-					  $(function() {
-					    window.google.identitytoolkit.setConfig({
-					        developerKey: "AIzaSyAFRs3G31TorxeTZdYaW_sBnw1l5TLEDdU",
-					        companyName: "chico-state-se-team",
-					        callbackUrl: "https://intense-hamlet-3672.herokuapp.com/oauth2callback",
-					        realm: "",
-					        userStatusUrl: "/user/dashboard",
-					        loginUrl: "/login",
-					        signupUrl: "/register",
-					        homeUrl: "http://intense-hamlet-3672.herokuapp.com/",
-					        logoutUrl: "/logout",
-					        idps: ["Gmail", "Yahoo", "AOL"],
-					        tryFederatedFirst: true,
-					        useCachedUserStatus: false,
-					        useContextParam: true
-					    });
-					    $("#navbar").accountChooser();
-					  });
-					</script>
-					<!-- Insert the navbar element somewhere in the HTML page -->
-					<div id="navbar"></div>
+			.span4.offset4.well
+				%a.btn.btn-primary{href: "#{to('/oauth2authorize')}"}=  "Gmail"
 
-
+				
 

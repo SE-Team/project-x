@@ -489,6 +489,7 @@ def api_client code=""
       client.authorization.code = code
       client
     end)
+  return @client
 end
 
 get '/oauth2authorize' do

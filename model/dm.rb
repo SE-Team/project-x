@@ -21,6 +21,7 @@ require './model/apikey'
 
 require './model/data_generator'
 
+# DataMapper::Logger.new(STDOUT, :debug)
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/db/base.db")
 

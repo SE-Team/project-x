@@ -3,11 +3,13 @@ require 'dm-core'
 class TokenPair
   include DataMapper::Resource
 
-  property :id, Serial
-  property :refresh_token, String
-  property :access_token, String
-  property :expires_in, Integer
-  property :issued_at, Integer
+  property :id,             Serial, key: true
+  property :token_type,     String
+  property :refresh_token,  Text
+  property :access_token,   Text
+  property :id_token,       Text
+  property :expires_in,     Integer
+  property :issued_at,      Integer
 
   def update_token!(object)
     self.refresh_token = object.refresh_token
@@ -21,6 +23,7 @@ class TokenPair
       :refresh_token => refresh_token,
       :access_token => access_token,
       :expires_in => expires_in,
+      :id_token => id_token,
       :issued_at => Time.at(issued_at)
     }
   end

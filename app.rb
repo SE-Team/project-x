@@ -6,8 +6,11 @@ require 'dm-serializer'
 require 'sinatra'
 require 'haml'
 require 'json'
+require 'pp'
 
 require 'google/api_client'
+
+DataMapper::Logger.new(STDOUT, :debug)
 
 configure do
   enable :sessions
@@ -70,6 +73,12 @@ end
 
 get '/' do
   @user = User.first(user_name: session[:user])
+  if session[:token_id]
+    if token_pair = TokenPair.first(id: session[:token_id].to_i) 
+      pp token_pair
+      # @client.authorization.update_token!(token_pair.to_hash)
+    end
+  end
   unless @user == nil
     @user_name = session[:user]
   end
@@ -474,16 +483,16 @@ before do
   @client.authorization.client_id = '4225099662.apps.googleusercontent.com'
   @client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
   @client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-  @client.authorization.redirect_uri = to('/oauth2callback')
+  @client.authorization.redirect_uri = to("http://localhost:9393/oauth2callback")
   @client.authorization.code = params[:code] if params[:code]
-  if session[:token_id]
-    # Load the access token here if it's available
-    token_pair = TokenPair.get(session[:token_id])
-    @client.authorization.update_token!(token_pair.to_hash)
-  end
-  if @client.authorization.refresh_token && @client.authorization.expired?
-    @client.authorization.fetch_access_token!
-  end
+  # if session[:token_id]
+  #   # Load the access token here if it's available
+  #   token_pair = TokenPair.get(session[:token_id])
+  #   @client.authorization.update_token!(token_pair.to_hash)
+  # end
+  # if @client.authorization.refresh_token && @client.authorization.expired?
+  #   @client.authorization.fetch_access_token!
+  # end
   # @buzz = @client.discovered_api('indentity')
   # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
   #   redirect to('/oauth2authorize')
@@ -495,16 +504,38 @@ get '/oauth2authorize' do
 end
 
 get '/oauth2callback' do
-  @client.authorization.fetch_access_token!
+  puts
+  puts "oauth2callback"
+  token = @client.authorization.fetch_access_token!
   # Persist the token here
-  token_pair = if session[:token_id]
-    TokenPair.get(session[:token_id])
+  token_pair = nil
+  if session[:token_id] && token_pair = TokenPair.first(id: session[:token_id].to_i) 
   else
-    TokenPair.new
+    token_pair = TokenPair.create(access_token: token["access_token"])
   end
-  token_pair.update_token!(@client.authorization)
-  token_pair.save()
-  session[:token_id] = token_pair.id
-  redirect to('/')
-end
+  token_pair.update(:refresh_token => token["refresh_token"],
+                    :id_token => token["id_token"],
+                    :token_type => token["token_type"],
+                    :expires_in => token["expires_in"])
 
+  token_pair.save
+
+  if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
+    r_hash = JSON.parse(response)
+    email = r_hash["email"]
+    user = User.first(user_name: email)
+    if user
+      puts user.user_name
+      session[:token_id] = token_pair.id
+      session[:user] = user.user_name
+      redirect to("/user/#{user.user_name}/dashboard")
+    else
+      user = User.create(user_name: email)
+      session[:token_id] = token_pair.id
+      session[:user] = user.user_name
+      redirect to("/user/#{user.user_name}/dashboard")
+    end
+  end
+  # session[:token_id] = nil
+  # redirect to('/')
+end

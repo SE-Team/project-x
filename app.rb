@@ -506,15 +506,15 @@ end
 get '/oauth2callback' do
   puts
   puts "oauth2callback"
-  token = @client.authorization.fetch_access_token!
-  # Persist the token here
-  token_pair = TokenPair.create(access_token: token["access_token"])
-  token_pair.update(:refresh_token => token["refresh_token"],
-                    :id_token => token["id_token"],
-                    :token_type => token["token_type"],
-                    :expires_in => token["expires_in"])
+  # token = @client.authorization.fetch_access_token!
+  # # Persist the token here
+  # token_pair = TokenPair.create(access_token: token["access_token"])
+  # token_pair.update(:refresh_token => token["refresh_token"],
+  #                   :id_token => token["id_token"],
+  #                   :token_type => token["token_type"],
+  #                   :expires_in => token["expires_in"])
 
-  token_pair.save
+  # token_pair.save
 
   # if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
   #   r_hash = JSON.parse(response)
@@ -532,7 +532,7 @@ get '/oauth2callback' do
   #     redirect to("/user/#{user.user_name}/dashboard")
   #   end
   # end
-  token_pair.to_s
+  params
   # session[:token_id] = nil
   # redirect to('/')
 end

@@ -490,10 +490,10 @@ def api_client code=""
       if session[:token_id]
         # Load the access token here if it's available
         token_pair = TokenPair.get(session[:token_id])
-        @client.authorization.update_token!(token_pair.to_hash)
+        client.authorization.update_token!(token_pair.to_hash)
       end
-      if @client.authorization.refresh_token && @client.authorization.expired?
-        @client.authorization.fetch_access_token!
+      if client.authorization.refresh_token && client.authorization.expired?
+        client.authorization.fetch_access_token!
       end
       client
   end)

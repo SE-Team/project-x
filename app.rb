@@ -480,8 +480,8 @@ end
 
 before do
   @client = Google::APIClient.new
-  @client.authorization.client_id = '4225099662.apps.googleusercontent.com'
-  @client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
+  @client.authorization.client_id = '4225099662-9lf90nl1q64abnqg4ar0v4vmqll3avgn.apps.googleusercontent.com'
+  @client.authorization.client_secret = 'GRzkp2SkeHmtGsQ4Grtttt15'
   @client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
   @client.authorization.redirect_uri = to("/oauth2callback")
   @client.authorization.code = params[:code] if params[:code]

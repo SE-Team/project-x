@@ -91,7 +91,7 @@ get '/user/:user_name/dashboard' do
     @categories = @user.account_setting.categories.split('&')
     @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
     @sidebar = user_sidebar(@user)
-    return haml :with_sidebar
+    return haml :with_sidebar, layout: :'layout/user'
   else
     redirect '/'
   end
@@ -225,15 +225,6 @@ post'/user/:username/create-event' do
   end
 end
 
-# get '/user/dashboard' do
-#   if session[:user] == nil
-#     @user_name = session[:user].user_name
-#     haml :'user/dashboard'
-#   else
-#     haml :no_user_dash
-#   end
-# end
-
 get '/user' do
   redirect '/user/' + session[:user]
 end
@@ -261,9 +252,6 @@ get '/login' do
   @map = {action: "/login",
           title: "Login"}
   haml :login
-  # unless @client.authorization.access_token || request.path_info =~ /^\/oauth2/
-  #   redirect to('/oauth2authorize')
-  # end
 end
 
 post '/login' do
@@ -308,11 +296,8 @@ post '/register' do
     redirect '/login'
   else
     tmp = []
-    # u.errors.each do |e|
-    #   tmp << (e.join("<br/>"))
-    # end
     flash(tmp)
-    # redirect '/'
+    redirect '/'
     "didn't work"
   end
 end
@@ -460,8 +445,6 @@ def safe_to_like_message(u, id)
   return false
 end
 
-
-
 # get '/twitter-search/:args' do
 #   search = TwitterSearch.search({q: params[:args], count: 1000})
 #   results = search["results"]
@@ -535,8 +518,7 @@ get '/oauth2callback' do
       redirect to("/user/#{user.user_name}/dashboard")
     end
   end
-  params
-  # session[:token_id] = nil
-  # redirect to('/')
+  session[:token_id] = nil
+  redirect to('/')
 end
 

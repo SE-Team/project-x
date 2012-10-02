@@ -1,4 +1,4 @@
-require 'dm-core'
+require 'data_mapper'
 
 class Categorization
 	include DataMapper::Resource

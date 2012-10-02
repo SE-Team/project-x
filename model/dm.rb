@@ -1,5 +1,5 @@
 ## data-mapper dependency requires
-require 'dm-core'
+require 'data_mapper'
 require 'dm-migrations'
 
 ## load project db models

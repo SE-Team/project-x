@@ -1,4 +1,4 @@
-require 'dm-core'
+require 'data_mapper'
 
 def random_string(len)
 	chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a

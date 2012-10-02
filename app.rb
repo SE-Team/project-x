@@ -61,6 +61,7 @@ def user_sidebar_items(user)
    {href: "/user/#{user.user_name}/dashboard", icon: "icon-th", title: "Events", badge: {value: "#{user.events.all(permission: "public").count}"}},
    {href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
    {href: "/search/", icon: "icon-search", title: "Search"},
+   {href: "/user/#{user.user_name}/picasa/", icon: "icon-search", title: "Picasa"},
    :divider,
    {href: "/user/#{user.user_name}/account", icon:  "icon-pencil", title: "Settings"},
    {href: "/logout", icon: "icon-off", title: "Logout"}]
@@ -522,5 +523,10 @@ get '/oauth2callback' do
   end
   session[:token_id] = nil
   redirect to('/')
+end
+
+get '/user/:user_name/picasa/' do
+  @user = User.first(user_name: session[:user])
+  
 end
 

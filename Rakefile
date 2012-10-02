@@ -1,4 +1,7 @@
 require 'dm-core'
+require 'yaml'
+
+def 
 
 task :clean do
 	File::delete("db/base.db")
@@ -21,4 +24,13 @@ task :explode do
 	Rake::Task[:clean]
 	Rake::Task[:init_db]
 	Rake::Task[:init_dummy_data]
+end
+
+task :deploy_local do
+	ENV['DEV_MODE'] = true
+
+end
+
+task :deploy_to_heroku do
+	ENV['DEV_MODE'] = false
 end

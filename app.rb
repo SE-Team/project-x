@@ -7,6 +7,7 @@ require 'sinatra'
 require 'haml'
 require 'json'
 require 'pp'
+require 'yaml'
 
 require 'google/api_client'
 
@@ -461,13 +462,15 @@ end
 #   haml :partial_wrapper
 # end
 
+
 def api_client code=""
   @client ||= (begin
+      config_info = api_config
       client = Google::APIClient.new
-      client.authorization.client_id = '4225099662.apps.googleusercontent.com'
-      client.authorization.client_secret = 'NlEMrLKkOkaPo1Y8UrwDeE5q'
-      client.authorization.scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
-      client.authorization.redirect_uri = to('/oauth2callback')
+      client.authorization.client_id = get_in(config_info, ["google_api", "production", "client_id"])
+      client.authorization.client_secret = get_in(config_info, ["google_api", "production", "client_secret"])
+      client.authorization.scope = get_in(config_info, ["google_api", "production", "scope"]).join(' ')
+      client.authorization.redirect_uri = get_in(config_info, ["google_api", "production", "registered_redirect_uri"])
       client.authorization.code = code
       
       # temporary
@@ -499,7 +502,6 @@ get '/oauth2callback' do
                     :id_token => token["id_token"],
                     :token_type => token["token_type"],
                     :expires_in => token["expires_in"])
-
   token_pair.save
 
   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read

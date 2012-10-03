@@ -5,12 +5,12 @@
 			- unless event.img_url.nil?
 				%img{src: event.img_url}
 		.row
-			%p.pull-left
+			%p
 				Category: 
 				%strong
 					#{event.category.name}
-			%br
-			%p= event.body
+			%p= event.event_date
+			%p.well= event.body
 			.section
 				%hr
 				%h4= "comments"

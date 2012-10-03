@@ -7,8 +7,7 @@ gem "sinatra", '1.3.3'
 gem "haml"
 gem 'thin'
 gem 'shotgun'
-# gem 'google-api-client' , '~> 0.4.5', :require => 'google/api_client'
-gem 'ghost_google-api-client'
+gem 'google-api-client' , '0.4.5', :require => 'google/api_client'
 gem 'picasa'
 
 group :development do

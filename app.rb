@@ -497,46 +497,47 @@ end
 get '/oauth2callback' do
   code = params[:code]
   client = api_client code
-  token = client.authorization.fetch_access_token!
+  # token = client.authorization.fetch_access_token!
+  # # Persist the token here
+  # token_pair = TokenPair.create(:access_token => token["access_token"],
+  #                               :refresh_token => token["refresh_token"],
+  #                               :id_token => token["id_token"],
+  #                               :token_type => token["token_type"],
+  #                               :expires_in => token["expires_in"])
+  # token_pair.save
+
+  client.authorization.fetch_access_token!
   # Persist the token here
-  token_pair = TokenPair.create(:access_token => token["access_token"],
-                                :refresh_token => token["refresh_token"],
-                                :id_token => token["id_token"],
-                                :token_type => token["token_type"],
-                                :expires_in => token["expires_in"])
+  token_pair = if session[:token_id]
+    TokenPair.get(session[:token_id])
+  else
+    TokenPair.new
+  end
+  token_pair.update_token!(@client.authorization)
   token_pair.save
+  session[:token_id] = token_pair.id
 
   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
     r_hash = JSON.parse(response)
     email = r_hash["email"]
     user = User.first(user_name: email)
     if user
-      session[:token_id] = token_pair.id
+      # session[:token_id] = token_pair.id
       session[:user] = user.user_name
       redirect to("/user/#{user.user_name}/dashboard")
     else
       user = User.create(user_name: email, email: email, token_pair: token_pair)
-      session[:token_id] = token_pair.id
+      # session[:token_pair_id] = token_pair.id
       session[:user] = user.user_name
       redirect to("/user/#{user.user_name}/dashboard")
     end
   end
-  session[:token_id] = nil
+  # session[:token_id] = nil
   redirect to('/')
 end
 
 get '/user/:user_name/picasa/' do
   @user = User.first(user_name: session[:user])
-  client = Picasa::Client.new(user_id: @user.email.split('@')[0],:authorization_header => api_client.authorization.authorization_uri.to_s)
-  # puts client.album.list.entries.join ' '
-  ac = api_client
-  puts ac.http_method
-   # client = Picasa::Client.new(:user_id => "jonrose08", :password => "Custom22*")
-  # # create new album.
-  # client.album.create(
-  #   :title => "New Album",
-  #   :summary => "This is a new album.",
-  #   :access => "protected"
-  # )
+  client = api_client
 end
 

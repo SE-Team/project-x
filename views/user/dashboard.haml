@@ -1,9 +1,9 @@
 %section#content
 	%section#options
-		.btn-group#filters.option-set{"data-option-key".to_sym => "filter"}
-			%a.btn{href: "#filter", "data-option-value".to_sym => "*"} all
+		#filters.option-set{"data-option-key".to_sym => "filter"}
+			%a.little_mt.btn{href: "#filter", "data-option-value".to_sym => "*"} all
 			- categories.each do |cat|
-				%a.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
+				%a.little_mt.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
 
 	%br
 	%br

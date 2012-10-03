@@ -12,8 +12,8 @@
 			.row
 				%p.comment-count= "#{map[:tumbler].comments.count}"
 			.row-fluid.window-pane-buttons
-				%span.btn.btn-small.open-event-btn{href: ""}
-					%a{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
+				%span.open-event-btn{href: ""}
+					%a.btn.btn-small{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
 						%i.icon-picture	
 			/ 	%span.btn.btn-small.flag-event-btn{href: ""}
 			/ 		%i.icon-flag

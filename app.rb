@@ -1,3 +1,4 @@
+require 'open-uri'
 require './model/dm'
 require './helpers/helpers'
 require './helpers/sinatra'
@@ -5,22 +6,19 @@ require 'dm-serializer'
 require 'sinatra'
 require 'haml'
 require 'json'
+require 'pp'
+require 'yaml'
+# require 'picasa'
 
-require 'omniauth'
-# require 'openid/store/filesystem'
+# require 'google/api_client'
+
+DataMapper::Logger.new(STDOUT, :debug)
 
 configure do
   enable :sessions
 end
 
 include Helpers
-
-  # use Rack::Session::Cookie
-  # use OmniAuth::Builder do
-  #   provider :open_id, OpenID::Store::Filesystem.new('/tmp')
-  #   provider :twitter, 'consumerkey', 'consumersecret'
-  # end
-
 
 def time_info
   {title: "Time",
@@ -53,7 +51,7 @@ def event_form
 end
 
 def user_sidebar_items(user)
-  [{href: "/user/#{user.user_name}/dashboard", icon: "icon-home", title: "Dashboard"},
+  [{href: "/user/#{user.user_name}/dashboard", icon: "icon-home", title: "Stream"},
    {href: "/user/#{user.user_name}/messages", icon: "icon-envelope", title: "Messages", badge: {value: "#{user.r_messages.all(new_message: true).count}"}},
    {href: "/user/#{user.user_name}/dashboard", icon: "icon-comment", title: "Comments", badge: {value: rand(10)}},
    :divider,
@@ -64,6 +62,7 @@ def user_sidebar_items(user)
    {href: "/user/#{user.user_name}/dashboard", icon: "icon-th", title: "Events", badge: {value: "#{user.events.all(permission: "public").count}"}},
    {href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
    {href: "/search/", icon: "icon-search", title: "Search"},
+   {href: "/user/#{user.user_name}/picasa/", icon: "icon-picture", title: "Picasa"},
    :divider,
    {href: "/user/#{user.user_name}/account", icon:  "icon-pencil", title: "Settings"},
    {href: "/logout", icon: "icon-off", title: "Logout"}]
@@ -77,6 +76,12 @@ end
 
 get '/' do
   @user = User.first(user_name: session[:user])
+  if session[:token_id]
+    if token_pair = TokenPair.first(id: session[:token_id].to_i) 
+      pp token_pair
+      # @client.authorization.update_token!(token_pair.to_hash)
+    end
+  end
   unless @user == nil
     @user_name = session[:user]
   end
@@ -89,7 +94,7 @@ get '/user/:user_name/dashboard' do
     @categories = @user.account_setting.categories.split('&')
     @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
     @sidebar = user_sidebar(@user)
-    return haml :with_sidebar
+    return haml :with_sidebar, layout: :'layout/user'
   else
     redirect '/'
   end
@@ -175,7 +180,7 @@ get '/user/:username/smessage/:msg_id' do
 end
 
 post '/user/:user_name/message/:msg_id' do
-  @user = session[:user]
+  @user = User.first(user_name: session[:user])
   target = User.first(user_name: params[:target_user])
   message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
   if message.save
@@ -222,15 +227,6 @@ post'/user/:username/create-event' do
     redirect '/user/:username/create-event'
   end
 end
-
-# get '/user/dashboard' do
-#   if session[:user] == nil
-#     @user_name = session[:user].user_name
-#     haml :'user/dashboard'
-#   else
-#     haml :no_user_dash
-#   end
-# end
 
 get '/user' do
   redirect '/user/' + session[:user]
@@ -303,11 +299,8 @@ post '/register' do
     redirect '/login'
   else
     tmp = []
-    # u.errors.each do |e|
-    #   tmp << (e.join("<br/>"))
-    # end
     flash(tmp)
-    # redirect '/'
+    redirect '/'
     "didn't work"
   end
 end
@@ -439,6 +432,10 @@ def render_pane(pane_map)
   partial(:'looking_glass/tile', {map: pane_map})
 end
 
+# def render_twitter_pane(pane_map)
+#   partial(:'looking_glass/twitter_tile', {map: pane_map})
+# end
+
 def safe_to_like_message(u, id)
   user = User.first(user_name: u)
   messages = RMessage.all(user: user, id: id)
@@ -450,3 +447,98 @@ def safe_to_like_message(u, id)
   end
   return false
 end
+
+# get '/twitter-search/:args' do
+#   search = TwitterSearch.search({q: params[:args], count: 1000})
+#   results = search["results"]
+#   @events = results.map do |tweet|
+#     {title: tweet["text"],
+#      img_url: tweet["profile_image_url"],
+#      event_time: tweet["created_at"],
+#      category: "twitter",
+#      classes: "twitter",
+#      id: tweet["id"]}
+#   end
+#   @categories = ["twitter"]
+#   @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
+#   haml :partial_wrapper
+# end
+
+
+# def api_client code=""
+#   @client ||= (begin
+#       config_info = api_config
+#       client = Google::APIClient.new
+#       client.authorization.client_id = get_in(config_info, ["google_api", "dev", "client_id"])
+#       client.authorization.client_secret = get_in(config_info, ["google_api", "dev", "client_secret"])
+#       client.authorization.scope = get_in(config_info, ["google_api", "dev", "scope"]).join(' ')
+#       client.authorization.redirect_uri = get_in(config_info, ["google_api", "dev", "registered_redirect_uri"])
+#       client.authorization.code = code
+      
+#       # temporary
+#       session[:token_id] = nil
+
+#       if session[:token_id]
+#         # Load the access token here if it's available
+#         token_pair = TokenPair.get(session[:token_id])
+#         client.authorization.update_token!(token_pair.to_hash)
+#       end
+#       if client.authorization.refresh_token && client.authorization.expired?
+#         puts client.authorization.fetch_access_token!
+#       end
+#       client
+#   end)
+# end
+
+# get '/oauth2authorize' do
+#   redirect api_client.authorization.authorization_uri.to_s, 303
+# end
+
+# get '/oauth2callback' do
+#   code = params[:code]
+#   client = api_client code
+#   # token = client.authorization.fetch_access_token!
+#   # # Persist the token here
+#   # token_pair = TokenPair.create(:access_token => token["access_token"],
+#   #                               :refresh_token => token["refresh_token"],
+#   #                               :id_token => token["id_token"],
+#   #                               :token_type => token["token_type"],
+#   #                               :expires_in => token["expires_in"])
+#   # token_pair.save
+
+#   client.authorization.fetch_access_token!
+#   # Persist the token here
+#   token_pair = if session[:token_id]
+#     TokenPair.get(session[:token_id])
+#   else
+#     TokenPair.new
+#   end
+#   token_pair.update_token!(@client.authorization)
+#   token_pair.save
+#   session[:token_id] = token_pair.id
+
+#   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
+#     r_hash = JSON.parse(response)
+#     email = r_hash["email"]
+#     user = User.first(user_name: email)
+#     if user
+#       # session[:token_id] = token_pair.id
+#       session[:user] = user.user_name
+#       redirect to("/user/#{user.user_name}/dashboard")
+#     else
+#       user = User.create(user_name: email, email: email, token_pair: token_pair)
+#       # session[:token_pair_id] = token_pair.id
+#       session[:user] = user.user_name
+#       redirect to("/user/#{user.user_name}/dashboard")
+#     end
+#   end
+#   # session[:token_id] = nil
+#   redirect to('/')
+# end
+
+# get '/user/:user_name/picasa/' do
+#   @user = User.first(user_name: session[:user])
+#   client = api_client
+  
+# end
+

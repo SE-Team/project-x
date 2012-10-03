@@ -318,6 +318,7 @@
   display: none;
 }
 
+<<<<<<< HEAD
 
 .little_mt {
    margin-top: 5px;
@@ -325,3 +326,23 @@
 .mid_mt {
    margin-top: 15px;
 }
+=======
+.twitter-photo {
+  width: 50px;
+  height: 50px;
+}
+
+.twitter-photo .large{
+  width: 50px;
+  height: 50px;
+}
+
+.footer {
+  padding: 10px;
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:<length>;
+}
+>>>>>>> master

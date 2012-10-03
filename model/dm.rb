@@ -13,6 +13,7 @@ require './model/category'
 require './model/categorization'
 require './model/admin'
 require './model/time'
+require './model/oauth/token_pair'
 require './model/user/account_setting'
 require './model/tumbler'
 require './model/meta_data'
@@ -20,6 +21,7 @@ require './model/apikey'
 
 require './model/data_generator'
 
+# DataMapper::Logger.new(STDOUT, :debug)
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/db/base.db")
 
@@ -30,6 +32,8 @@ class User
 
   has n, :s_messages
   has n, :r_messages
+
+  has 1, :token_pair
 
   # If we want to know all the people that John follows, we need to look
   # at every 'Link' where John is a :follower. Knowing these, we know all
@@ -110,6 +114,14 @@ class User
     account_setting = AccountSetting.create(user: self)
     account_setting.save
   end
+end
+
+class TokenPair
+  belongs_to :user
+end
+
+class Profile
+  belongs_to :user
 end
 
 class Friendship

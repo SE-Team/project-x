@@ -1,6 +1,5 @@
 .DS_Store
 .gitignore
-Gemfile.lock
 *.db
 local/*
 local

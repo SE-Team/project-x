@@ -8,6 +8,7 @@ require 'haml'
 require 'json'
 require 'pp'
 require 'yaml'
+require 'picasa'
 
 require 'google/api_client'
 
@@ -61,7 +62,7 @@ def user_sidebar_items(user)
    {href: "/user/#{user.user_name}/dashboard", icon: "icon-th", title: "Events", badge: {value: "#{user.events.all(permission: "public").count}"}},
    {href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
    {href: "/search/", icon: "icon-search", title: "Search"},
-   {href: "/user/#{user.user_name}/picasa/", icon: "icon-search", title: "Picasa"},
+   {href: "/user/#{user.user_name}/picasa/", icon: "icon-picture", title: "Picasa"},
    :divider,
    {href: "/user/#{user.user_name}/account", icon:  "icon-pencil", title: "Settings"},
    {href: "/logout", icon: "icon-off", title: "Logout"}]
@@ -468,10 +469,10 @@ def api_client code=""
   @client ||= (begin
       config_info = api_config
       client = Google::APIClient.new
-      client.authorization.client_id = get_in(config_info, ["google_api", "production", "client_id"])
-      client.authorization.client_secret = get_in(config_info, ["google_api", "production", "client_secret"])
-      client.authorization.scope = get_in(config_info, ["google_api", "production", "scope"]).join(' ')
-      client.authorization.redirect_uri = get_in(config_info, ["google_api", "production", "registered_redirect_uri"])
+      client.authorization.client_id = get_in(config_info, ["google_api", "dev", "client_id"])
+      client.authorization.client_secret = get_in(config_info, ["google_api", "dev", "client_secret"])
+      client.authorization.scope = get_in(config_info, ["google_api", "dev", "scope"]).join(' ')
+      client.authorization.redirect_uri = get_in(config_info, ["google_api", "dev", "registered_redirect_uri"])
       client.authorization.code = code
       
       # temporary
@@ -498,11 +499,11 @@ get '/oauth2callback' do
   client = api_client code
   token = client.authorization.fetch_access_token!
   # Persist the token here
-  token_pair = TokenPair.create(access_token: token["access_token"])
-  token_pair.update(:refresh_token => token["refresh_token"],
-                    :id_token => token["id_token"],
-                    :token_type => token["token_type"],
-                    :expires_in => token["expires_in"])
+  token_pair = TokenPair.create(:access_token => token["access_token"],
+                                :refresh_token => token["refresh_token"],
+                                :id_token => token["id_token"],
+                                :token_type => token["token_type"],
+                                :expires_in => token["expires_in"])
   token_pair.save
 
   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
@@ -510,12 +511,11 @@ get '/oauth2callback' do
     email = r_hash["email"]
     user = User.first(user_name: email)
     if user
-      puts user.user_name
       session[:token_id] = token_pair.id
       session[:user] = user.user_name
       redirect to("/user/#{user.user_name}/dashboard")
     else
-      user = User.create(user_name: email)
+      user = User.create(user_name: email, email: email, token_pair: token_pair)
       session[:token_id] = token_pair.id
       session[:user] = user.user_name
       redirect to("/user/#{user.user_name}/dashboard")
@@ -527,6 +527,16 @@ end
 
 get '/user/:user_name/picasa/' do
   @user = User.first(user_name: session[:user])
-  
+  client = Picasa::Client.new(user_id: @user.email.split('@')[0],:authorization_header => api_client.authorization.authorization_uri.to_s)
+  # puts client.album.list.entries.join ' '
+  ac = api_client
+  puts ac.http_method
+   # client = Picasa::Client.new(:user_id => "jonrose08", :password => "Custom22*")
+  # # create new album.
+  # client.album.create(
+  #   :title => "New Album",
+  #   :summary => "This is a new album.",
+  #   :access => "protected"
+  # )
 end
 

@@ -1,5 +1,5 @@
 ## data-mapper dependency requires
-require 'data_mapper'
+require 'dm-core'
 require 'dm-migrations'
 
 ## load project db models
@@ -32,6 +32,8 @@ class User
 
   has n, :s_messages
   has n, :r_messages
+
+  has 1, :token_pair
 
   # If we want to know all the people that John follows, we need to look
   # at every 'Link' where John is a :follower. Knowing these, we know all
@@ -112,6 +114,10 @@ class User
     account_setting = AccountSetting.create(user: self)
     account_setting.save
   end
+end
+
+class TokenPair
+  belongs_to :user
 end
 
 class Profile

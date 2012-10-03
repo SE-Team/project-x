@@ -1,4 +1,4 @@
-require 'data_mapper'
+require 'dm-core'
 
 class Location
 	include DataMapper::Resource

@@ -1,17 +1,15 @@
 source :rubygems
 
-gem 'data_mapper'
-gem 'autoparse'
-gem 'addressable'
+gem 'dm-core'
 gem 'dm-migrations'
 gem 'dm-serializer'
 gem "sinatra", '1.3.3'
 gem "haml"
 gem 'thin'
 gem 'shotgun'
-gem 'google-api-client' , '~> 0.4.3', :require => 'google/api_client'
-
-# gem 'picasa'
+# gem 'google-api-client' , '~> 0.4.5', :require => 'google/api_client'
+gem 'ghost_google-api-client'
+gem 'picasa'
 
 group :development do
   gem 'dm-sqlite-adapter'

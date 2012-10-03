@@ -341,12 +341,12 @@ class DataGenerator
 		puts "."
 	end
 
-	def rand_events
+	def rand_events(max_events=25)
 		puts "Generate random events"
 		descriptions = rand_descriptions
 		User.all.each do |user|
 			print "."
-			(1..(10 + rand(25))).each do |i|
+			(1..(10 + rand(max_events))).each do |i|
 				categories = ["work",
 							  "entertainment",
 							  "personal",

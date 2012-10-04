@@ -1,33 +1,19 @@
-.container.span9.offset1
-	.row
-		%small= msg.created_at
-		%h2= msg.subject
-		%h4= msg.source
-		%hr
-		%p= msg.body
-	.reply-message
+.container
+	.span9
 		.row
-			%hr
-			%form#replyForm{action: "/user/#{@user.user_name}/message/#{msg.id}", method: "post"}
-				.row
-					%small
-						To
-				.row
-					%input{type: :text, style: "width: 480px;", value: msg.source, name: "target_user"}
-				.row
-					%small
-						Subject
-				.row
-					%input{type: :text, style: "width: 480px;", value: "Re: #{msg.subject}", name: "message_subject"}
-				.row
-					%textarea{rows: 7, style: "width: 480px;", name: "message_body"}
-				.row
-					%input.btn.reply-message{ :name => "send_message", :type => "submit", :value => "send"}
-	.row
-		.btn-group
-			%a#add-reply.btn.btn-small
-				%i.icon-pencil
-				reply
+			%small= msg.created_at
+			%h2= msg.subject
+			%h4= msg.source
+		%hr
+		.row
+			%p= msg.body
+		.row.reply-message
+			#{partial :'message/create_message', {user: @user, subject: "#{msg.subject}", source: "#{msg.source}", msg_id: "#{msg.id}"}}
+		.row
+			.btn-group
+				%a#add-reply.btn.btn-small
+					%i.icon-pencil
+					reply
 
 
 :javascript

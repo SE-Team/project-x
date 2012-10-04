@@ -1,26 +1,31 @@
-.container.span12
-	.marketing
-		%h1= event.title
-		.row-fluid
-			- unless event.img_url.nil?
-				%img{src: event.img_url}
+.container
+	.span9
 		.row
-			%p
-				Category: 
-				%strong
-					#{event.category.name}
-			%p= event.event_date
-			%p.well= event.body
-			.section
+			.marketing
+				.row
+					%h1= event.title
+				.row
+					- unless event.img_url.nil?
+						%img{src: event.img_url}
+				.row
+					%p
+						Category: 
+						%strong
+							#{event.category.name}
+				.row	
+					%p= event.event_date.strftime("%m/%d/%Y")
+				.row	
+					%p= event.body
+		.row
+			%h4= "comments"
+			%hr
+		-event.metadata.tumbler.comments.each_with_index do |comment, n|
+			.row
+				%small.pull-left= comment.created_at
+				%br
+				%br
+				%p= comment.body
+				%small
+					%p.pull-right= comment.posted_by
+				%br
 				%hr
-				%h4= "comments"
-				%article
-				-event.metadata.tumbler.comments.each_with_index do |comment, n|
-					.section.well
-						%small.pull-left= comment.created_at
-						%br
-						%br
-						%p= comment.body
-						%br
-						%p.pull-right= comment.posted_by
-						%br

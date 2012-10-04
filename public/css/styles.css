@@ -291,14 +291,6 @@
   position: relative;
 }
 
-.element.large .window-pane-buttons .trash-event-btn{
-  left: 3.25em;
-}
-
-.element.large .window-pane-buttons .flag-event-btn{
-  left: 6.5em;
-}
-
 .element .comment-count {
   display: none;
 }
@@ -318,15 +310,13 @@
   display: none;
 }
 
-<<<<<<< HEAD
-
 .little_mt {
    margin-top: 5px;
 }
 .mid_mt {
    margin-top: 15px;
 }
-=======
+
 .twitter-photo {
   width: 50px;
   height: 50px;
@@ -339,10 +329,10 @@
 
 .footer {
   padding: 10px;
+  margin-top: 400px
   position:absolute;
   bottom:0;
   left:0;
   width:100%;
   height:<length>;
 }
->>>>>>> master

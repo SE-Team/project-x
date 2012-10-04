@@ -1,0 +1,17 @@
+.span9
+	%hr
+	%form#replyForm{action: "/user/#{user.user_name}/message/#{msg_id}", method: "post"}
+		.row
+			%small
+				To
+		.row
+			%input{type: :text, style: "width: 580px;", value: "#{source}", name: "target_user"}
+		.row
+			%small
+				Subject
+		.row
+			%input{type: :text, style: "width: 580px;", value: "Re: #{subject}", name: "message_subject"}
+		.row
+			%textarea{rows: 7, style: "width: 580px;", name: "message_body"}
+		.row
+			%input.btn.reply-message{ :name => "send_message", :type => "submit", :value => "send"}

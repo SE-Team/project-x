@@ -132,7 +132,7 @@ get '/user/:username/event/:event_id' do
 end
 
 post '/user/:username/event/:event_id/comment' do
-  event = Event.first(params[:event_id])
+  event = Event.first(id: params["event_id"])
   ## if a user is logged in comment with their name, otherwise call them guest
   if event
     email = nil
@@ -142,17 +142,17 @@ post '/user/:username/event/:event_id/comment' do
       user = User.first(user_name: session[:user])
       posted_by = user.user_name
       email = user.email
-      body = params[:body]
+      body = params["body"]
     else
       posted_by = "guest"
-      email = params[:email]
-      body = params[:body]
+      email = params["email"]
+      body = params["body"]
     end
-    comment = Comment.create(tumbler: event.metadata.tumbler, email: email, posted_by: posted_by, body: body)
-    puts comment.save
-    puts comment.id
+    tumbler = event.tumbler
+    comment = Comment.create(tumbler: event.tumbler, email: email, posted_by: posted_by, body: body, tumbler_id: tumbler.id, tumbler_event_id: event.id)
+    event.tumbler.comments << comment
   end
-    redirect "/user/#{params[:username]}/event/#{params[:event_id]}"
+    redirect "/user/#{params["username"]}/event/#{params["event_id"]}"
 end
 
 get '/user/:username/account' do

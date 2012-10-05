@@ -23,7 +23,7 @@ require './model/data_generator'
 
 # DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/db/base.db")
-
+DataMapper::Model.raise_on_save_failure = true
 # Now we re-open our Event and Categories classes to define associations
 class User
   has n, :events
@@ -160,28 +160,28 @@ end
 
 class Tumbler
   has n, :comments
-  belongs_to :metadata
+  belongs_to :event, key: true
+  # belongs_to :metadata
 end
 
 class Comment
-  belongs_to :tumbler
+  belongs_to :tumbler, key: true
 end
 
-class Metadata
-  has 1, :tumbler
-end
+# class Metadata
+#   has 1, :tumbler
+# end
 
 class Event
   belongs_to :user
   has n, :locations
   has n, :times
-  has 1, :metadata
+  has 1, :tumbler
   has 1, :category
   after :create, :init_meta
 
   def init_meta
-    self.metadata = Metadata.create(event: self)
-    tumbler = Tumbler.create(metadata: self.metadata)
+    self.tumbler = Tumbler.create(event: self)
     if self.category.nil?
         category = Category.create(name: "etc", event: self)
         category.save

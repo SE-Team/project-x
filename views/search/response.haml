@@ -21,7 +21,7 @@
 			- if !events.nil?
 				- events.each_with_index do |event, i|
 					:plain
-						#{render_pane({title: event.title, classes: event.category.name, id: event.id, category: event.category.name, tumbler: event.metadata.tumbler, event_time: event.event_date, img_url: event.img_url, user_name: event.user.user_name})}
+						#{render_pane({title: event.title, classes: event.category.name, id: event.id, category: event.category.name, tumbler: event.tumbler, event_time: event.event_date, img_url: event.img_url, user_name: event.user.user_name})}
 		- if events.count == 0
 			%h4= "Sorry no search results found"
 

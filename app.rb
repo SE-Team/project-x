@@ -1,13 +1,40 @@
+## Util ######################################################
+##############################################################
+require 'pp'
+##############################################################
+
+## Sinatra/Web################################################
+##############################################################
 require 'open-uri'
-require './model/dm'
-require './helpers/helpers'
-require './helpers/sinatra'
-require 'dm-serializer'
 require 'sinatra'
 require 'haml'
 require 'json'
-require 'pp'
 require 'yaml'
+##############################################################
+
+## Helpers ###################################################
+##############################################################
+require './helpers/helpers'
+require './helpers/sinatra'
+##############################################################
+
+## DataMapper ################################################
+##############################################################
+require './model/base'
+require 'dm-serializer'
+
+## Controllers ###############################################
+##############################################################
+require './controller/form'
+require './controller/user/sidebar'
+require './controller/event/tile'
+##############################################################
+
+## Routes ####################################################
+require './routes/user/user'
+require './routes/admin/admin'
+require './routes/api/api'
+##############################################################
 
 ## Google
 # require 'picasa'
@@ -18,85 +45,21 @@ configure do
 end
 
 include Helpers
-
-def time_info
-  {title: "Time",
-   input_fields: [{name: "start-date", type: :date, placeholder: "start-date"},
-                  {name: "start", type: :text, placeholder: "starting (12:00:00)"},
-                  {name: "end-date", type: :date, placeholder: "end-date"},
-                  {name: "end", type: :text, placeholder: "ending (12:00:00)"}]}
-end
-
-def location_info
-  {title: "Location",
-   input_fields: [{name: "city", type: :text, placeholder: "city"},
-                  {name: "country", type: :text, placeholder: "country"},
-                  {name: "country-code", type: :text, placeholder: "country code"}]}
-end
-
-def event_info
-  {title: "Event Info",
-   input_fields: [{name: "title", type: :text, placeholder: "title"},
-                  {name: "body", type: :text, placeholder: "body"}]}
-end
-
-def event_form
-  {title: "Create an Event",
-   elements: [event_info,
-              time_info,
-              location_info],
-   action: "/create-event",
-   method: "post"}
-end
-
-def user_sidebar_items(user)
-  [{href: "/user/#{user.user_name}/dashboard", icon: "icon-home", title: "Stream"},
-   {href: "/user/#{user.user_name}/messages", icon: "icon-envelope", title: "Messages", badge: {value: "#{user.r_messages.all(new_message: true).count}"}},
-   {href: "/user/#{user.user_name}/dashboard", icon: "icon-comment", title: "Comments", badge: {value: rand(10)}},
-   :divider,
-   {href: "/user/#{user.user_name}/friends", icon: "icon-user", title: "Friends"},
-   {href: "/user/#{user.user_name}/following", icon: "icon-tag", title: "Following", badge: {value: "#{user.followed_people.count}"}},
-   {href: "/user/#{user.user_name}/followers", icon: "icon-tags", title: "Followers", badge: {value: "#{user.followers.count}"}},
-   :divider,
-   {href: "/user/#{user.user_name}/dashboard", icon: "icon-th", title: "Events", badge: {value: "#{user.events.all(permission: "public").count}"}},
-   {href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
-   {href: "/search/", icon: "icon-search", title: "Search"},
-   {href: "/user/#{user.user_name}/picasa/", icon: "icon-picture", title: "Picasa"},
-   :divider,
-   {href: "/user/#{user.user_name}/account", icon:  "icon-pencil", title: "Settings"},
-   {href: "/logout", icon: "icon-off", title: "Logout"}]
-end
-
-def user_sidebar(user)
-  @map = {title: user.user_name,
-          items: user_sidebar_items(user)}
-  @sidebar = partial(:'user/sidebar', {map: @map})
-end
+include FormController
+include UserSidebarController
+include TileController
 
 get '/' do
   @user = User.first(user_name: session[:user])
   if session[:token_id]
-    if token_pair = TokenPair.first(id: session[:token_id].to_i) 
-      pp token_pair
+    # if token_pair = TokenPair.first(id: session[:token_id].to_i) 
       # @client.authorization.update_token!(token_pair.to_hash)
-    end
+    # end
   end
   unless @user == nil
     @user_name = session[:user]
   end
   haml :index
-end
-
-get '/user/:user_name/dashboard' do
-  @user = User.first(user_name: session[:user])
-  unless @user.nil?
-    @categories = @user.account_setting.categories.split('&')
-    @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
-    @sidebar = user_sidebar(@user)
-    return haml :with_sidebar, layout: :'layout/user'
-  else
-    redirect '/'
-  end
 end
 
 get '/search/:args' do
@@ -113,153 +76,6 @@ get '/search/:args' do
   @categories = categories
   @content = partial(:'search/response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
   haml :partial_wrapper
-end
-
-get '/user/:username/friends' do
-  @user = User.first(user_name: session[:user])
-  @content = partial(:'user/friends', {user: @user})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-get '/user/:username/event/:event_id' do
-  # @user = session[:user]
-  @user = User.first(user_name: session[:user])
-  @event = Event.first(id: params[:event_id])
-  @content = partial(:'event/event', {user: @user, event: @event})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-post '/user/:username/event/:event_id/comment' do
-  event = Event.first(id: params["event_id"])
-  ## if a user is logged in comment with their name, otherwise call them guest
-  if event
-    email = nil
-    body = nil
-    posted_by = nil
-    if logged_in?
-      user = User.first(user_name: session[:user])
-      posted_by = user.user_name
-      email = user.email
-      body = params["body"]
-    else
-      posted_by = "guest"
-      email = params["email"]
-      body = params["body"]
-    end
-    tumbler = event.tumbler
-    comment = Comment.create(tumbler: event.tumbler, email: email, posted_by: posted_by, body: body, tumbler_id: tumbler.id, tumbler_event_id: event.id)
-    event.tumbler.comments << comment
-  end
-    redirect "/user/#{params["username"]}/event/#{params["event_id"]}"
-end
-
-get '/user/:username/account' do
-  @user = User.first(user_name: session[:user])
-  @content = partial(:'user/account', {user: @user})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-get '/user/:username/profile' do
-  @user = User.first(user_name: session[:user])
-  @content = partial(:'user/profile', {user: @user})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-get '/user/:username/messages' do
-  # authenticate the user by name and session id first
-  @user = User.first(user_name: session[:user])
-  unless @user == nil
-    @content = partial(:'user/messages', {user: @user})
-    @sidebar = user_sidebar(@user)
-    # print_session_data(session, @user)
-    haml :with_sidebar
-  else
-    redirect '/'
-  end
-end
-
-get '/user/:username/rmessage/:msg_id' do
-  @user = User.first(user_name: session[:user])
-  @msg = RMessage.first(id: params[:msg_id])
-  if @msg.new_message
-    @msg.new_message = false
-    @msg.save
-  end
-  @content = partial(:'user/rmessage', {user: @user, msg: @msg})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-get '/user/:username/message/create' do
-  @user = User.first(user_name: session[:user])
-  @content = partial(:'message/create_message', {user: @user, source: @user.user_name, subject: ""})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-get '/user/:username/smessage/:msg_id' do
-  @user = User.first(user_name: session[:user])
-  @msg = SMessage.first(id: params[:msg_id])
-  @content = partial(:'user/smessage', {user: @user, msg: @msg})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-post '/user/:user_name/message' do
-  @user = User.first(user_name: session[:user])
-  target = User.first(user_name: params[:target_user])
-  message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
-  if message.save
-    target = User.first(user_name: params[:target_user])
-    message.send(target)
-    redirect "/user/#{params[:user_name]}/messages"
-  else
-    redirect "/user/#{params[:user_name]}/messages"
-  end
-end
-
-get '/user/:username/create-event' do
-  @user = User.first(user_name: session[:user])
-  @content = partial(:form, {form_map: event_form})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
-post'/user/:username/create-event' do
-  @user = User.first(user_name: session[:user])
-  event = Event.new
-  event.user = @user
-  event.title = params["title"]
-  event.body = params["body"]
-
-  time = Time.new
-  time.event = event
-
-  location = Location.new
-  location.event = event
-  location.geo_location = params["country-code"]
-  location.city = params["city"]
-  location.country = params["country"]
-
-  if event.save && time.save && location.save
-    flash("Event created")
-    redirect '/user/' << session[:user] << "/dashboard"
-  else
-    tmp = []
-    event.errors.each do |e|
-      tmp << (e.join("<br/>"))
-    end
-    flash(tmp)
-    redirect '/user/:username/create-event'
-  end
-end
-
-get '/user' do
-  redirect '/user/' + session[:user]
 end
 
 get '/about' do
@@ -334,232 +150,4 @@ post '/register' do
     "didn't work"
   end
 end
-
-def api_info
-  {title: "API User Info",
-   input_fields: [{name: "email", type: :text, placeholder: "email"}]}
-end
-
-def api_form
-  {title: "Register for an API key",
-   elements: [api_info],
-   action: "/api-key",
-   method: "post"}
-end
-
-get '/api-key' do
-  @content = partial(:form, {form_map: api_form})
-  haml :with_sidebar
-end
-
-post '/api-key' do
-  key = ApiKey.new
-  key.email = params["email"]
-
-  if key.save
-    @key = key
-    haml :key_created
-  else
-    redirect '/api-key'
-  end
-end
-
-get '/api/:api_key/users.json' do
-  valid_key = ApiKey.first(api_key: params["api_key"])
-  if !valid_key.nil?
-    User.all.to_json(only: [:id, :username, :email])
-  end
-end
-
-get '/api/:api_key/user/:username.json' do
-  User.first(user_name: params["user_name"]).to_json(only: [:username, :id, :email])
-end
-
-post '/api/:api_key/event/?' do
-  valid_key = ApiKey.first(api_key: params[:api_key])
-  if !valid_key.nil?
-    event = Event.new
-    event.title = CGI::unescape params[:title]
-    if event.save
-      event.to_json
-    else
-      "BAD ENTRY"
-    end
-  end
-  redirect '/admin/admin/dashboard'
-end
-
-get '/api/:api_key/create-event$:opts' do
-  valid_key = ApiKey.first(api_key: params[:api_key])
-  if !valid_key.nil?
-    User.all.to_json(only: [:id, :username, :email])
-    opts_str = params[:opts].to_s
-    opts = opts_str.split "&"
-    opts.each_with_index.map{|opt, i|
-      kv = opt.split "="
-    opts[i] = [kv[0], kv[1]]}
-    event = Event.new
-    opts.each do |opt|
-      event[opt[0]] = opt[1]
-      p event[opt[0]]
-    end
-    event.user = User.first
-    if event.save
-      event.to_json
-    else
-      "BAD ENTRY"
-    end
-  end
-end
-
-get '/dev/:dev-out' do
-  params["dev-out"]
-end
-
-##############################################################################
-########### ADMIN ############################################################
-##############################################################################
-
-get '/admin/login' do
-  @map = {action: "/admin/login",
-          title: "Admin Login"}
-  haml :login
-end
-
-post '/admin/login' do
-  if @user = Admin.authenticate(params["username"], params["password"])
-    session[:user] = @user.user_name
-    flash("Admin login successful")
-    redirect "/admin/" << session[:user] << "/dashboard"
-  else
-    flash("Admin login failed - Try again")
-    redirect '/admin/login'
-  end
-end
-
-get '/admin/:admin_user/dashboard' do
-  @admin = Admin.first(user_name: session[:user])
-  @users = User.all
-  @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: ApiKey.all})
-  @items = [{href: "#", icon: "icon-home", title: "Dashboard"},
-            {href: "#", icon: "icon-envelope", title: "Messages", badge: {value: rand(100)}},
-            {href: "#", icon: "icon-comment", title: "Comments", badge: {value: rand(100)}},
-            {href: "#", icon: "icon-user", title: "Members"},
-            :divider,
-            {href: "#", icon: "icon-wrench", title: "Settings"},
-            {href: "#", icon: "icon-share", title: "Logout"}]
-  @map = {title: "Admin",
-          items: @items}
-  @sidebar = partial(:'admin/sidebar', {map: @map})
-  haml :with_sidebar
-end
-
-get '/util/test.html' do
-  partial(:form, {form_map: event_form})
-end
-
-def render_pane(pane_map)
-  partial(:'looking_glass/tile', {map: pane_map})
-end
-
-# def render_twitter_pane(pane_map)
-#   partial(:'looking_glass/twitter_tile', {map: pane_map})
-# end
-
-def safe_to_like_message(u, id)
-  user = User.first(user_name: u)
-  messages = RMessage.all(user: user, id: id)
-  exists = messages.count == 0
-  if exists
-    msg = messages.first
-    msg.start = true
-    return msg.save
-  end
-  return false
-end
-
-# get '/twitter-search/:args' do
-#   search = TwitterSearch.search({q: params[:args], count: 1000})
-#   results = search["results"]
-#   @events = results.map do |tweet|
-#     {title: tweet["text"],
-#      img_url: tweet["profile_image_url"],
-#      event_time: tweet["created_at"],
-#      category: "twitter",
-#      classes: "twitter",
-#      id: tweet["id"]}
-#   end
-#   @categories = ["twitter"]
-#   @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
-#   haml :partial_wrapper
-# end
-
-
-# def api_client code=""
-#   @client ||= (begin
-#       config_info = api_config
-#       client = Google::APIClient.new
-#       client.authorization.client_id = get_in(config_info, ["google_api", "dev", "client_id"])
-#       client.authorization.client_secret = get_in(config_info, ["google_api", "dev", "client_secret"])
-#       client.authorization.scope = get_in(config_info, ["google_api", "dev", "scope"]).join(' ')
-#       client.authorization.redirect_uri = get_in(config_info, ["google_api", "dev", "registered_redirect_uri"])
-#       client.authorization.code = code
-      
-#       # temporary
-#       session[:token_id] = nil
-
-#       if session[:token_id]
-#         # Load the access token here if it's available
-#         token_pair = TokenPair.get(session[:token_id])
-#         client.authorization.update_token!(token_pair.to_hash)
-#       end
-#       if client.authorization.refresh_token && client.authorization.expired?
-#         puts client.authorization.fetch_access_token!
-#       end
-#       client
-#   end)
-# end
-
-# get '/oauth2authorize' do
-#   redirect api_client.authorization.authorization_uri.to_s, 303
-# end
-
-# get '/oauth2callback' do
-#   code = params[:code]
-#   client = api_client code
-#   client.authorization.fetch_access_token!
-#   # Persist the token here
-#   token_pair = if session[:token_id]
-#     TokenPair.get(session[:token_id])
-#   else
-#     TokenPair.new
-#   end
-#   token_pair.update_token!(@client.authorization)
-#   token_pair.save
-#   session[:token_id] = token_pair.id
-
-#   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
-#     r_hash = JSON.parse(response)
-#     email = r_hash["email"]
-#     user = User.first(user_name: email)
-#     if user
-#       # session[:token_id] = token_pair.id
-#       session[:user] = user.user_name
-#       redirect to("/user/#{user.user_name}/dashboard")
-#     else
-#       user = User.create(user_name: email, email: email, token_pair: token_pair)
-#       # session[:token_pair_id] = token_pair.id
-#       session[:user] = user.user_name
-#       redirect to("/user/#{user.user_name}/dashboard")
-#     end
-#   end
-#   # session[:token_id] = nil
-#   redirect to('/')
-# end
-
-# get '/user/:user_name/picasa/' do
-#   @user = User.first(user_name: session[:user])
-#   client = api_client
-# end
-
 

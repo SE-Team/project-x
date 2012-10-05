@@ -131,6 +131,30 @@ get '/user/:username/event/:event_id' do
   haml :with_sidebar
 end
 
+post '/user/:username/event/:event_id/comment' do
+  event = Event.first(params[:event_id])
+  ## if a user is logged in comment with their name, otherwise call them guest
+  if event
+    email = nil
+    body = nil
+    posted_by = nil
+    if logged_in?
+      user = User.first(user_name: session[:user])
+      posted_by = user.user_name
+      email = user.email
+      body = params[:body]
+    else
+      posted_by = "guest"
+      email = params[:email]
+      body = params[:body]
+    end
+    comment = Comment.create(tumbler: event.metadata.tumbler, email: email, posted_by: posted_by, body: body)
+    puts comment.save
+    puts comment.id
+  end
+    redirect "/user/#{params[:username]}/event/#{params[:event_id]}"
+end
+
 get '/user/:username/account' do
   @user = User.first(user_name: session[:user])
   @content = partial(:'user/account', {user: @user})
@@ -170,6 +194,13 @@ get '/user/:username/rmessage/:msg_id' do
   haml :with_sidebar
 end
 
+get '/user/:username/message/create' do
+  @user = User.first(user_name: session[:user])
+  @content = partial(:'message/create_message', {user: @user, source: @user.user_name, subject: ""})
+  @sidebar = user_sidebar(@user)
+  haml :with_sidebar
+end
+
 get '/user/:username/smessage/:msg_id' do
   @user = User.first(user_name: session[:user])
   @msg = SMessage.first(id: params[:msg_id])
@@ -178,16 +209,16 @@ get '/user/:username/smessage/:msg_id' do
   haml :with_sidebar
 end
 
-post '/user/:user_name/message/:msg_id' do
+post '/user/:user_name/message' do
   @user = User.first(user_name: session[:user])
   target = User.first(user_name: params[:target_user])
   message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
   if message.save
     target = User.first(user_name: params[:target_user])
     message.send(target)
-    redirect "/user/#{params[:user_name]}/smessage/#{message.id}"
+    redirect "/user/#{params[:user_name]}/messages"
   else
-    redirect "/user/#{params[:user_name]}/rmessage/#{params[:msg_id]}"
+    redirect "/user/#{params[:user_name]}/messages"
   end
 end
 

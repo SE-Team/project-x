@@ -32,6 +32,8 @@
 							%a{href: "./rmessage/#{msg.id}"}
 								%strong= msg.subject
 						%td= msg.created_at.strftime("%m/%d/%Y")
+	.row
+		%a.btn.btn-primary{href: "/user/#{user.user_name}/message/create"}= "create"
 	%hr
 	.row
 		%h3

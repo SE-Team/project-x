@@ -29,3 +29,12 @@
 					%p.pull-right= comment.posted_by
 				%br
 				%hr
+		.row
+			#{partial :'event/comment', {event: event, event_id: event.id}}
+
+
+:javascript
+	$('#add-reply').click(function () {
+		$('.reply-message').toggle();
+		$('#add-reply').toggle();
+	});

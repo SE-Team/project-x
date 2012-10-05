@@ -7,6 +7,6 @@ class Comment
   property :email,      String
   property :url,        String
   property :body,       Text
-  property :created_at,       	DateTime, default: DateTime.now
-  property :upadted_at,       	DateTime
+  property :created_at, DateTime, default: DateTime.now
+  property :upadted_at, DateTime
 end

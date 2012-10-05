@@ -4,11 +4,12 @@
 			%small= msg.created_at
 			%h2= msg.subject
 			%h4= msg.source
-		%hr
 		.row
 			%p= msg.body
+		.row
+			%hr
 		.row.reply-message
-			#{partial :'message/create_message', {user: @user, subject: "#{msg.subject}", source: "#{msg.source}", msg_id: "#{msg.id}"}}
+			#{partial :'message/create_message', {user: @user, subject: "Re: #{msg.subject}", source: "#{msg.source}", msg_id: "#{msg.id}"}}
 		.row
 			.btn-group
 				%a#add-reply.btn.btn-small

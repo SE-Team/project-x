@@ -1,6 +1,5 @@
 .span9
-	%hr
-	%form#replyForm{action: "/user/#{user.user_name}/message/#{msg_id}", method: "post"}
+	%form#replyForm{action: "/user/#{user.user_name}/message", method: "post"}
 		.row
 			%small
 				To
@@ -10,8 +9,8 @@
 			%small
 				Subject
 		.row
-			%input{type: :text, style: "width: 580px;", value: "Re: #{subject}", name: "message_subject"}
+			%input{type: :text, style: "width: 580px;", value: "#{subject}", name: "message_subject"}
 		.row
 			%textarea{rows: 7, style: "width: 580px;", name: "message_body"}
 		.row
-			%input.btn.reply-message{ :name => "send_message", :type => "submit", :value => "send"}
+			%input.btn.btn-primary{ :name => "send_message", :type => "submit", :value => "send"}

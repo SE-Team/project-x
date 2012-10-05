@@ -62,22 +62,6 @@ get '/' do
   haml :index
 end
 
-get '/search/:args' do
-  search_term = "%"
-  search_term << params[:args].gsub('%20', '%')
-  search_term << "%"
-  e1 = Event.all(:title.like => search_term, permission: "public")
-  e2 = Event.all(:category_name.like => search_term, permission: "public")
-  @events = e1.zip(e2).flatten.compact
-  categories = Set[]
-  @events.each do |e|
-    categories.add(e.category.name)
-  end
-  @categories = categories
-  @content = partial(:'search/response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
-  haml :partial_wrapper
-end
-
 get '/about' do
   unless session[:user] == nil
     @user_name = session[:user]

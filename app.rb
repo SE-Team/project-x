@@ -1,15 +1,7 @@
-## Util ######################################################
-##############################################################
-require 'pp'
-##############################################################
-
 ## Sinatra/Web################################################
 ##############################################################
-require 'open-uri'
 require 'sinatra'
 require 'haml'
-require 'json'
-require 'yaml'
 ##############################################################
 
 ## Helpers ###################################################
@@ -26,29 +18,43 @@ require 'dm-serializer'
 ## Controllers ###############################################
 ##############################################################
 require './controller/form'
-require './controller/user/sidebar'
-require './controller/event/tile'
 ##############################################################
 
 ## Routes ####################################################
+# Requiring the additional routes files will add all of their
+# routes to the application. The routes call their own
+# controllers and define their own urls. For more information
+# on the additinal routes available lookin the files listed
+# below which can be found in the routes/ directory.
+##############################################################
 require './routes/user/user'
 require './routes/admin/admin'
 require './routes/api/api'
 ##############################################################
 
-## Google
+## Google ####################################################
+##############################################################
 # require 'picasa'
 # require 'google/api_client'
+##############################################################
 
-configure do
-  enable :sessions
-end
-
+##############################################################
+### Controller includes ######################################
 include Helpers
 include FormController
 include UserSidebarController
 include TileController
+##############################################################
 
+##############################################################
+### Sinatra Sessions (cookies) ###############################
+configure do
+  enable :sessions
+end
+##############################################################
+
+##############################################################
+## Splash page ###############################################
 get '/' do
   @user = User.first(user_name: session[:user])
   if session[:token_id]
@@ -61,6 +67,7 @@ get '/' do
   end
   haml :index
 end
+##############################################################
 
 get '/about' do
   unless session[:user] == nil
@@ -81,6 +88,8 @@ get '/user/:username/profile' do
   haml :'user/profile'
 end
 
+##############################################################
+### Login/Logout ####################################################
 get '/login' do
   @map = {action: "/login",
           title: "Login"}
@@ -106,14 +115,8 @@ get '/logout' do
   redirect '/'
 end
 
-get '/list' do
-  unless session[:user] == nil
-    @user_name = session[:user].user_name
-  end
-  @users = User.all
-  haml :list
-end
-
+##############################################################
+### Register #################################################
 get '/register' do
   haml :register
 end
@@ -134,4 +137,4 @@ post '/register' do
     "didn't work"
   end
 end
-
+##############################################################

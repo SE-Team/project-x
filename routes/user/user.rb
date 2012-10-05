@@ -1,32 +1,37 @@
-require 'open-uri'
-require './helpers/helpers'
-require './helpers/sinatra'
+## Sinatra/Web################################################
+##############################################################
 require 'sinatra'
 require 'haml'
-require 'json'
-require 'pp'
-require 'yaml'
+##############################################################
 
-## DataMapper configuration and models
+## Helpers ###################################################
+##############################################################
+require './helpers/helpers'
+require './helpers/sinatra'
+##############################################################
+
+## DataMapper ################################################
+##############################################################
 require './model/base'
 require 'dm-serializer'
 
-## controllers
+## Controllers ###############################################
+##############################################################
 require './controller/form'
 require './controller/user/sidebar'
 require './controller/event/tile'
+##############################################################
 
-## admin routes and management
-require './routes/admin/admin'
-
-## api
-require './routes/api/api'
-
+##############################################################
+### Controller includes ######################################
 include Helpers
 include FormController
 include UserSidebarController
 include TileController
+##############################################################
 
+## Events ####################################################
+##############################################################
 get '/user/:user_name/dashboard' do
   @user = User.first(user_name: session[:user])
   unless @user.nil?
@@ -54,6 +59,7 @@ get '/user/:username/event/:event_id' do
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
+##############################################################
 
 post '/user/:username/event/:event_id/comment' do
   event = Event.first(id: params["event_id"])
@@ -73,12 +79,19 @@ post '/user/:username/event/:event_id/comment' do
       body = params["body"]
     end
     tumbler = event.tumbler
-    comment = Comment.create(tumbler: event.tumbler, email: email, posted_by: posted_by, body: body, tumbler_id: tumbler.id, tumbler_event_id: event.id)
+    comment = Comment.create(tumbler: event.tumbler,
+                             email: email,
+                             posted_by: posted_by,
+                             body: body,
+                             tumbler_id: tumbler.id,
+                             tumbler_event_id: event.id)
     event.tumbler.comments << comment
   end
-    redirect "/user/#{params["username"]}/event/#{params["event_id"]}"
+  redirect "/user/#{params["username"]}/event/#{params["event_id"]}"
 end
 
+## Account ###################################################
+##############################################################
 get '/user/:username/account' do
   @user = User.first(user_name: session[:user])
   @content = partial(:'user/account', {user: @user})
@@ -92,7 +105,10 @@ get '/user/:username/profile' do
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
+##############################################################
 
+## Messaging #################################################
+##############################################################
 get '/user/:username/messages' do
   # authenticate the user by name and session id first
   @user = User.first(user_name: session[:user])
@@ -145,7 +161,10 @@ post '/user/:user_name/message' do
     redirect "/user/#{params[:user_name]}/messages"
   end
 end
+##############################################################
 
+## Event creation ############################################
+##############################################################
 get '/user/:username/create-event' do
   @user = User.first(user_name: session[:user])
   @content = partial(:form, {form_map: event_form})
@@ -181,7 +200,4 @@ post'/user/:username/create-event' do
     redirect '/user/:username/create-event'
   end
 end
-
-get '/user' do
-  redirect '/user/' + session[:user]
-end
+##############################################################

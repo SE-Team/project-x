@@ -1,17 +1,36 @@
-require './helpers/helpers'
-require './helpers/sinatra'
+## Sinatra/Web################################################
+##############################################################
 require 'sinatra'
 require 'haml'
+##############################################################
 
-## DataMapper configuration and models
+## Helpers ###################################################
+##############################################################
+require './helpers/helpers'
+require './helpers/sinatra'
+##############################################################
+
+## DataMapper ################################################
+##############################################################
 require './model/base'
 
-## controllers
+## Controllers ###############################################
+##############################################################
 require './controller/form'
 require './controller/user/sidebar'
 require './controller/event/tile'
+##############################################################
 
+##############################################################
+### Controller includes ######################################
+include Helpers
+include FormController
+include UserSidebarController
+include TileController
+##############################################################
 
+## Login/Logout ##############################################
+##############################################################
 get '/admin/login' do
   @map = {action: "/admin/login",
           title: "Admin Login"}
@@ -28,7 +47,10 @@ post '/admin/login' do
     redirect '/admin/login'
   end
 end
+##############################################################
 
+## Account ###################################################
+##############################################################
 get '/admin/:admin_user/dashboard' do
   @admin = Admin.first(user_name: session[:user])
   @users = User.all
@@ -45,7 +67,4 @@ get '/admin/:admin_user/dashboard' do
   @sidebar = partial(:'admin/sidebar', {map: @map})
   haml :with_sidebar
 end
-
-get '/util/test.html' do
-  partial(:form, {form_map: event_form})
-end
+##############################################################

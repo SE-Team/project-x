@@ -21,11 +21,11 @@ require './controller/form'
 ##############################################################
 
 ## Routes ####################################################
-# Requiring the additional routes files will add all of their
-# routes to the application. The routes call their own
-# controllers and define their own urls. For more information
-# on the additinal routes available lookin the files listed
-# below which can be found in the routes/ directory.
+## Requiring the additional routes files will add all of their
+## routes to the application. The routes call their own
+## controllers and define their own urls. For more information
+## on the additinal routes available lookin the files listed
+## below which can be found in the routes/ directory.
 ##############################################################
 require './routes/user/user'
 require './routes/admin/admin'
@@ -80,16 +80,8 @@ get '/contact' do
   haml :contact
 end
 
-get '/user/:username/profile' do
-  @user = User.first(user_name: session[:user])
-  unless session[:user] == nil
-    @user_name = session[:user]
-  end
-  haml :'user/profile'
-end
-
 ##############################################################
-### Login/Logout ####################################################
+### Login/Logout #############################################
 get '/login' do
   @map = {action: "/login",
           title: "Login"}

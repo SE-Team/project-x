@@ -1,22 +1,8 @@
 
 include TwitterEventController
 
-get '/twitter-search/:args' do
-  search = TwitterSearch.search({q: params[:args], count: 1000})
-  results = search["results"]
-  @events = results.map do |tweet|
-    {title: tweet["text"],
-     img_url: tweet["profile_image_url"],
-     event_time: tweet["created_at"],
-     category: "twitter",
-     classes: "twitter",
-     id: tweet["id"]}
-  end
-  @categories = ["twitter"]
-  @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
-  haml :partial_wrapper
-end
-
+## Basic Search ##############################################
+##############################################################
 get '/search/:args' do
   search_term = "%"
   search_term << params[:args].gsub('%20', '%')
@@ -32,7 +18,23 @@ get '/search/:args' do
   @content = partial(:'search/response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
   haml :partial_wrapper
 end
-
-
-
-
+##############################################################
+#
+## Twitter Search ############################################
+##############################################################
+get '/twitter-search/:args' do
+  search = TwitterSearch.search({q: params[:args], count: 1000})
+  results = search["results"]
+  @events = results.map do |tweet|
+    {title: tweet["text"],
+     img_url: tweet["profile_image_url"],
+     event_time: tweet["created_at"],
+     category: "twitter",
+     classes: "twitter",
+     id: tweet["id"]}
+  end
+  @categories = ["twitter"]
+  @content = partial(:'search/twitter_response', {events: @events, categories: @categories, search_term: params[:args].gsub('%20', ' ')})
+  haml :partial_wrapper
+end
+##############################################################

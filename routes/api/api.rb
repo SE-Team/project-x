@@ -1,23 +1,33 @@
-require 'open-uri'
-require './helpers/helpers'
-require './helpers/sinatra'
+## Sinatra/Web################################################
+##############################################################
 require 'sinatra'
 require 'haml'
-require 'json'
-require 'yaml'
+##############################################################
 
-## DataMapper configuration and models
-require './model/base'
-require 'dm-serializer'
-
-## controllers
-require './controller/api/api'
-require './controller/form'
-
-##admin routes and management
+## API Routes ################################################
+##############################################################
 require './routes/admin/admin'
+##############################################################
 
+## Helpers ###################################################
+##############################################################
+require './helpers/helpers'
+require './helpers/sinatra'
+##############################################################
+
+## DataMapper ################################################
+##############################################################
+require './model/base'
+
+## Controllers ###############################################
+##############################################################
+require './controller/form'
+##############################################################
+
+##############################################################
+### Controller includes ######################################
 include ApiController
+##############################################################
 
 get '/api-key' do
   @content = partial(:form, {form_map: api_form})

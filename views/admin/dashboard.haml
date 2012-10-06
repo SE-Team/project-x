@@ -33,7 +33,7 @@
 											%hr
 											%h4= "comments"
 											%article
-											-event.metadata.tumbler.comments.each_with_index do |comment, n|
+											-event.tumbler.comments.each_with_index do |comment, n|
 												.section.well
 													%small= comment.created_at
 													%br

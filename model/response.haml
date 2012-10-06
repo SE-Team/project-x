@@ -7,7 +7,7 @@
 	#isotope-container
 		- events.each do |event|
 			:plain
-				#{render_pane({title: event.title, classes: event.category.name, id: event.id, category: event.category.name, tumbler: event.metadata.tumbler, event_time: event.event_date, img_url: event.img_url})}
+				#{render_pane({title: event.title, classes: event.category.name, id: event.id, category: event.category.name, tumbler: event.tumbler, event_time: event.event_date, img_url: event.img_url})}
 
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
 %script{ :type => "text/javascript", :src =>"/js/user.dash.js"}

@@ -373,7 +373,7 @@ class DataGenerator
 			(1..(rand(max_comments))).each do |i|
 				comment_seed = rand(comments.count)
 				rand_user = User.first(id: (1 + rand(User.all.count)))
-				Comment.create(tumbler: event.metadata.tumbler, posted_by: rand_user.user_name, email: rand_user.email, body: comments[comment_seed])
+				Comment.create(tumbler: event.tumbler, posted_by: rand_user.user_name, email: rand_user.email, body: comments[comment_seed])
 			end
 		end
 		puts "."

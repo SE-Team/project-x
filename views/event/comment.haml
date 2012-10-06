@@ -1,5 +1,5 @@
 .span9
-	%form#replyForm{action: "/user/#{event.user.user_name}/event/#{event_id}/comment", method: "post"}
+	%form#replyForm{action: "/user/#{user_name}/event/#{event_id}/comment", method: "post"}
 		.row
 			%textarea{rows: 7, style: "width: 560px;", name: "body"}
 		.row

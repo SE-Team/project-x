@@ -19,7 +19,7 @@
 		.row
 			%h4= "comments"
 			%hr
-		-event.metadata.tumbler.comments.each_with_index do |comment, n|
+		-event.tumbler.comments.each_with_index do |comment, n|
 			.row
 				%small.pull-left= comment.created_at
 				%br
@@ -30,7 +30,7 @@
 				%br
 				%hr
 		.row
-			#{partial :'event/comment', {event: event, event_id: event.id}}
+			#{partial :'event/comment', {event_id: event.id.to_s, user_name: event.user.user_name}}
 
 
 :javascript

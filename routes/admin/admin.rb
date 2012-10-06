@@ -16,9 +16,9 @@ require './model/base'
 
 ## Controllers ###############################################
 ##############################################################
-require './controller/form'
-require './controller/user/sidebar'
-require './controller/event/tile'
+require './controllers/form'
+require './controllers/user/sidebar'
+require './controllers/event/tile'
 ##############################################################
 
 ##############################################################

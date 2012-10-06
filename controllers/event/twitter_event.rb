@@ -10,7 +10,7 @@ require 'haml'
 
 ### Controllers ###############################################
 ##############################################################
-require './controller/event/twitter_event'
+require './controllers/event/twitter_event'
 ##############################################################
 
 module TwitterEventController

@@ -10,6 +10,7 @@
 				-else
 					%a.brand{:href => '/'} Project X
 			.nav-collapse
+				%input.search-query.nav-search{:type => 'text', :placeholder => "Search",}
 				%p.navbar-text.pull-right
 					-if logged_in?
 						%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 

@@ -336,3 +336,8 @@
   width:100%;
   height:<length>;
 }
+.nav-search {
+   position: relative;
+   top: 5px;
+   left:28%;
+}

@@ -13,7 +13,7 @@
 					/ %a{href: "/conatact"} Conatact
 					/ %span= "|"
 					-if logged_in?
-						%a{:href => "/user/#{session[:user]}/dashboard"} Dashboard 
+						%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 
 						%span= "|"
 						%a{:href => "/logout" } Logout
 					-else 

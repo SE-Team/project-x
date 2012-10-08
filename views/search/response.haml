@@ -1,9 +1,4 @@
 .container
-	%section
-		.btn-group
-			%input.search-query.nav-search#results-search-input{:type => 'text', :placeholder => "Search",}
-			%a.btn#results-search-btn
-				%i.icon-search
 	%section				
 		.conatiner
 			.row
@@ -27,18 +22,3 @@
 
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
 %script{ :type => "text/javascript", :src =>"/js/user.dash.js"}
-
-:javascript
-	$("#results-search-btn").click(function() {
-	  var searchTerm = $("#results-search-input").val();
-	  var msg = "search for: " + searchTerm;
-	  window.location.replace("/search/" + encodeURIComponent(searchTerm));
-	});
-
-	$('#results-search-input').keypress(function(e) {
-		if(e.which == 13) {
-			var searchTerm = $("#results-search-input").val();
-			var msg = "search for: " + searchTerm;
-			window.location.replace("/search/" + encodeURIComponent(searchTerm));	
-		}
-	})

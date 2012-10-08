@@ -28,7 +28,6 @@ include Helpers
 include FormController
 include UserSidebarController
 include TileController
-include NewThingController
 ##############################################################
 
 ## Events ####################################################
@@ -201,16 +200,4 @@ post'/user/:username/create-event' do
     redirect '/user/:username/create-event'
   end
 end
-##############################################################
-
-##############################################################
-##############################################################
-get '/user/:username/new-thing' do
-  @user = User.first(user_name: session[:user])
-  more_stuff = new_thing_data
-  @content = partial(:'user/new_thing', {info_array: ["hello", "world"], new_array: more_stuff})
-  @sidebar = user_sidebar(@user)
-  haml :with_sidebar
-end
-
 ##############################################################

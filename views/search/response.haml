@@ -1,20 +1,19 @@
 .container
-	%section#content
-		%section
+	%section
 		.btn-group
-			%input#search-result-input{placeholder: "Search"}
-				%button.btn.add-on#search-result-btn
-					%i.icon-search
-		%section				
-			.conatiner
-				.row
-					%h4= "Search for #{search_term}"
-		%section.offset2#options
-			- if !categories.nil?
-				.btn-group#filters.option-set{"data-option-key".to_sym => "filter"}
-					%a.btn{href: "#filter", "data-option-value".to_sym => "*"} all
-					- categories.each do |cat|
-						%a.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
+			%input.search-query.nav-search#results-search-input{:type => 'text', :placeholder => "Search",}
+			%a.btn#results-search-btn
+				%i.icon-search
+	%section				
+		.conatiner
+			.row
+				%h4= "Search for #{search_term}"
+	%section.offset2#options
+		- if !categories.nil?
+			.btn-group#filters.option-set{"data-option-key".to_sym => "filter"}
+				%a.btn{href: "#filter", "data-option-value".to_sym => "*"} all
+				- categories.each do |cat|
+					%a.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
 
 		%br
 		#isotope-container
@@ -29,11 +28,17 @@
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
 %script{ :type => "text/javascript", :src =>"/js/user.dash.js"}
 
-
 :javascript
-	$("#search-result-btn").click(function() {
-	  var searchTerm = $("#search-result-input").val();
+	$("#results-search-btn").click(function() {
+	  var searchTerm = $("#results-search-input").val();
 	  var msg = "search for: " + searchTerm;
-	  window.location.replace("http://localhost:9393/search/" + encodeURIComponent(searchTerm));
+	  window.location.replace("/search/" + encodeURIComponent(searchTerm));
 	});
-	
+
+	$('#results-search-input').keypress(function(e) {
+		if(e.which == 13) {
+			var searchTerm = $("#results-search-input").val();
+			var msg = "search for: " + searchTerm;
+			window.location.replace("/search/" + encodeURIComponent(searchTerm));	
+		}
+	})

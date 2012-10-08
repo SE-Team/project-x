@@ -24,6 +24,7 @@ require './controllers/form'
 require './routes/user/user'
 require './routes/admin/admin'
 require './routes/api/api'
+require './routes/search/search'
 require './routes/oauth/oauth'
 ##############################################################
 ### Controller includes ######################################

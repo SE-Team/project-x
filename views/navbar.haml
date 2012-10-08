@@ -10,7 +10,10 @@
 				-else
 					%a.brand{:href => '/'} Project X
 			.nav-collapse
-				%input.search-query.nav-search{:type => 'text', :placeholder => "Search",}
+				.btn-group
+					%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search",}
+					%a.btn#search-btn
+						%i.icon-search
 				%p.navbar-text.pull-right
 					-if logged_in?
 						%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 
@@ -27,3 +30,11 @@
 	  var msg = "search for: " + searchTerm;
 	  window.location.replace("/search/" + encodeURIComponent(searchTerm));
 	});
+
+	$('#search-input').keypress(function(e) {
+		if(e.which == 13) {
+			var searchTerm = $("#search-input").val();
+			var msg = "search for: " + searchTerm;
+			window.location.replace("/search/" + encodeURIComponent(searchTerm));	
+		}
+	})

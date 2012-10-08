@@ -16,13 +16,3 @@
 					%span.open-event-btn{href: ""}
 						%a.btn.btn-small{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
 							%i.icon-picture	
-					/ %span.btn.btn-small.flag-event-btn{href: ""}
-					/ 	%i.icon-flag
-					/ %span.btn.btn-small.trash-event-btn{href: ""}
-					/ 	%i.icon-trash
-
-:javascript
-	function showTip(objId) {
-		var obj = "#element-" + objId;
-		$(obj).tooltip('show');
-	}

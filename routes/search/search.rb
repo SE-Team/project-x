@@ -1,5 +1,4 @@
-
-include TwitterEventController
+require './controllers/search/twitter'
 
 ## Basic Search ##############################################
 ##############################################################

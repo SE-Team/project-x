@@ -846,6 +846,11 @@ form.bs-docs-example {
     margin-top: 30px;
     margin-right: 0;
   }
+  .nav-search {
+     left:0 !important;
+     top:0 !important;
+  }
+
 }
 
 /* Tablet to desktop

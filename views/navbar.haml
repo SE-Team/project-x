@@ -1,22 +1,20 @@
 .navbar.navbar-fixed-top
 	.navbar-inner
 		.container-fluid
-			%a.btn.btn-navbar{ "data-toggle".to_sym => "collapse", "data-target".to_sym => ".nav-collapse"}
-				%span.icon-bar
-				%span.icon-bar
-				%span.icon-bar
-				-if logged_in?
-					%a.brand{:href => "/user/#{session[:user]}/dashboard"} Project X
-				-else
-					%a.brand{:href => '/'} Project X
-			.btn-group
+			-if logged_in?
+				%a.brand{:href => "/user/#{session[:user]}/dashboard"} Project X
+			-else
+				%a.brand{:href => '/'} Project X
+			#nav-search
 				%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search",}
-			.nav-collapse
-				%p.navbar-text.pull-right
+				.nav-element.pull-right
+					/ %a{href: "/about"} About
+					/ %span= "|"
+					/ %a{href: "/conatact"} Conatact
+					/ %span= "|"
 					-if logged_in?
-						%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 
-						%span
-							|
+						%a{:href => "/user/#{session[:user]}/dashboard"} Dashboard 
+						%span= "|"
 						%a{:href => "/logout" } Logout
 					-else 
 						%a{:href => '/login'} Login

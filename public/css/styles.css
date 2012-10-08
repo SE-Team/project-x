@@ -341,3 +341,11 @@
    top: 5px;
    left:28%;
 }
+
+#nav-search {
+  padding-top: 7px;
+}
+
+.nav-element {
+ padding-top: 7px; 
+}

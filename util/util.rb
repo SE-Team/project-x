@@ -6,11 +6,36 @@ module Util
 		return str
 	end
 
-	def get_in(hash, ker_arr)
+	def get_in(hash, keys)
 		cur_hash = hash
-		key_arr.each do |kw|
+		keys.each do |kw|
 			cur_hash = cur_hash[kw]
 		end
 		cur_hash
+	end
+
+	def filter_by_sequence(coll, keys, opts)
+		type = opts[:type] || :filter
+		if coll.class == Hash
+			if type == :filter
+				return coll.reject{|(k, v)| !keys.include? k}
+			else
+				return coll.reject{|(k, v)| keys.include? k}
+			end
+		else
+			if type == :filter
+				return coll.reject{|v| !keys.include? v}
+			else
+				return coll.reject{|(k, v)| keys.include? k}
+			end
+		end
+	end
+
+	def filter(coll, keys)
+		return filter_by_sequence(coll, keys, {type: :filter})
+	end
+
+	def sift(coll, keys)
+		return filter_by_sequence(coll, keys, {type: :sift})
 	end
 end

@@ -1,10 +1,12 @@
 require 'dm-core'
+require 'spec/rake/spectask'
 require 'yaml'
 
-def 
-
+################################################################################
+## DataMapper Tasks ############################################################
+################################################################################
 task :clean do
-	File::delete("db/base.db")
+	File::delete("./db/base.db")
 	puts "Delete base.db"
 end
 
@@ -25,7 +27,11 @@ task :explode do
 	Rake::Task[:init_db]
 	Rake::Task[:init_dummy_data]
 end
+################################################################################
 
+################################################################################
+## Heroku Tasks ################################################################
+################################################################################
 task :deploy_local do
 	ENV['DEV_MODE'] = true
 
@@ -34,3 +40,22 @@ end
 task :deploy_to_heroku do
 	ENV['DEV_MODE'] = false
 end
+################################################################################
+ 
+################################################################################
+## RSpec Rake tasks ############################################################
+## Can be run with:
+## $ rake spec
+## or some more specific spec tasks like
+## $ rake spec_util
+################################################################################
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_files = Dir.glob('./spec/**/*_spec.rb')
+  t.spec_opts << '--format specdoc'
+end
+
+Spec::Rake::SpecTask.new(:spec_util) do |t|
+  t.spec_files = Dir.glob('./spec/lib/util/*_spec.rb')
+  t.spec_opts << '--format specdoc'
+end
+################################################################################

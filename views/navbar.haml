@@ -11,8 +11,12 @@
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
 							#{session[:user]}
-							%b.caret
+							%i.icon-chevron-down
 						%ul.dropdown-menu
+							%li
+								%a{:href => "/user/#{session[:user]}/create-event"}
+									%i.icon-flag
+									Create Event
 							%li
 								%a{:href => "/user/#{session[:user]}/account"}
 									%i.icon-cog

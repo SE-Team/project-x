@@ -5,5 +5,16 @@
 // 		%h2= user.user_name.to_s << ' profile'
 // 		%p= 'email: ' <<  user.email.to_s
 
-.container
-	%h1= "Account"
+.content.span9
+	%h2.center= user.user_name.to_s << ' profile'
+	%form.form-horizontal
+		.control-group
+			%label.control-label{:for => "inputEmail"} 
+				Email:
+			.controls
+				%input#inputEmail{:value => "#{user.email.to_s}", :placeholder => "Email", :type => "email"}
+		.control-group
+			%label.control-label{:for => "inputUrl"} 
+				Image URL:
+			.controls
+				%input#inputUrl{:value => "#{user.img_url.to_s}", :placeholder => "Image URL", :type => "url"}

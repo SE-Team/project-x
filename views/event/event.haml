@@ -1,36 +1,35 @@
-.container
-	.span9
-		.row
-			.marketing
-				.row
-					%h1= event.title
-				.row
-					- unless event.img_url.nil?
-						%img{src: event.img_url}
-				.row
-					%p
-						Category: 
-						%strong
-							#{event.category.name}
-				.row	
-					%p= event.event_date.strftime("%m/%d/%Y")
-				.row	
-					%p= event.body
-		.row
-			%h4= "comments"
-			%hr
-		-event.tumbler.comments.each_with_index do |comment, n|
+.span9
+	.row
+		.marketing
 			.row
-				%small.pull-left= comment.created_at
-				%br
-				%br
-				%p= comment.body
-				%small
-					%p.pull-right= comment.posted_by
-				%br
-				%hr
+				%h1= event.title
+			.row
+				- unless event.img_url.nil?
+					%img{src: event.img_url}
+			.row
+				%p
+					Category: 
+					%strong
+						#{event.category.name}
+			.row	
+				%p= event.event_date.strftime("%m/%d/%Y")
+			.row	
+				%p= event.body
+	.row
+		%h4= "comments"
+		%hr
+	-event.tumbler.comments.each_with_index do |comment, n|
 		.row
-			#{partial :'event/comment', {event_id: event.id.to_s, user_name: event.user.user_name}}
+			%small.pull-left= comment.created_at
+			%br
+			%br
+			%p= comment.body
+			%small
+				%p.pull-right= comment.posted_by
+			%br
+			%hr
+	.row
+		#{partial :'event/comment', {event_id: event.id.to_s, user_name: event.user.user_name}}
 
 
 :javascript

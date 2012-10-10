@@ -926,7 +926,7 @@ form.bs-docs-example {
     margin-bottom: 9px;
   }
   .nav-search {
-     left:15% !important;
+     left:7% !important;
   }
 }
 
@@ -1005,5 +1005,8 @@ form.bs-docs-example {
   .nav-search {
      left:5% !important;
      width:150px;
+  }
+  ul.nav a{
+     padding: 10px !important;
   }
 }

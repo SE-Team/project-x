@@ -5,20 +5,47 @@
 				%a.brand{:href => "/user/#{session[:user]}/dashboard"} Project X
 			-else
 				%a.brand{:href => '/'} Project X
-			#nav-search
-				%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search",}
-				.nav-element.pull-right
-					/ %a{href: "/about"} About
-					/ %span= "|"
-					/ %a{href: "/conatact"} Conatact
-					/ %span= "|"
-					-if logged_in?
-						%a{:href => "/user/#{session[:user]}/dashboard"} #{session[:user]} 
-						%span= "|"
-						%a{:href => "/logout" } Logout
-					-else 
-						%a{:href => '/login'} Login
-
+			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
+			-if logged_in?
+				%ul.nav.pull-right
+					%li.dropdown
+						%a{"data-toggle" => "dropdown", :href => "#"}
+							#{session[:user]}
+							%i.icon-chevron-down
+						%ul.dropdown-menu
+							%li
+								%a{:href => "/user/#{session[:user]}/create-event"}
+									%i.icon-flag
+									Create Event
+							%li
+								%a{:href => "/user/#{session[:user]}/account"}
+									%i.icon-cog
+									Account Settings
+							%li
+								%a{:href => "/user/#{session[:user]}/messages"}
+									%i.icon-envelope
+									Messages
+							%li.divider
+							%li
+								%a{:href => "/about"}
+									%i.icon-info-sign
+									About
+							%li
+								%a{:href => "/contact"}
+									%i.icon-question-sign
+									Contact Support
+							%li
+								%a{:href => "/logout"}
+									%i.icon-off
+									Logout
+			-else
+				%ul.nav.pull-right
+					%li
+						%a{:href => "/register"}
+							Sign Up
+					%li
+						%a{:href => "/login"}
+							Login
 :javascript
 	$('#search-input').keypress(function(e) {
 		if(e.which == 13) {

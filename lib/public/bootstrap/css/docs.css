@@ -846,10 +846,6 @@ form.bs-docs-example {
     margin-top: 30px;
     margin-right: 0;
   }
-  .nav-search {
-     left:0 !important;
-     top:0 !important;
-  }
 
 }
 
@@ -929,6 +925,9 @@ form.bs-docs-example {
   .footer p {
     margin-bottom: 9px;
   }
+  .nav-search {
+     left:15% !important;
+  }
 }
 
 /* Landscape phones
@@ -1002,5 +1001,9 @@ form.bs-docs-example {
   /* Unfloat the back to top in footer to prevent odd text wrapping */
   .footer .pull-right {
     float: none;
+  }
+  .nav-search {
+     left:5% !important;
+     width:150px;
   }
 }

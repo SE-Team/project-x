@@ -1,0 +1,5 @@
+%ul.breadcrumb
+	- crumbs.each do |crumb|
+		%li
+			%a{href: '#'}= crumb
+			%span.divider= '/'

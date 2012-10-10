@@ -39,7 +39,12 @@
 	%body{"data-spy".to_sym => "scroll", "data-target".to_sym => ".bs-docs-sidebar"}
 		
 		%div= haml :navbar
-		%div= yield
+		.container
+			- if @breadcrumbs
+				.row= @breadcrumbs
+			.row
+				.span3.bs-docs-sidebar= @sidebar
+				.span9= yield
 
 	%footer= haml :footer
 

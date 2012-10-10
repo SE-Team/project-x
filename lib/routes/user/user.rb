@@ -20,6 +20,7 @@ require 'dm-serializer'
 require './lib/controllers/form'
 require './lib/controllers/user/sidebar'
 require './lib/controllers/event/tile'
+require './lib/controllers/bread_crumbs/bread_crumbs'
 ##############################################################
 
 ##############################################################
@@ -28,6 +29,7 @@ include Helpers
 include FormController
 include UserSidebarController
 include TileController
+include BreadCrumbsController
 ##############################################################
 
 ## Events ####################################################
@@ -36,9 +38,9 @@ get '/user/:user_name/dashboard' do
   @user = User.first(user_name: session[:user])
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
-    @content = partial(:'user/dashboard', {events: @user.events, categories: @categories})
     @sidebar = user_sidebar(@user)
-    return haml :with_sidebar, layout: :'layout/user'
+    @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Stream"]
+    haml :'user/dashboard', locals: {events: @user.events, categories: @categories}, layout: :'layout/user'
   else
     redirect '/'
   end
@@ -46,18 +48,17 @@ end
 
 get '/user/:username/friends' do
   @user = User.first(user_name: session[:user])
-  @content = partial(:'user/friends', {user: @user})
   @sidebar = user_sidebar(@user)
-  haml :with_sidebar
+  @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Friends"]
+  haml :'user/friends', locals: {user: @user}, layout: :'layout/user'
 end
 
 get '/user/:username/event/:event_id' do
-  # @user = session[:user]
   @user = User.first(user_name: session[:user])
   @event = Event.first(id: params[:event_id])
-  @content = partial(:'event/event', {user: @user, event: @event})
   @sidebar = user_sidebar(@user)
-  haml :with_sidebar
+  @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Event", @event.title]
+  haml :'event/event', locals: {user: @user, event: @event}, layout: :'layout/user'
 end
 ##############################################################
 
@@ -170,6 +171,7 @@ get '/user/:username/create-event' do
   @content = partial(:form, {form_map: event_form})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
+  
 end
 
 post'/user/:username/create-event' do

@@ -15,7 +15,7 @@ module OAuthController
 	      client.authorization.code = code
 	      
 	      # temporary
-	      session[:token_id] = nil
+	      # session[:token_id] = nil
 
 	      if session[:token_id]
 	        # Load the access token here if it's available

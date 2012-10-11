@@ -5,7 +5,7 @@
 				%a.brand{:href => "/user/#{session[:user]}/dashboard"} Project X
 			-else
 				%a.brand{:href => '/'} Project X
-			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
+			/ %input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
 			-if logged_in?
 				%ul.nav.pull-right
 					%li.dropdown
@@ -27,7 +27,7 @@
 									Messages
 							%li.divider
 							%li
-								%a{:href => "/about"}
+								%a.notifier{:href => "/about"}
 									%i.icon-info-sign
 									About
 							%li
@@ -38,6 +38,20 @@
 								%a{:href => "/logout"}
 									%i.icon-off
 									Logout
+				%ol.user-links.nav.pull-right
+					%li
+						.notifier-icon
+							%a#notifications-tooltip{href: '#', rel: "tooltip", "data-original-title".to_sym => "Notifications", "data-placement".to_sym => "bottom"}
+								%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
+							- if true # should look for new notifications
+								.notifier-badge
+									.notifier-value= 10
+					%li
+						%a{href: '#'}
+							%icon.icon-th-large
+					%li
+						%a{href: '#'}
+							%icon.icon-calendar
 			-else
 				%ul.nav.pull-right
 					%li
@@ -53,4 +67,12 @@
 			var msg = "search for: " + searchTerm;
 			window.location.replace("/search/" + encodeURIComponent(searchTerm));	
 		}
-	})
+	});
+
+	function toggleNotificationTooltip() {
+		var notifier = $('#notifications-tooltip')
+		notifier.tooltip('toggle');
+	}
+
+	$('#notifications-tooltip').hover(toggleNotificationTooltip);
+

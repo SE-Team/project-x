@@ -80,7 +80,9 @@
   color: #222;
 }
 
-.element.work          { background: #F00; background: hsl(   0, 100%, 50%); }
+.element.work          { background: #F00; 
+  background: hsl( 0, 100%, 50%); 
+  }
 .element.personal  { background: #F80; background: hsl(  36, 100%, 50%); }
 .element.school      { background: #FF0; background: hsl(  72, 100%, 50%); }
 .element.leisure        { background: #0F0; background: hsl( 108, 100%, 50%); }
@@ -349,6 +351,54 @@
 .nav-element {
  padding-top: 7px; 
 }
+
 .center {
    text-align:center;
+}
+
+.user-links {
+  background: #F1F1F1;
+  background: -moz-linear-gradient(#F1F1F1, #E0E0E0);
+  background: -webkit-linear-gradient(#F1F1F1, #E0E0E0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#e0e0e0')";
+  float: left;
+  /*margin: 20px 20px 20px 20px;*/
+  top: 2.5px;
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #FAFAFA, inset 0 1px 0 #FAFAFA;
+  list-style: none;
+  /*height: 33px;*/
+  padding-left: 10px;
+}
+
+.notifier-icon {
+  position: relative;
+  top: 10px;
+  left: 0px;
+}
+
+.notifier-badge {
+  position: relative;
+  top: -26px;
+  right: -15px;
+  font-size: 8px;
+  padding-right: 1px;
+  padding-left: 2px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin: 0;
+  border-radius: 10px 10px;
+  background-color: rgba(255, 0, 0, 0.75);
+  color: white;
+  height: 15px;
+  width: 11px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 255)
+}
+
+.notifier-value {
+  position: relative;
+  top: -2px;
 }

@@ -30,12 +30,12 @@ get '/oauth2callback' do
     user = User.first(user_name: email)
     if user
       # session[:token_id] = token_pair.id
-      session[:user] = user.user_name
+      session[:user].user_name = user.user_name
       redirect to("/user/#{user.user_name}/dashboard")
     else
       user = User.create(user_name: email, email: email, token_pair: token_pair)
       # session[:token_pair_id] = token_pair.id
-      session[:user] = user.user_name
+      session[:user].user_name = user.user_name
       redirect to("/user/#{user.user_name}/dashboard")
     end
   end
@@ -44,6 +44,6 @@ get '/oauth2callback' do
 end
 
 get '/user/:user_name/picasa/' do
-  @user = User.first(user_name: session[:user])
+  @user = User.first(user_name: session[:user].user_name)
   client = api_client
 end

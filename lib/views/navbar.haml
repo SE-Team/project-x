@@ -2,7 +2,7 @@
 	.navbar-inner
 		.container-fluid
 			-if logged_in?
-				%a.brand{:href => "/user/#{session[:user]}/dashboard"} Project X
+				%a.brand{:href => "/user/#{session[:user].user_name}/dashboard"} Project X
 			-else
 				%a.brand{:href => '/'} Project X
 			/ %input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
@@ -10,19 +10,19 @@
 				%ul.nav.pull-right
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
-							#{session[:user]}
+							#{session[:user].user_name}
 							%i.icon-chevron-down
 						%ul.dropdown-menu
 							%li
-								%a{:href => "/user/#{session[:user]}/create-event"}
+								%a{:href => "/user/#{session[:user].user_name}/create-event"}
 									%i.icon-flag
 									Create Event
 							%li
-								%a{:href => "/user/#{session[:user]}/account"}
+								%a{:href => "/user/#{session[:user].user_name}/account"}
 									%i.icon-cog
 									Account Settings
 							%li
-								%a{:href => "/user/#{session[:user]}/messages"}
+								%a{:href => "/user/#{session[:user].user_name}/messages"}
 									%i.icon-envelope
 									Messages
 							%li.divider

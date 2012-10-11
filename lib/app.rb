@@ -25,7 +25,7 @@ require './lib/routes/user/user'
 require './lib/routes/admin/admin'
 require './lib/routes/api/api'
 require './lib/routes/search/search'
-# require './lib/routes/oauth/oauth'
+require './lib/routes/oauth/oauth'
 ##############################################################
 ### Controller includes ######################################
 include Helpers
@@ -56,22 +56,22 @@ set :public_folder, Proc.new { File.join(root, "lib/public") }
 
 ## Splash page ###############################################
 get '/' do
-  @user = User.first(user_name: session[:user])
-  if session[:token_id]
+  @user = session[:user]
+  # if session[:token_id]
     # if token_pair = TokenPair.first(id: session[:token_id].to_i) 
       # @client.authorization.update_token!(token_pair.to_hash)
     # end
-  end
+  # end
   unless @user == nil
-    @user_name = session[:user]
+    @user_name = session[:user].user_name
   end
   haml :index
 end
 
 ## About #####################################################
 get '/about' do
-  unless session[:user] == nil
-    @user_name = session[:user]
+  unless session[:user].user_name == nil
+    @user_name = session[:user].user_name
   end
   haml :about
 end
@@ -94,9 +94,9 @@ post '/login' do
     # Create a unique id for this user session
     # make sure the id saved
   if @user = User.authenticate(params["username"], params["password"])
-    session[:user] = @user.user_name
+    session[:user] = @user
     flash("Login successful")
-    redirect "/user/" << session[:user] << "/dashboard"
+    redirect "/user/" << session[:user].user_name << "/dashboard"
   else
     flash("Login failed - Try again")
     redirect '/login'

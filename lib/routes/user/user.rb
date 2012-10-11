@@ -35,26 +35,26 @@ include BreadCrumbsController
 ## Events ####################################################
 ##############################################################
 get '/user/:user_name/dashboard' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
     @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Stream"]
-    haml :'user/dashboard', locals: {events: @user.events, categories: @categories}, layout: :'layout/user'
+    haml :'user/dashboard', locals: {categories: @categories}, layout: :'layout/user'
   else
     redirect '/'
   end
 end
 
 get '/user/:username/friends' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @sidebar = user_sidebar(@user)
   @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Friends"]
   haml :'user/friends', locals: {user: @user}, layout: :'layout/user'
 end
 
 get '/user/:username/event/:event_id' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @event = Event.first(id: params[:event_id])
   @sidebar = user_sidebar(@user)
   @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Event", @event.title]
@@ -70,7 +70,7 @@ post '/user/:username/event/:event_id/comment' do
     body = nil
     posted_by = nil
     if logged_in?
-      user = User.first(user_name: session[:user])
+      user = session[:user]
       posted_by = user.user_name
       email = user.email
       body = params["body"]
@@ -94,14 +94,14 @@ end
 ## Account ###################################################
 ##############################################################
 get '/user/:username/account' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @content = partial(:'user/account', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/profile' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @content = partial(:'user/profile', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
@@ -112,11 +112,10 @@ end
 ##############################################################
 get '/user/:username/messages' do
   # authenticate the user by name and session id first
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   unless @user == nil
     @content = partial(:'user/messages', {user: @user})
     @sidebar = user_sidebar(@user)
-    # print_session_data(session, @user)
     haml :with_sidebar
   else
     redirect '/'
@@ -124,7 +123,7 @@ get '/user/:username/messages' do
 end
 
 get '/user/:username/rmessage/:msg_id' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @msg = RMessage.first(id: params[:msg_id])
   if @msg.new_message
     @msg.new_message = false
@@ -136,14 +135,14 @@ get '/user/:username/rmessage/:msg_id' do
 end
 
 get '/user/:username/message/create' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @content = partial(:'message/create_message', {user: @user, source: @user.user_name, subject: ""})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/smessage/:msg_id' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @msg = SMessage.first(id: params[:msg_id])
   @content = partial(:'user/smessage', {user: @user, msg: @msg})
   @sidebar = user_sidebar(@user)
@@ -151,7 +150,7 @@ get '/user/:username/smessage/:msg_id' do
 end
 
 post '/user/:user_name/message' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   target = User.first(user_name: params[:target_user])
   message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
   if message.save
@@ -167,7 +166,7 @@ end
 ## Event creation ############################################
 ##############################################################
 get '/user/:username/create-event' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   @content = partial(:form, {form_map: event_form})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
@@ -175,7 +174,7 @@ get '/user/:username/create-event' do
 end
 
 post'/user/:username/create-event' do
-  @user = User.first(user_name: session[:user])
+  @user = session[:user]
   event = Event.new
   event.user = @user
   event.title = params["title"]
@@ -192,7 +191,7 @@ post'/user/:username/create-event' do
 
   if event.save && time.save && location.save
     flash("Event created")
-    redirect '/user/' << session[:user] << "/dashboard"
+    redirect '/user/' << session[:user].user_name << "/dashboard"
   else
     tmp = []
     event.errors.each do |e|

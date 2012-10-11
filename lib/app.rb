@@ -25,7 +25,7 @@ require './lib/routes/user/user'
 require './lib/routes/admin/admin'
 require './lib/routes/api/api'
 require './lib/routes/search/search'
-require './lib/routes/oauth/oauth'
+# require './lib/routes/oauth/oauth'
 ##############################################################
 ### Controller includes ######################################
 include Helpers

@@ -5,7 +5,7 @@
 				%a.brand{:href => "/user/#{session[:user].user_name}/dashboard"} Project X
 			-else
 				%a.brand{:href => '/'} Project X
-			/ %input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
+			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
 			-if logged_in?
 				%ul.nav.pull-right
 					%li.dropdown
@@ -38,6 +38,7 @@
 								%a{:href => "/logout"}
 									%i.icon-off
 									Logout
+			-if logged_in?
 				%ol.user-links.nav.pull-right
 					%li
 						.notifier-icon
@@ -45,14 +46,14 @@
 								%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
 							- if true # should look for new notifications
 								.notifier-badge
-									.notifier-value= 10
+									.notifier-value= session[:user].r_messages.all(new_message: true).count
 					%li
 						%a{href: '#'}
 							%icon.icon-th-large
 					%li
 						%a{href: '#'}
 							%icon.icon-calendar
-			-else
+				-else
 				%ul.nav.pull-right
 					%li
 						%a{:href => "/register"}

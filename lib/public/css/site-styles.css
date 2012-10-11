@@ -403,5 +403,10 @@
   top: -2px;
 }
 
+#search-input {
+  background: white url(/images/glyphicons_027_search_small.png) left no-repeat;
+  padding-left: 18px;
+}
+
 
 

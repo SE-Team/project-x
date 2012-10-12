@@ -6,7 +6,7 @@ require 'yaml'
 ## DataMapper Tasks ############################################################
 ################################################################################
 task :clean do
-	File::delete("./db/base.db")
+	File::delete("./lib/db/base.db")
 	puts "Delete base.db"
 end
 
@@ -50,12 +50,30 @@ end
 ## $ rake spec_util
 ################################################################################
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = Dir.glob('./spec/**/*_spec.rb')
+  t.spec_files = Dir.glob('./lib/spec/**/*_spec.rb')
   t.spec_opts << '--format specdoc'
 end
 
 Spec::Rake::SpecTask.new(:spec_util) do |t|
-  t.spec_files = Dir.glob('./spec/lib/util/*_spec.rb')
+  t.spec_files = Dir.glob('./lib/spec/lib/util/*_spec.rb')
   t.spec_opts << '--format specdoc'
 end
 ################################################################################
+
+################################################################################
+################################################################################
+task :new_mvc :name do |t, mvc_name|
+	m_name = "./lib/model/" << mvc_name.underscore << ".rb"
+	model_file = File.exists?File.new("./lib/")
+end
+################################################################################
+
+class String
+  def underscore
+    self.gsub(/::/, '/').
+    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+    gsub(/([a-z\d])([A-Z])/,'\1_\2').
+    tr("-", "_").
+    downcase
+  end
+end

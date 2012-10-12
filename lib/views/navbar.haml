@@ -1,0 +1,79 @@
+.navbar.navbar-fixed-top
+	.navbar-inner
+		.container-fluid
+			-if logged_in?
+				%a.brand{:href => "/user/#{session[:user].user_name}/dashboard"} Project X
+			-else
+				%a.brand{:href => '/'} Project X
+			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
+			-if logged_in?
+				%ul.nav.pull-right
+					%li.dropdown
+						%a{"data-toggle" => "dropdown", :href => "#"}
+							#{session[:user].user_name}
+							%i.icon-chevron-down
+						%ul.dropdown-menu
+							%li
+								%a{:href => "/user/#{session[:user].user_name}/create-event"}
+									%i.icon-flag
+									Create Event
+							%li
+								%a{:href => "/user/#{session[:user].user_name}/account"}
+									%i.icon-cog
+									Account Settings
+							%li
+								%a{:href => "/user/#{session[:user].user_name}/messages"}
+									%i.icon-envelope
+									Messages
+							%li.divider
+							%li
+								%a.notifier{:href => "/about"}
+									%i.icon-info-sign
+									About
+							%li
+								%a{:href => "/contact"}
+									%i.icon-question-sign
+									Contact Support
+							%li
+								%a{:href => "/logout"}
+									%i.icon-off
+									Logout
+			-if logged_in?
+				%ol.user-links.nav.pull-right
+					%li
+						.notifier-icon
+							%a#notifications-tooltip{href: '#', rel: "tooltip", "data-original-title".to_sym => "Notifications", "data-placement".to_sym => "bottom"}
+								%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
+							- if true # should look for new notifications
+								.notifier-badge
+									.notifier-value= session[:user].r_messages.all(new_message: true).count
+					%li
+						%a{href: '#'}
+							%icon.icon-th-large
+					%li
+						%a{href: '#'}
+							%icon.icon-calendar
+				-else
+				%ul.nav.pull-right
+					%li
+						%a{:href => "/register"}
+							Sign Up
+					%li
+						%a{:href => "/login"}
+							Login
+:javascript
+	$('#search-input').keypress(function(e) {
+		if(e.which == 13) {
+			var searchTerm = $("#search-input").val();
+			var msg = "search for: " + searchTerm;
+			window.location.replace("/search/" + encodeURIComponent(searchTerm));	
+		}
+	});
+
+	function toggleNotificationTooltip() {
+		var notifier = $('#notifications-tooltip')
+		notifier.tooltip('toggle');
+	}
+
+	$('#notifications-tooltip').hover(toggleNotificationTooltip);
+

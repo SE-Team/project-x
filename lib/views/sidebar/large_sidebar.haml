@@ -1,0 +1,42 @@
+.container
+	.row
+		%a{href: "user/#{user.user_name}/profile"}
+			%img#user-avatar{src: user.img_url, rel: "tooltip", "data-placement".to_sym => "bottom", "data-original-title".to_sym => "Change your avatar at gravatar.com"}
+	.row
+		%h1
+			%span{itemprop: "name"}= user.user_name
+	.row
+		%ul.nav.nav-list
+			- map[:items].each do |item|
+				- if item == :divider
+					%li.divider
+				- elsif item.has_key? :sub_menu
+					%li
+						%a.item-with-sub-menu
+							%i{class: item[:icon].nil? ? "#" : item[:icon]}
+							= item[:title]
+							- if item.has_key? :badge
+								%span.badge.badge-info= item[:badge][:value]
+					%li.user-sidebar-sub-menu
+						%ul
+							- item[:sub_menu].each do |sub_item|
+								%li
+									%a{href: sub_item[:href].nil? ? "#" : sub_item[:href]}
+										%i{class: sub_item[:icon].nil? ? "#" : sub_item[:icon]}
+										= sub_item[:title]
+										- if sub_item.has_key? :badge
+											%span.badge.badge-info= sub_item[:badge][:value]
+				- else
+					%li
+						%a{href: item[:href].nil? ? "#" : item[:href]}
+							%i{class: item[:icon].nil? ? "#" : item[:icon]}
+							= item[:title]
+							- if item.has_key? :badge
+								%span.badge.badge-info= item[:badge][:value]
+	
+
+
+
+
+/ :javascript
+/ 	$('#user-avatar').tooltip()

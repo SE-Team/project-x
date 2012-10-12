@@ -14,22 +14,25 @@ require './lib/helpers/sinatra'
 ##############################################################
 require './lib/model/base'
 require 'dm-serializer'
+##############################################################
 
 ## Controllers ###############################################
 ##############################################################
-require './lib/controllers/form'
 require './lib/controllers/user/sidebar'
 require './lib/controllers/event/tile'
+require './lib/controllers/event/create'
+require './lib/controllers/navbar/navbar'
 require './lib/controllers/bread_crumbs/bread_crumbs'
 ##############################################################
 
 ##############################################################
 ### Controller includes ######################################
 include Helpers
-include FormController
+include CreateEventController
 include UserSidebarController
 include TileController
 include BreadCrumbsController
+include NavbarController
 ##############################################################
 
 ## Events ####################################################
@@ -167,10 +170,10 @@ end
 ##############################################################
 get '/user/:username/create-event' do
   @user = session[:user]
-  @content = partial(:form, {form_map: event_form})
+  form_map = create_event_event_form
+  @content = partial(:form, {form_map: form_map})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
-  
 end
 
 post'/user/:username/create-event' do

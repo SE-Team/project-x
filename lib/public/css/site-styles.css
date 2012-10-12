@@ -403,9 +403,20 @@
   top: -2px;
 }
 
+.single-digit-notifier-value {
+  left: 3px;
+}
+
+.double-digit-notifier-value {
+  left: 1px;
+}
+
 #search-input {
-  background: white url(/images/glyphicons_027_search_small.png) left no-repeat;
-  padding-left: 18px;
+  background: white url(/images/gray_search_small.png) left no-repeat;
+  padding-left: 34px;
+  position: relative;
+  top: 5px;
+  left: 0px;
 }
 
 

@@ -352,6 +352,11 @@
  padding-top: 7px; 
 }
 
+.center_block {
+   margin: 0 auto;
+   display:block;
+}
+
 .center {
    text-align:center;
 }

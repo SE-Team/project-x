@@ -45,4 +45,10 @@ module Helpers
   	return partial (:'tumbler/new_comment')
   end
 
+ def gravatar_for(user, i_size="")
+    gravatar_id = Digest::MD5::hexdigest(user.email.downcase)
+    "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{i_size}"
+  end
+
+
 end

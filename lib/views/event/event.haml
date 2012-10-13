@@ -19,7 +19,7 @@
 		%h4= "comments"
 		%hr
 	-event.tumbler.comments.each_with_index do |comment, n|
-		.row
+		.row{class: "C#{comment.id}"}
 			%small.pull-left= comment.created_at
 			%br
 			%br
@@ -33,7 +33,7 @@
 
 
 :javascript
-	$('#add-reply').click(function () {
+	$('#add-reply').click(function (e) {
 		$('.reply-message').toggle();
 		$('#add-reply').toggle();
 	});

@@ -4,7 +4,7 @@
 			%small
 				To
 		.row
-			%input{type: :text, style: "width: 580px;", value: "#{source}", name: "target_user"}
+			%input{:'data-provide' => "typeahead", :source => User.all.map{|u| u.user_name}.to_s, type: :text, style: "width: 580px;", name: "target_user"}
 		.row
 			%small
 				Subject

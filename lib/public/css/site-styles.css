@@ -450,3 +450,14 @@
   border-color: rgba(255, 255, 255, 1);
   z-index: 10;
 }
+
+#advanced-search-btn {
+  width: 13px;
+  padding: 3px;
+  position: relative;
+  top: 3px;
+}
+
+#advanced-search-icon {
+  width: 18px;
+}

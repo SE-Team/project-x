@@ -14,8 +14,10 @@
 			.row-fluid.window-pane-buttons
 				#event-btns.btn-group
 					%span.open-event-btn{href: ""}
-						%a.btn.btn-small{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
-							%i.icon-picture
+						%a.btn.btn-small.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
+							%i.icon-picture.event-load-btn
 	/ - if true
 	/ 	.event-notifier-badge
 	/ 		.event-notifier-value{class: "#{get_event_value_class(map[:event])}"}= comment_count(map[:event])
+
+	

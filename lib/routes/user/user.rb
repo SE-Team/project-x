@@ -92,7 +92,7 @@ post '/user/:username/event/:event_id/comment' do
                              tumbler_event_id: event.id)
     event.tumbler.comments << comment
   end
-  redirect "/user/#{params["username"]}/event/#{params["event_id"]}"
+  redirect "/user/#{params["username"]}/event/#{params["event_id"]}#C#{comment.id}"
 end
 
 ## Account ###################################################

@@ -42,7 +42,8 @@ get '/user/:user_name/dashboard' do
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
-    @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Stream"]
+    @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
+    puts request.path_info
     haml :'user/dashboard', locals: {categories: @categories}, layout: :'layout/user'
   else
     redirect '/'
@@ -52,7 +53,7 @@ end
 get '/user/:username/friends' do
   @user = session[:user]
   @sidebar = user_sidebar(@user)
-  @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Friends"]
+  @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
   haml :'user/friends', locals: {user: @user}, layout: :'layout/user'
 end
 
@@ -60,7 +61,7 @@ get '/user/:username/event/:event_id' do
   @user = session[:user]
   @event = Event.first(id: params[:event_id])
   @sidebar = user_sidebar(@user)
-  @breadcrumbs = bread_crumbs_partial ["User", @user.user_name, "Event", @event.title]
+  @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
   haml :'event/event', locals: {user: @user, event: @event}, layout: :'layout/user'
 end
 ##############################################################

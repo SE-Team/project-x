@@ -5,11 +5,15 @@
 		%table.table.table-condensed.table-hover
 			%thead
 				%tr
-					%th.span1
+					%th
 						%input{type: :checkbox}
-					%th.span1
-						%p
-							From
+					%th
+						%p= "From"
+					%th
+					%th
+						%p= "Subject"
+					%th
+						%p= "Date"
 
 			%tbody
 				- user.r_messages.all(order: [:id.desc]).each do |msg|
@@ -22,15 +26,14 @@
 									- else
 										%i.icon-star-empty
 						%td
-							%a{href: "./rmessage/#{msg.id}"}
-								%strong= msg.source
+							%a{href: "/user/#{msg.source}/dashboard"}= msg.source
 						%td
 							-if msg.new_message
 								%span.label.label-success= "new"
 							-else
 								%span.label= "old"
-							%a{href: "./rmessage/#{msg.id}"}
-								%strong= msg.subject
+						%td
+							%a{href: "./rmessage/#{msg.id}"}= msg.subject
 						%td= msg.created_at.strftime("%m/%d/%Y")
 	.row
 		%a.btn.btn-primary{href: "/user/#{user.user_name}/message/create"}= "create"
@@ -41,11 +44,16 @@
 		%table.table.table-condensed.table-hover
 			%thead
 				%tr
-					%th.span1
+					%th
 						%input{type: :checkbox}
-					%th.span1.pull-bottom
-						%p
-							To
+					%th
+						%p= "From"
+					%th
+					%th
+						%p= "Subject"
+					%th
+						%p= "Date"
+
 			%tbody
 				- user.s_messages.all(order: [:id.desc]).each do |msg|
 					%tr
@@ -57,13 +65,12 @@
 								- else
 									%i.icon-star-empty
 						%td
-							%a{href: "./smessage/#{msg.id}"}
-								%strong= msg.target
+							%a{href: "./smessage/#{msg.id}"}= msg.target
 						%td
 							-if msg.sent
 								%span.label.label-info= "sent"
 							-else
 								%span.label.label-warning= "not sent"
-							%a{href: "./smessage/#{msg.id}"}
-								%strong= msg.subject
+						%td
+							%a{href: "./smessage/#{msg.id}"}= msg.subject
 						%td= msg.created_at.strftime("%m/%d/%Y")

@@ -5,11 +5,15 @@
 		%table.table.table-condensed.table-hover
 			%thead
 				%tr
-					%th.span1
+					%th
 						%input{type: :checkbox}
-					%th.span1
-						%p
-							From
+					%th
+						%p= "From"
+					%th
+					%th
+						%p= "Subject"
+					%th
+						%p= "Date"
 
 			%tbody
 				- user.r_messages.all(order: [:id.desc]).each do |msg|
@@ -18,19 +22,18 @@
 							%input{type: :checkbox}
 								%a{href: "#", id: "message_start_id_#{msg.id}"}
 									- if msg.star
-										%i.icon-star
+										%i.icon-star.rmsg-star{id: "msg-#{msg.id}-star"}
 									- else
-										%i.icon-star-empty
+										%i.icon-star-empty.rmsg-star{id: "msg-#{msg.id}-star"}
 						%td
-							%a{href: "./rmessage/#{msg.id}"}
-								%strong= msg.source
+							%a{href: "/user/#{msg.source}/dashboard"}= msg.source
 						%td
 							-if msg.new_message
 								%span.label.label-success= "new"
 							-else
 								%span.label= "old"
-							%a{href: "./rmessage/#{msg.id}"}
-								%strong= msg.subject
+						%td
+							%a{href: "./rmessage/#{msg.id}"}= msg.subject
 						%td= msg.created_at.strftime("%m/%d/%Y")
 	.row
 		%a.btn.btn-primary{href: "/user/#{user.user_name}/message/create"}= "create"
@@ -41,11 +44,16 @@
 		%table.table.table-condensed.table-hover
 			%thead
 				%tr
-					%th.span1
+					%th
 						%input{type: :checkbox}
-					%th.span1.pull-bottom
-						%p
-							To
+					%th
+						%p= "From"
+					%th
+					%th
+						%p= "Subject"
+					%th
+						%p= "Date"
+
 			%tbody
 				- user.s_messages.all(order: [:id.desc]).each do |msg|
 					%tr
@@ -53,17 +61,53 @@
 							%input{type: :checkbox}
 								%a{href: "#"}
 								- if msg.star
-									%i.icon-star
+									%i.icon-star.smsg-star{id: "msg-#{msg.id}-star"}
 								- else
-									%i.icon-star-empty
+									%i.icon-star-empty.smsg-star{id: "msg-#{msg.id}-star"}
 						%td
-							%a{href: "./smessage/#{msg.id}"}
-								%strong= msg.target
+							%a{href: "./smessage/#{msg.id}"}= msg.target
 						%td
 							-if msg.sent
 								%span.label.label-info= "sent"
 							-else
 								%span.label.label-warning= "not sent"
-							%a{href: "./smessage/#{msg.id}"}
-								%strong= msg.subject
+						%td
+							%a{href: "./smessage/#{msg.id}"}= msg.subject
 						%td= msg.created_at.strftime("%m/%d/%Y")
+
+:javascript
+	$('.rmsg-star').click(function(e) {
+		var obj = event.target;
+		var idName = $(obj).attr('id').split('-')[1];
+		$.ajax({
+			type: "POST",
+			url: "/api/user/rmessage/star",
+			data: { msg_id: idName }
+		}).done(function( msg ) {
+			if (msg == "true") {
+				$(obj).removeClass('icon-star-empty');
+				$(obj).addClass('icon-star');
+			} else {
+				$(obj).removeClass('icon-star');
+				$(obj).addClass('icon-star-empty');
+			}
+		});
+	});
+
+	$('.smsg-star').click(function(e) {
+		var obj = event.target;
+		var idName = $(obj).attr('id').split('-')[1];
+		$.ajax({
+			type: "POST",
+			url: "/api/user/smessage/star",
+			data: { msg_id: idName }
+		}).done(function( msg ) {
+			if (msg == "true") {
+				$(obj).removeClass('icon-star-empty');
+				$(obj).addClass('icon-star');
+			} else {
+				$(obj).removeClass('icon-star');
+				$(obj).addClass('icon-star-empty');
+			}
+		});
+	});

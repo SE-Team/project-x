@@ -44,9 +44,9 @@
 						.notifier-icon
 							%a#notifications-tooltip{href: '#', rel: "tooltip", "data-original-title".to_sym => "Notifications", "data-placement".to_sym => "bottom"}
 								%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
-							- if true # should look for new notifications
+							- if needs_notification?(session[:user])
 								.notifier-badge
-									.notifier-value= session[:user].r_messages.all(new_message: true).count
+									.notifier-value{class: "#{get_value_class(session[:user])}"}= notification_count(session[:user])
 					%li
 						%a{href: '#'}
 							%icon.icon-th-large

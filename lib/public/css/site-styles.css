@@ -365,7 +365,7 @@
   /*margin: 20px 20px 20px 20px;*/
   top: 2.5px;
   border: 1px solid #DDD;
-  border-radius: 3px;
+  border-radius: 4px;
   box-shadow: 0 1px 0 #FAFAFA, inset 0 1px 0 #FAFAFA;
   list-style: none;
   /*height: 33px;*/
@@ -380,7 +380,7 @@
 
 .notifier-badge {
   position: relative;
-  top: -26px;
+  top: -25px;
   right: -15px;
   font-size: 8px;
   padding-right: 1px;
@@ -392,7 +392,7 @@
   background-color: rgba(255, 0, 0, 0.75);
   color: white;
   height: 15px;
-  width: 11px;
+  width: 12px;
   border-width: 2px;
   border-style: solid;
   border-color: rgba(255, 255, 255, 255)
@@ -403,10 +403,50 @@
   top: -2px;
 }
 
-#search-input {
-  background: white url(/images/glyphicons_027_search_small.png) left no-repeat;
-  padding-left: 18px;
+.single-digit-notifier-value {
+  left: 4px;
 }
 
+.double-digit-notifier-value {
+  left: 1px;
+}
 
+.triple-digit-notifier-value {
+  left: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
 
+#search-input {
+  background: white url(/images/gray_search_small.png) left no-repeat;
+  padding-left: 34px;
+  position: relative;
+  top: 6px;
+  left: 0px;
+}
+
+.event-notifier-value {
+  position: relative;
+  top: -2px;
+}
+
+.event-notifier-badge {
+  position: relative;
+  top: 3px;
+  right: -88px;
+  font-size: 8px;
+  padding-right: 1px;
+  padding-left: 2px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin: 0;
+  border-radius: 10px 10px;
+  background-color: rgba(255, 0, 0, 0.75);
+  color: white;
+  height: 15px;
+  width: 12px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 1);
+  z-index: 10;
+}

@@ -15,4 +15,7 @@
 				#event-btns.btn-group
 					%span.open-event-btn{href: ""}
 						%a.btn.btn-small{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
-							%i.icon-picture	
+							%i.icon-picture
+	/ - if true
+	/ 	.event-notifier-badge
+	/ 		.event-notifier-value{class: "#{get_event_value_class(map[:event])}"}= comment_count(map[:event])

@@ -22,9 +22,9 @@
 							%input{type: :checkbox}
 								%a{href: "#", id: "message_start_id_#{msg.id}"}
 									- if msg.star
-										%i.icon-star
+										%i.icon-star.rmsg-star{id: "msg-#{msg.id}-star"}
 									- else
-										%i.icon-star-empty
+										%i.icon-star-empty.rmsg-star{id: "msg-#{msg.id}-star"}
 						%td
 							%a{href: "/user/#{msg.source}/dashboard"}= msg.source
 						%td
@@ -61,9 +61,9 @@
 							%input{type: :checkbox}
 								%a{href: "#"}
 								- if msg.star
-									%i.icon-star
+									%i.icon-star.smsg-star{id: "msg-#{msg.id}-star"}
 								- else
-									%i.icon-star-empty
+									%i.icon-star-empty.smsg-star{id: "msg-#{msg.id}-star"}
 						%td
 							%a{href: "./smessage/#{msg.id}"}= msg.target
 						%td
@@ -74,3 +74,40 @@
 						%td
 							%a{href: "./smessage/#{msg.id}"}= msg.subject
 						%td= msg.created_at.strftime("%m/%d/%Y")
+
+:javascript
+	$('.rmsg-star').click(function(e) {
+		var obj = event.target;
+		var idName = $(obj).attr('id').split('-')[1];
+		$.ajax({
+			type: "POST",
+			url: "/api/user/rmessage/star",
+			data: { msg_id: idName }
+		}).done(function( msg ) {
+			if (msg == "true") {
+				$(obj).removeClass('icon-star-empty');
+				$(obj).addClass('icon-star');
+			} else {
+				$(obj).removeClass('icon-star');
+				$(obj).addClass('icon-star-empty');
+			}
+		});
+	});
+
+	$('.smsg-star').click(function(e) {
+		var obj = event.target;
+		var idName = $(obj).attr('id').split('-')[1];
+		$.ajax({
+			type: "POST",
+			url: "/api/user/smessage/star",
+			data: { msg_id: idName }
+		}).done(function( msg ) {
+			if (msg == "true") {
+				$(obj).removeClass('icon-star-empty');
+				$(obj).addClass('icon-star');
+			} else {
+				$(obj).removeClass('icon-star');
+				$(obj).addClass('icon-star-empty');
+			}
+		});
+	});

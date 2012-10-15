@@ -430,6 +430,15 @@
   left: 0px;
 }
 
+#advanced-search-input {
+  background: white url(/images/gray_search_small.png) left no-repeat;
+  padding-left: 34px;
+  position: relative;
+  top: 6px;
+  left: 0px;
+  width: 400px;
+}
+
 .event-notifier-value {
   position: relative;
   top: -2px;
@@ -454,4 +463,15 @@
   border-style: solid;
   border-color: rgba(255, 255, 255, 1);
   z-index: 10;
+}
+
+#advanced-search-btn {
+  width: 13px;
+  padding: 3px;
+  position: relative;
+  top: 3px;
+}
+
+#advanced-search-icon {
+  width: 18px;
 }

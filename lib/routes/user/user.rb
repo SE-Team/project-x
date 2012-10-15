@@ -43,7 +43,7 @@ get '/user/:user_name/dashboard' do
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
     @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
-    puts request.path_info
+    puts api_client.authorization.access_token
     haml :'user/dashboard', locals: {categories: @categories}, layout: :'layout/user'
   else
     redirect '/'
@@ -92,7 +92,7 @@ post '/user/:username/event/:event_id/comment' do
                              tumbler_event_id: event.id)
     event.tumbler.comments << comment
   end
-  redirect "/user/#{params["username"]}/event/#{params["event_id"]}"
+  redirect "/user/#{params["username"]}/event/#{params["event_id"]}#C#{comment.id}"
 end
 
 ## Account ###################################################

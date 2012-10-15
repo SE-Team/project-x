@@ -6,6 +6,8 @@
 			-else
 				%a.brand{:href => '/'} Project X
 			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
+			%a.btn#advanced-search-btn{href: '/advanced-search', rel: "tooltip", "data-original-title".to_sym => "Advanced Search", "data-placement".to_sym => "bottom"}
+				%i.icon-cog#advanced-search-icon
 			-if logged_in?
 				%ul.nav.pull-right
 					%li.dropdown
@@ -76,4 +78,11 @@
 	}
 
 	$('#notifications-tooltip').hover(toggleNotificationTooltip);
+
+	function toggleAdvancedSearchTooltip() {
+		var notifier = $('#advanced-search-btn')
+		notifier.tooltip('toggle');
+	}
+
+	$('#advanced-search-btn').hover(toggleAdvancedSearchTooltip);
 

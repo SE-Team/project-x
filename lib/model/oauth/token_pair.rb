@@ -25,7 +25,8 @@ class TokenPair
       :access_token => access_token,
       :expires_in => expires_in,
       :id_token => id_token,
-      :issued_at => Time.at(issued_at)
+      :issued_at => Time.at(issued_at),
+      :id => id
     }
   end
 end

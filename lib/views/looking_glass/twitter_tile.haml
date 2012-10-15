@@ -11,5 +11,5 @@
 				%p.user_name= map[:user_name]
 			.row-fluid.window-pane-buttons
 				%span.btn.btn-small.open-event-btn{href: ""}
-					%a{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
+					%a.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
 						%i.icon-picture	

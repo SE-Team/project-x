@@ -1,0 +1,22 @@
+.offset1
+	.container
+		.span6
+			.row
+				%h3= "Advanced Search"
+				%hr
+			.row
+				%h4= "Search Options"
+				.btn-group{:'data-toggle' => "buttons-checkbox"}
+					%button.btn.btn-primary{type: "button"}= "user"
+					%button.btn.btn-primary{type: "button"}= "title"
+					%button.btn.btn-primary{type: "button"}= "description"
+				%input.search-query.nav-search#advanced-search-input{:type => 'text', :placeholder => "Search"}
+
+:javascript
+	$('#advanced-search-input').keypress(function(e) {
+		if(e.which == 13) {
+			var searchTerm = $("#advanced-search-input").val();
+			var msg = "search for: " + searchTerm;
+			window.location.replace("/search/" + encodeURIComponent(searchTerm));	
+		}
+	});

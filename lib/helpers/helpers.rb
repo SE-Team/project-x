@@ -2,13 +2,6 @@ require 'haml'
 
 module Helpers
   
-  def api_config
-    @settings ||= (begin
-      settings = YAML::load(File.open('lib/config/config.yml'))
-      settings
-    end)
-  end
-
   def get_in(coll, keys)
     cur_coll = coll
     keys.each{|k| cur_coll = cur_coll[k]}

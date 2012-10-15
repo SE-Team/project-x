@@ -425,6 +425,15 @@
   left: 0px;
 }
 
+#advanced-search-input {
+  background: white url(/images/gray_search_small.png) left no-repeat;
+  padding-left: 34px;
+  position: relative;
+  top: 6px;
+  left: 0px;
+  width: 400px;
+}
+
 .event-notifier-value {
   position: relative;
   top: -2px;

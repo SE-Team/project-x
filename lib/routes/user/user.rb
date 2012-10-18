@@ -43,7 +43,6 @@ get '/user/:user_name/dashboard' do
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
     @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
-    puts api_client.authorization.access_token
     haml :'user/dashboard', locals: {categories: @categories}, layout: :'layout/user'
   else
     redirect '/'

@@ -1,5 +1,5 @@
 ## data-mapper dependency requires
-require 'dm-core'
+require 'data_mapper'
 require 'dm-migrations'
 
 ## load project db models
@@ -23,7 +23,7 @@ require './lib/model/data_generator'
 
 # DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "sqlite://#{Dir.pwd}/lib/db/base.db")
-# DataMapper::Model.raise_on_save_failure = true
+DataMapper::Model.raise_on_save_failure = true
 # Now we re-open our Event and Categories classes to define associations
 class User
   has n, :events
@@ -31,9 +31,6 @@ class User
 
   has n, :s_messages
   has n, :r_messages
-
-  has 1, :token_pair
-
   # If we want to know all the people that John follows, we need to look
   # at every 'Link' where John is a :follower. Knowing these, we know all
   # the people that are :followed by John.
@@ -113,10 +110,6 @@ class User
     account_setting = AccountSetting.create(user: self)
     account_setting.save
   end
-end
-
-class TokenPair
-  belongs_to :user
 end
 
 class Profile

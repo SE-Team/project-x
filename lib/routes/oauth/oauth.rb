@@ -54,24 +54,23 @@ get '/oauth2callback' do
   end
   token_pair.update_token!(client.authorization)
   token_pair.save
+  # puts token_pair.issued_at
+  # puts "issued at: " + Time.at(token_pair.issued_at)
   session[:token_id] = token_pair.id
-  puts token_pair.to_hash 
-
+  # puts "token id " << session[:token_id].to_s
   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
     r_hash = JSON.parse(response)
     email = r_hash["email"]
     user = User.first(user_name: email)
     if user
-      session[:token_id] = token_pair.id
       session[:user] = user
       redirect to("/user/#{user.user_name}/dashboard")
     else
-      user = User.create(user_name: email, email: email, token_pair: token_pair)
-      # session[:token_pair_id] = token_pair.id
+      user = User.create(user_name: email, email: email)
       redirect to("/user/#{user.user_name}/dashboard")
     end
   end
-  puts session[:token_id]
+  # puts "token id " << session[:token_id].to_s
   redirect to('/')
 end
 

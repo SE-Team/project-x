@@ -3,3 +3,4 @@
 *.db
 local/*
 local
+Gemfile.lock

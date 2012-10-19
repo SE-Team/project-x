@@ -364,7 +364,7 @@ class DataGenerator
 		end
 		puts "."
 	end
-	
+
 	def rand_comments(max_comments=5)
 		puts "Generate random comments"
 		comments = ipsum_comments
@@ -396,7 +396,6 @@ class DataGenerator
 		end
 		puts "."
 	end
-	
+
 end
 
-	

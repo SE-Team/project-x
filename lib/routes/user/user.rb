@@ -37,13 +37,25 @@ include NavbarController
 
 ## Events ####################################################
 ##############################################################
-get '/user/:user_name/dashboard' do
+get '/user/:user_name/stream' do
   @user = session[:user]
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
     @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
     haml :'user/dashboard', locals: {categories: @categories}, layout: :'layout/user'
+  else
+    redirect '/'
+  end
+end
+
+get '/user/:user_name/events' do
+  @user = session[:user]
+  unless @user.nil?
+    @categories = @user.account_setting.categories.split('&')
+    @sidebar = user_sidebar(@user)
+    @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
+    haml :'user/events', locals: {categories: @categories}, layout: :'layout/user'
   else
     redirect '/'
   end

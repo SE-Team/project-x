@@ -1,8 +1,4 @@
-require './lib/model/user'
-require './lib/model/event'
-require './lib/model/tumbler'
-require './lib/model/comment'
-
+require './lib/model/base'
 
 class DataGenerator
 	@event_res = 30

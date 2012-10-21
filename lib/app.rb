@@ -96,7 +96,7 @@ post '/login' do
   if @user = User.authenticate(params["username"], params["password"])
     session[:user] = @user
     flash("Login successful")
-    redirect "/user/" << session[:user].user_name << "/dashboard"
+    redirect "/user/" << session[:user].user_name << "/stream"
   else
     flash("Login failed - Try again")
     redirect '/login'

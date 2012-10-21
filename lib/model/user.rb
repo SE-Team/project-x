@@ -14,6 +14,7 @@ class User
   property :hashed_password,    String
   property :created_at,         DateTime, default: DateTime.now
   property :upadted_at,         DateTime
+  property :last_stream_request DateTime
 
   def username= new_username
     @username = new_username.downcase
@@ -41,6 +42,20 @@ class User
     str = ""
     1.upto(len) { |i| str << chars[rand(chars.size-1)] }
     return str
+  end
+
+  def user_stream_events(args)
+    events = nil
+    stream_search_term = Event.tumbler.comments.posted_by => @user_name
+    if args.class == Range
+      events = Event.all(stream_search_term)[args]
+      events = events
+    elsif args.class == Integer
+      events = Event.all(stream_search_term)[(0..args)]
+    elsif args.class == Hash
+      events = Event.all(args)
+    end
+    return events
   end
 end
 

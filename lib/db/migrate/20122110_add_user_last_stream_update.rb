@@ -14,13 +14,13 @@ DataMapper.logger.debug( "Starting Migration" )
 
 migration 1, :add_user_last_stream_update do
   up do
-    modify_table :user do
+    modify_table :users do
     	add_column :last_stream_request, 'DateTime'
     end
   end
 
   down do
-    modify_table :user do
+    modify_table :users do
     	drop_column :last_stream_request
     end
   end

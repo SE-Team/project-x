@@ -24,7 +24,7 @@
 :javascript
 	$(function() {
 		var $container = $('#isotope-container');
-		var newElements = "start";
+		var newElements = "";
 		$.ajax({
 			type: "POST",
 			url: "/api/user/stream",
@@ -50,22 +50,37 @@
 		});
 	});
 
-	// $(function() {
-	// 	var loop = true;
-	// 	function doStuff() {
-	// 		if (loop) {
-	// 			var now = Date();
-	// 			$.ajax({
-	// 				type: "POST",
-	// 				url: "/api/user/stream/update",
-	// 				data: {user_id: "#{@user.id}",
-	// 					   user_salt: "#{@user.salt}",
-	// 					   time: now}
-	// 			}).done(function (response) {
-	// 				console.log(response);
-	// 			});
-	// 			setTimeout(doStuff, 1000);
-	// 		}
-	// 	};
-	// 	doStuff();
-	// });
+	$(function() {
+		var loop = true;
+		var $container = $('#isotope-container');
+		function doStuff() {
+			if (loop) {
+				var now = Date();
+				$.ajax({
+					type: "POST",
+					url: "/api/user/stream/update",
+					data: {user_id: "#{@user.id}",
+						   user_salt: "#{@user.salt}",
+						   time: now,
+						   range: "0 10"}
+				}).done(function (response) {
+					if (response.length > 0) {
+						var html = $('<div>').html(response);
+
+						// add the new elements to the isotope container
+						$container.prepend(html).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
+						// add the click handlers for the new elements
+						$('.element').click(function(e) {
+							if ($(e.target).hasClass('event-load-btn')) {
+							} else {
+								$(this).toggleClass('large');
+								$container.isotope('reLayout');
+							}
+						});
+					}
+				});
+				setTimeout(doStuff, 10000);
+			}
+		};
+		doStuff();
+	});

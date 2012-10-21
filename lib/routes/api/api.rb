@@ -91,13 +91,12 @@ post "/api/user/events" do
 end
 
 post "/api/user/stream" do
-  # puts session[:last_event_time]
   response_str = ""
   user = User.first(id: params[:user_id])
   if user && user.salt == params[:user_salt]
     ## if valid user, then update new stream items
     ## for now just grabbing new events
-    events = user.events
+    events = user.stream_events(100)
     events.each do |event|
       element = render_pane({title: event.title,
                              classes: event.category_name,
@@ -115,14 +114,17 @@ post "/api/user/stream" do
 end
 
 post "/api/user/stream/update" do
-  # puts session[:last_event_time]
   response_str = ""
   user = User.first(id: params[:user_id])
   if user && user.salt == params[:user_salt]
     ## if valid user, then update new stream items
     ## for now just grabbing new events
-    # request_time = DateTime.parse params[:time]
-    events = Event.all(:created_at.gt => request_time)
+    events = Event.all(:updated_at.gt => user.last_stream_request)
+    puts user.last_stream_request
+    puts Event.first(order: [:updated_at.desc]).updated_at
+    range_vals = params[:range].split(" ")
+    puts range_vals
+    events = events[(range_vals[0].to_i..range_vals[1].to_i)]
     events.each do |event|
       element = render_pane({title: event.title,
                              classes: event.category_name,
@@ -136,5 +138,10 @@ post "/api/user/stream/update" do
       response_str += element
     end
   end
-  return {has_events: (events.count > 0), count: events.count, html: response_str.to_s}.to_json
+  if events.count > 0
+    user.update(last_stream_request: DateTime.now)
+    user.save
+  end
+  puts "num events " << events.count.to_s
+  return response_str
 end

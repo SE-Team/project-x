@@ -1,0 +1,71 @@
+%section#content
+	%section#options
+		#filters.option-set{"data-option-key".to_sym => "filter"}
+			%a.little_mt.btn{href: "#filter", "data-option-value".to_sym => "*"} all
+			- categories.each do |cat|
+				%a.little_mt.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
+
+	.loading
+		#circularG
+			#circularG_1.circularG
+			#circularG_2.circularG
+			#circularG_3.circularG
+			#circularG_4.circularG
+			#circularG_5.circularG
+			#circularG_6.circularG
+			#circularG_7.circularG
+			#circularG_8.circularG
+	.mid_mt#isotope-container
+
+%script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
+%script{ :type => "text/javascript", :src =>"/js/user.dash.js"}
+
+
+:javascript
+	$(function() {
+		var $container = $('#isotope-container');
+		var newElements = "start";
+		$.ajax({
+			type: "POST",
+			url: "/api/user/events",
+			data: {user_id: "#{@user.id}",
+				   user_salt: "#{@user.salt}"}
+		}).done(function( response ) {
+			$container.isotope({
+				itemSelector : '.element'
+			});
+			var html = $('<div>').html(response);
+			// hide the loading div
+			$('.loading').hide();
+			// add the new elements to the isotope container
+			$container.isotope('insert', html);
+			// add the click handlers for the new elements
+			$('.element').click(function(e) {
+				if ($(e.target).hasClass('event-load-btn')) {
+				} else {
+					$(this).toggleClass('large');
+					$container.isotope('reLayout');
+				}
+			});
+		});
+	});
+
+	// $(function() {
+	// 	var loop = true;
+	// 	function doStuff() {
+	// 		if (loop) {
+	// 			var now = Date();
+	// 			$.ajax({
+	// 				type: "POST",
+	// 				url: "/api/user/stream/update",
+	// 				data: {user_id: "#{@user.id}",
+	// 					   user_salt: "#{@user.salt}",
+	// 					   time: now}
+	// 			}).done(function (response) {
+	// 				console.log(response);
+	// 			});
+	// 			setTimeout(doStuff, 1000);
+	// 		}
+	// 	};
+	// 	doStuff();
+	// });

@@ -1,98 +1,48 @@
-.container-fluid
-	.row-fluid
-		.span3
-			.well.sidebar-nav
-				%ul.nav-list.nav
-					%li.nav-header
-						Sidebar
-					%li.nav-header
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link					
-					%li
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link
-					%li.nav-header
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link					
-					%li
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link
-					%li.nav-header
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link					
-					%li
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link
-					%li
-						%a{:href => '/'} Link					
-					%li
-						%a{:href => '/'} Link
-	
-		.span9
-			.hero-unit
-				%h1
-					Hello, world!
-				%p
-					This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-				%p
-					%a.btn.btn-primary.btn-large
-						Learn more &raquo;
-			
-			.row-fluid
-				.span4
-					%h2
-						Heading
-					%p
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					%p
-						%a.btn{:href => '/'}
-							View Details &raquo;
-				.span4
-					%h2
-						Heading
-					%p
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					%p
-						%a.btn{:href => '/'}
-							View Details &raquo;
-				.span4
-					%h2
-						Heading
-					%p
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					%p
-						%a.btn{:href => '/'}
-							View Details &raquo;
-			.row-fluid
-				.span4
-					%h2
-						Heading
-					%p
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					%p
-						%a.btn{:href => '/'}
-							View Details &raquo;
-				.span4
-					%h2
-						Heading
-					%p
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					%p
-						%a.btn{:href => '/'}
-							View Details &raquo;
-				.span4
-					%h2
-						Heading
-					%p
-						Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-					%p
-						%a.btn{:href => '/'}
-							View Details &raquo;
+:javascript
+	$(function() {
+		$('#myCarousel').carousel({
+			// set the slide interval time in miliseconds
+			interval: 3000
+		});
+	});
 
-				
+.container
+	.marketing
+		%h1 Introducing Project-X.
+		%p.marketing-byline Need reasons to love Project-X? Look no further.
+		#myCarousel.carousel.slide.offset1.span9.well
+			.carousel-inner
+				.item.active
+					%img{:alt => "", :src => "http://twitter.github.com/bootstrap/assets/img/bootstrap-mdo-sfmoma-01.jpg"}
+					.carousel-caption
+						%h4 First Thumbnail label
+						%p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+				.item
+					%img{:alt => "", :src => "http://twitter.github.com/bootstrap/assets/img/bootstrap-mdo-sfmoma-02.jpg"}
+					.carousel-caption
+						%h4 First Thumbnail label
+						%p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+				.item
+					%img{:alt => "", :src => "http://twitter.github.com/bootstrap/assets/img/bootstrap-mdo-sfmoma-03.jpg"}
+					.carousel-caption
+						%h4 First Thumbnail label
+						%p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+			%a.left.carousel-control{"data-slide" => "prev", :href => "#myCarousel"} &lsaquo;
+			%a.right.carousel-control{"data-slide" => "next", :href => "#myCarousel"} &rsaquo;
+		.row-fluid
+			.span4
+				%img{:src => "assets/img/bs-docs-twitter-github.png"}
+					%h2 By nerds, for nerds.
+					%p
+						Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+			.span4
+				%img{:src => "assets/img/bs-docs-responsive-illustrations.png"}
+					%h2 Made for everyone.
+					%p
+						Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+			.span4
+				%img{:src => "assets/img/bs-docs-bootstrap-features.png"}
+					%h2 Packed with features.
+					%p
+						Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+		%hr.soften

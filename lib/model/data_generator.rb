@@ -1,8 +1,4 @@
-require './lib/model/user'
-require './lib/model/event'
-require './lib/model/tumbler'
-require './lib/model/comment'
-
+require './lib/model/base'
 
 class DataGenerator
 	@event_res = 30
@@ -344,9 +340,10 @@ class DataGenerator
 	def rand_events(max_events=25)
 		puts "Generate random events"
 		descriptions = rand_descriptions
-		User.all.each do |user|
+		users = User.all[(0..User.all.count)]
+		users.each do |user|
 			print "."
-			(1..(10 + rand(max_events))).each do |i|
+			(1..(1 + rand(max_events))).each do |i|
 				categories = ["work",
 							  "entertainment",
 							  "personal",
@@ -364,7 +361,7 @@ class DataGenerator
 		end
 		puts "."
 	end
-	
+
 	def rand_comments(max_comments=5)
 		puts "Generate random comments"
 		comments = ipsum_comments
@@ -396,7 +393,6 @@ class DataGenerator
 		end
 		puts "."
 	end
-	
+
 end
 
-	

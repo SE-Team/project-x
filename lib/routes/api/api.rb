@@ -28,6 +28,9 @@ require './lib/controllers/api/api'
 include ApiController
 ##############################################################
 
+
+@temp_key = "44:2c:03:30:95:3e"
+
 get '/api-key' do
   @content = partial(:form, {form_map: api_form})
   haml :with_sidebar
@@ -67,70 +70,78 @@ post '/api/user/smessage/star' do
   return msg.star.to_s
 end
 
+post "/api/user/events" do
+  user = User.first(id: params[:user_id])
+  response_str = ""
+  if user.salt == params[:user_salt]
+    user.events.each do |event|
+      element = render_pane({title: event.title,
+                             classes: event.category_name,
+                             id: event.id,
+                             category: event.category.name,
+                             tumbler: event.tumbler,
+                             event_time: event.event_date,
+                             img_url: event.img_url,
+                             user_name: event.user.user_name,
+                             event: event})
+      response_str << element
+    end
+  end
+  return response_str
+end
 
+post "/api/user/stream" do
+  response_str = ""
+  user = User.first(id: params[:user_id])
+  if user && user.salt == params[:user_salt]
+    ## if valid user, then update new stream items
+    ## for now just grabbing new events
+    events = user.stream_events(100)
+    events.each do |event|
+      element = render_pane({title: event.title,
+                             classes: event.category_name,
+                             id: event.id,
+                             category: event.category.name,
+                             tumbler: event.tumbler,
+                             event_time: event.event_date,
+                             img_url: event.img_url,
+                             user_name: event.user.user_name,
+                             event: event})
+      response_str += element
+    end
+  end
+  return response_str
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# get '/api/:api_key/users' do
-#   valid_key = ApiKey.first(api_key: params["api_key"])
-#   if !valid_key.nil?
-#     User.all.to_json(only: [:id, :username, :email])
-#   end
-# end
-
-# get '/api/:api_key/user/:username.json' do
-#   User.first(user_name: params["user_name"]).to_json(only: [:username, :id, :email])
-# end
-
-# post '/api/:api_key/event/?' do
-#   valid_key = ApiKey.first(api_key: params[:api_key])
-#   if !valid_key.nil?
-#     event = Event.new
-#     event.title = CGI::unescape params[:title]
-#     if event.save
-#       event.to_json
-#     else
-#       "BAD ENTRY"
-#     end
-#   end
-#   redirect '/admin/admin/dashboard'
-# end
-
-# get '/api/:api_key/create-event$:opts' do
-#   valid_key = ApiKey.first(api_key: params[:api_key])
-#   if !valid_key.nil?
-#     User.all.to_json(only: [:id, :username, :email])
-#     opts_str = params[:opts].to_s
-#     opts = opts_str.split "&"
-#     opts.each_with_index.map{|opt, i|
-#       kv = opt.split "="
-#     opts[i] = [kv[0], kv[1]]}
-#     event = Event.new
-#     opts.each do |opt|
-#       event[opt[0]] = opt[1]
-#       p event[opt[0]]
-#     end
-#     event.user = User.first
-#     if event.save
-#       event.to_json
-#     else
-#       "BAD ENTRY"
-#     end
-#   end
-# end
+post "/api/user/stream/update" do
+  response_str = ""
+  user = User.first(id: params[:user_id])
+  if user && user.salt == params[:user_salt]
+    ## if valid user, then update new stream items
+    ## for now just grabbing new events
+    events = Event.all(:updated_at.gt => user.last_stream_request)
+    puts user.last_stream_request
+    puts Event.first(order: [:updated_at.desc]).updated_at
+    range_vals = params[:range].split(" ")
+    puts range_vals
+    events = events[(range_vals[0].to_i..range_vals[1].to_i)]
+    events.each do |event|
+      element = render_pane({title: event.title,
+                             classes: event.category_name,
+                             id: event.id,
+                             category: event.category.name,
+                             tumbler: event.tumbler,
+                             event_time: event.event_date,
+                             img_url: event.img_url,
+                             user_name: event.user.user_name,
+                             event: event})
+      response_str += element
+    end
+  end
+  if events.count > 0
+    user.update(last_stream_request: DateTime.now)
+    user.save
+  end
+  puts "num events " << events.count.to_s
+  return response_str
+end

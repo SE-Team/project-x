@@ -1,19 +1,20 @@
-require 'dm-core'
+require 'data_mapper'
 
 
 
 class User
   include DataMapper::Resource
-  property :id,                 Serial
-  property :user_name,          String, key: true, length: (3..40), required: true
-  property :img_url,            String
-  property :email,              String
-  property :password,           String
-  property :salt,               String
-  property :session_id,         String
-  property :hashed_password,    String
-  property :created_at,         DateTime, default: DateTime.now
-  property :upadted_at,         DateTime
+  property :id,                   Serial
+  property :user_name,            String, key: true, length: (3..40), required: true
+  property :img_url,              String
+  property :email,                String
+  property :password,             String
+  property :salt,                 String
+  property :session_id,           String
+  property :hashed_password,      String
+  property :created_at,           DateTime, default: DateTime.now
+  property :upadted_at,           DateTime
+  property :last_stream_request,  DateTime
 
   def username= new_username
     @username = new_username.downcase
@@ -41,6 +42,21 @@ class User
     str = ""
     1.upto(len) { |i| str << chars[rand(chars.size-1)] }
     return str
+  end
+
+  def stream_events(args=100)
+    events = nil
+    stream_search_term = {Event.tumbler.comments.posted_by => @user_name}
+    if args.class == Range
+      events = Event.all(Event.tumbler.comments.posted_by => @user_name)
+      return events(limit: args)
+    elsif args.class == Fixnum
+      events = Event.all(Event.tumbler.comments.posted_by => @user_name)
+      return events(limit: args)
+    elsif args.class == Hash
+      return events = Event.all(args)
+    end
+    return events
   end
 end
 

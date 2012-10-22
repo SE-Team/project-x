@@ -1,4 +1,4 @@
-require 'dm-core'
+require 'data_mapper'
 
 class Event
 	include DataMapper::Resource

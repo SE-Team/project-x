@@ -37,7 +37,7 @@ include TileController
 ##############################################################
 ### Sinatra Sessions (cookies) ###############################
 configure do
-  enable :sessions
+   use Rack::Session::Pool
 end
 ##############################################################
 

@@ -6,7 +6,7 @@
 // 		%p= 'email: ' <<  user.email.to_s
 
 .content.span9
-	%h2.center= user.user_name.to_s << ' profile'
+	%h2.center= user.user_name.to_s
 	%img.center_block{:src => gravatar_for(user,200)}
 	%form.form-horizontal
 		.control-group

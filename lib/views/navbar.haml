@@ -2,7 +2,7 @@
 	.navbar-inner
 		.container-fluid
 			-if logged_in?
-				%a.brand{:href => "/user/#{session[:user].user_name}/dashboard"} Project X
+				%a.brand{:href => "/user/#{session[:user].user_name}/stream"} Project X
 			-else
 				%a.brand{:href => '/'} Project X
 			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}

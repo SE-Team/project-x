@@ -190,7 +190,7 @@ end
 
 post'/user/:username/create-event' do
   puts session
-  @user = session["user"]
+  @user = current_user
   @event = Event.new
   @event.title = params["title"]
   @event.user = @user

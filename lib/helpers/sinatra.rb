@@ -1,7 +1,7 @@
 helpers do
 
   def current_user
-    return current_user if session[:user_uuid]
+    return SessionController.get(session[:user_uuid]) if session[:user_uuid]
     nil
   end
 

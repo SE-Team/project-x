@@ -120,10 +120,7 @@ post "/api/user/stream/update" do
     ## if valid user, then update new stream items
     ## for now just grabbing new events
     events = Event.all(:updated_at.gt => user.last_stream_request)
-    puts user.last_stream_request
-    puts Event.first(order: [:updated_at.desc]).updated_at
     range_vals = params[:range].split(" ")
-    puts range_vals
     events = events[(range_vals[0].to_i..range_vals[1].to_i)]
     events.each do |event|
       element = render_pane({title: event.title,
@@ -142,6 +139,5 @@ post "/api/user/stream/update" do
     user.update(last_stream_request: DateTime.now)
     user.save
   end
-  puts "num events " << events.count.to_s
   return response_str
 end

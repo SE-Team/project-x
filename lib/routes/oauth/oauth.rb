@@ -75,7 +75,11 @@ get '/oauth2callback' do
     email = r_hash["email"]
     user = User.first(user_name: email, email: email)
     if user
-      session[:user] = user
+      ## create a new seession user uuid to store the datamapper object
+      new_uuid = UUID.new
+      session[:user_uuid] = new_uuid.mac_address
+      SessionController.add(new_uuid.mac_address, @user)
+      flash("Login successful")
       redirect to("/user/#{user.user_name}/dashboard")
     else
       redirect to("/user/#{user.user_name}/dashboard")
@@ -95,7 +99,7 @@ end
 ## scope: https://picasaweb.google.com/data/ #################
 ##############################################################
 get '/user/:user_name/picasa/' do
-  @user = User.first(user_name: session[:user].user_name)
+  @user = User.first(user_name: SessionController.get(session[:user_uuid]).user_name)
   client = api_client
 end
 ##############################################################
@@ -110,7 +114,7 @@ get '/user/:user_name/test/google-calendar' do
     puts session[:token_id]
     token_pair = TokenPair.get(session[:token_id])
     puts token_pair
-    calendar_api_url = base_url + "/users/#{session[:user].user_name}/calendarList" + "?access_token=#{token_pair.access_token}"
+    calendar_api_url = base_url + "/users/#{SessionController.get(session[:user_uuid]).user_name}/calendarList" + "?access_token=#{token_pair.access_token}"
     puts calendar_api_url
     response = open(calendar_api_url).read
     r_hash = JSON.parse(response)

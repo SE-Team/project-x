@@ -1,6 +1,6 @@
 helpers do
   def logged_in?
-    return true if session[:user]
+    return true if SessionController.get(session[:user_uuid])
     nil
   end
 

@@ -37,8 +37,4 @@ module Helpers
   def new_comment
   	return partial (:'tumbler/new_comment')
   end
-
-  def ajax_tile(event)
-    puts event
-  end
 end

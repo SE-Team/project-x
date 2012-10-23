@@ -38,7 +38,7 @@ include NavbarController
 ## Events ####################################################
 ##############################################################
 get '/user/:user_name/stream' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
@@ -50,7 +50,7 @@ get '/user/:user_name/stream' do
 end
 
 get '/user/:user_name/events' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   unless @user.nil?
     @categories = @user.account_setting.categories.split('&')
     @sidebar = user_sidebar(@user)
@@ -62,14 +62,14 @@ get '/user/:user_name/events' do
 end
 
 get '/user/:username/friends' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @sidebar = user_sidebar(@user)
   @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
   haml :'user/friends', locals: {user: @user}, layout: :'layout/user'
 end
 
 get '/user/:username/event/:event_id' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @event = Event.first(id: params[:event_id])
   @sidebar = user_sidebar(@user)
   @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
@@ -85,7 +85,7 @@ post '/user/:username/event/:event_id/comment' do
     body = nil
     posted_by = nil
     if logged_in?
-      user = SessionController.get(session[:user_uuid])
+      user = current_user
       posted_by = user.user_name
       email = user.email
       body = params["body"]
@@ -109,14 +109,14 @@ end
 ## Account ###################################################
 ##############################################################
 get '/user/:username/account' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @content = partial(:'user/account', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/profile' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @content = partial(:'user/profile', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
@@ -127,7 +127,7 @@ end
 ##############################################################
 get '/user/:username/messages' do
   # authenticate the user by name and session id first
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   unless @user == nil
     @content = partial(:'user/messages', {user: @user})
     @sidebar = user_sidebar(@user)
@@ -138,7 +138,7 @@ get '/user/:username/messages' do
 end
 
 get '/user/:username/rmessage/:msg_id' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @msg = RMessage.first(id: params[:msg_id])
   if @msg.new_message
     @msg.new_message = false
@@ -150,14 +150,14 @@ get '/user/:username/rmessage/:msg_id' do
 end
 
 get '/user/:username/message/create' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @content = partial(:'message/create_message', {user: @user, source: @user.user_name, subject: ""})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 get '/user/:username/smessage/:msg_id' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   @msg = SMessage.first(id: params[:msg_id])
   @content = partial(:'user/smessage', {user: @user, msg: @msg})
   @sidebar = user_sidebar(@user)
@@ -165,7 +165,7 @@ get '/user/:username/smessage/:msg_id' do
 end
 
 post '/user/:user_name/message' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   target = User.first(user_name: params[:target_user])
   message = SMessage.create(body: params[:message_body], subject: params[:message_subject], user: @user)
   if message.save
@@ -181,7 +181,7 @@ end
 ## Event creation ############################################
 ##############################################################
 get '/user/:username/create-event' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   form_map = create_event_event_form
   @content = partial(:form, {form_map: form_map})
   @sidebar = user_sidebar(@user)
@@ -206,7 +206,7 @@ post'/user/:username/create-event' do
 
   # if @event.save
   #   # flash("Event created")
-  #   # redirect '/user/' << SessionController.get(session[:user_uuid]).user_name << "/stream"
+  #   # redirect '/user/' << current_user.user_name << "/stream"
   # else
   #   # tmp = []
   #   # event.errors.each do |e|
@@ -215,6 +215,6 @@ post'/user/:username/create-event' do
   #   # flash(tmp)
   #   redirect '/user/:username/create-event'
   # end
-  redirect '/user/' << SessionController.get(session[:user_uuid]).user_name << "/stream"
+  redirect '/user/' << current_user.user_name << "/stream"
 end
 ##############################################################

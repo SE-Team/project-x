@@ -99,7 +99,7 @@ end
 ## scope: https://picasaweb.google.com/data/ #################
 ##############################################################
 get '/user/:user_name/picasa/' do
-  @user = User.first(user_name: SessionController.get(session[:user_uuid]).user_name)
+  @user = User.first(user_name: current_user.user_name)
   client = api_client
 end
 ##############################################################
@@ -114,7 +114,7 @@ get '/user/:user_name/test/google-calendar' do
     puts session[:token_id]
     token_pair = TokenPair.get(session[:token_id])
     puts token_pair
-    calendar_api_url = base_url + "/users/#{SessionController.get(session[:user_uuid]).user_name}/calendarList" + "?access_token=#{token_pair.access_token}"
+    calendar_api_url = base_url + "/users/#{current_user.user_name}/calendarList" + "?access_token=#{token_pair.access_token}"
     puts calendar_api_url
     response = open(calendar_api_url).read
     r_hash = JSON.parse(response)

@@ -1,6 +1,12 @@
 helpers do
+
+  def current_user
+    return current_user if session[:user_uuid]
+    nil
+  end
+
   def logged_in?
-    return true if SessionController.get(session[:user_uuid])
+    return true if current_user
     nil
   end
 

@@ -2,7 +2,7 @@
 	.navbar-inner
 		.container-fluid
 			-if logged_in?
-				%a.brand{:href => "/user/#{SessionController.get(session[:user_uuid]).user_name}/dashboard"} Project X
+				%a.brand{:href => "/user/#{current_user.user_name}/dashboard"} Project X
 			-else
 				%a.brand{:href => '/'} Project X
 			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
@@ -12,19 +12,19 @@
 				%ul.nav.pull-right
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
-							#{SessionController.get(session[:user_uuid]).user_name}
+							#{current_user.user_name}
 							%i.icon-chevron-down
 						%ul.dropdown-menu
 							%li
-								%a{:href => "/user/#{SessionController.get(session[:user_uuid]).user_name}/create-event"}
+								%a{:href => "/user/#{current_user.user_name}/create-event"}
 									%i.icon-flag
 									Create Event
 							%li
-								%a{:href => "/user/#{SessionController.get(session[:user_uuid]).user_name}/account"}
+								%a{:href => "/user/#{current_user.user_name}/account"}
 									%i.icon-cog
 									Account Settings
 							%li
-								%a{:href => "/user/#{SessionController.get(session[:user_uuid]).user_name}/messages"}
+								%a{:href => "/user/#{current_user.user_name}/messages"}
 									%i.icon-envelope
 									Messages
 							%li.divider
@@ -46,9 +46,9 @@
 						.notifier-icon
 							%a#notifications-tooltip{href: '#', rel: "tooltip", "data-original-title".to_sym => "Notifications", "data-placement".to_sym => "bottom"}
 								%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
-							- if needs_notification?(SessionController.get(session[:user_uuid]))
+							- if needs_notification?(current_user)
 								.notifier-badge
-									.notifier-value{class: "#{get_value_class(SessionController.get(session[:user_uuid]))}"}= notification_count(SessionController.get(session[:user_uuid]))
+									.notifier-value{class: "#{get_value_class(current_user)}"}= notification_count(current_user)
 					%li
 						%a{href: '#'}
 							%icon.icon-th-large

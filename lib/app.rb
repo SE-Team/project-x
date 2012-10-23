@@ -58,22 +58,22 @@ set :public_folder, Proc.new { File.join(root, "lib/public") }
 
 ## Splash page ###############################################
 get '/' do
-  @user = SessionController.get(session[:user_uuid])
+  @user = current_user
   # if session[:token_id]
     # if token_pair = TokenPair.first(id: session[:token_id].to_i)
       # @client.authorization.update_token!(token_pair.to_hash)
     # end
   # end
   unless @user == nil
-    @user_name = SessionController.get(session[:user_uuid]).user_name
+    @user_name = current_user.user_name
   end
   haml :index
 end
 
 ## About #####################################################
 get '/about' do
-  unless SessionController.get(session[:user_uuid]).user_name == nil
-    @user_name = SessionController.get(session[:user_uuid]).user_name
+  unless current_user.user_name == nil
+    @user_name = current_user.user_name
   end
   haml :about
 end
@@ -102,7 +102,7 @@ post '/login' do
     session[:user_uuid] = new_uuid.mac_address
     SessionController.add(new_uuid.mac_address, @user)
     flash("Login successful")
-    redirect "/user/" << SessionController.get(session[:user_uuid]).user_name << "/stream"
+    redirect "/user/" << current_user.user_name << "/stream"
   else
     flash("Login failed - Try again")
     redirect '/login'

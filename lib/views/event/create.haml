@@ -1,6 +1,6 @@
 .row
 	.bs-docs-example
-		%form{action: "/user/#{SessionController.get(session[:user_uuid]).user_name}/event/create-event", method: "post"}
+		%form{action: "/user/#{current_user.user_name}/event/create-event", method: "post"}
 			%legend= "Create an event"
 			%h4= "Event info"
 			%label= "Title"

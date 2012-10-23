@@ -10,8 +10,6 @@
 		-form_map[:elements].each do |element|
 			%h4= element[:title]
 			- element[:input_fields].each do |input|
-				-puts input[:type]
-
 				- if input[:type] == :rich_text
 					%label= input[:placeholder].capitalize
 					%textarea

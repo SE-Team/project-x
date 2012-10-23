@@ -189,32 +189,27 @@ get '/user/:username/create-event' do
 end
 
 post'/user/:username/create-event' do
-  puts session
   @user = current_user
   @event = Event.new
+  @location = Location.new
+  @location.geo_location = params["country-code"]
+  @location.city = params["city"]
+  @location.country = params["country"]
+  @time = Time.now
   @event.title = params["title"]
+  @event.body = params["body"]
   @event.user = @user
-  @event.save
-  # @location = Location.create
-  # @location.update(geo_location: params["country-code"],
-  #                             city: params["city"],
-  #                             country: params["country"])
-  # @time = Time.now
-  # @event.update(user: @user,
-  #                          title: params["title"],
-  #                          body: params["body"])
-
-  # if @event.save
-  #   # flash("Event created")
-  #   # redirect '/user/' << current_user.user_name << "/stream"
-  # else
-  #   # tmp = []
-  #   # event.errors.each do |e|
-  #   #   tmp << (e.join("<br/>"))
-  #   # end
-  #   # flash(tmp)
-  #   redirect '/user/:username/create-event'
-  # end
+  if @event.save
+    flash("Event created")
+    redirect '/user/' << current_user.user_name << "/stream"
+  else
+    tmp = []
+    event.errors.each do |e|
+      tmp << (e.join("<br/>"))
+    end
+    flash(tmp)
+    redirect '/user/:username/create-event'
+  end
   redirect '/user/' << current_user.user_name << "/stream"
 end
 ##############################################################

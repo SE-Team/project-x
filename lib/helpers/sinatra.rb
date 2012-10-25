@@ -1,8 +1,11 @@
 helpers do
 
   def current_user
-    return SessionController.get(session[:user_uuid]) if session[:user_uuid]
-    nil
+    cur_user = nil
+    if session[:user_uuid]
+      cur_user = SessionController.user(session[:user_uuid])
+    end
+    return cur_user
   end
 
   def logged_in?

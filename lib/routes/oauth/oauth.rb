@@ -11,7 +11,7 @@ require 'logger'
 ##############################################################
 ## Controllers ###############################################
 ##############################################################
-include OAuthController
+# include OAuthController
 ##############################################################
 
 ##############################################################
@@ -25,16 +25,29 @@ configure do
   set :logger, logger
 end
 ##############################################################
-
 ##############################################################
 ## Routes  ###################################################
 ##############################################################
+
+
+get '/login/google' do
+  new_uuid = UUID.new.generate
+  session[:user_uuid] = new_uuid
+  SessionController.add(new_uuid)
+  client_access_token = SessionController.fetch_access_token!(new_uuid)
+  puts "uuid from login/google -> #{new_uuid}"
+  puts client_access_token
+  puts SessionController.client(new_uuid)
+  unless client_access_token || request.path_info =~ /^\/oauth2/
+    redirect to('/oauth2authorize')
+  end
+end
 
 ##############################################################
 ## Authorization Request #####################################
 ##############################################################
 get '/oauth2authorize' do
-  redirect api_client.authorization.authorization_uri.to_s, 303
+  redirect SessionController.client(session[:user_uuid]).authorization.authorization_uri.to_s, 303
 end
 ##############################################################
 
@@ -42,50 +55,39 @@ end
 ## Google OAuth Callback #####################################
 ##############################################################
 get '/oauth2callback' do
-  code = params[:code]
-  client = api_client code
-  if session[:token_id]
-    # Load the access token here if it's available
-    token_pair = TokenPair.get(session[:token_id])
-    client.authorization.update_token!(token_pair.to_hash)
-  end
-  if client.authorization.refresh_token && client.authorization.expired?
-    client.authorization.fetch_access_token!
-  end
-  # @calendar = client.discovered_api('calendar', 'v3')
-  unless client.authorization.access_token || request.path_info =~ /^\/oauth2/
-    redirect to('/oauth2authorize')
-  end
-  # client.authorization.fetch_access_token!
-  #
+  client = SessionController.client(session[:user_uuid], params[:code])
   # Persist the token here
-  token_pair = if session[:token_id]
-    TokenPair.get(session[:token_id])
-  else
-    TokenPair.new
-  end
+  puts "uuid from oauth2callback -> #{session[:user_uuid]}"
+  puts client
+  client.authorization.fetch_access_token!
+  token_pair = SessionController.token_pair(session[:user_uuid])
   token_pair.update_token!(client.authorization)
   token_pair.save
-  # puts token_pair.issued_at
-  # puts "issued at: " + Time.at(token_pair.issued_at)
-  session[:token_id] = token_pair.id
-  # puts "token id " << session[:token_id].to_s
+  puts "Save token pair from SessionController"
+  puts token_pair.to_hash
   if response = open("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{token_pair.access_token}").read
     r_hash = JSON.parse(response)
     email = r_hash["email"]
-    user = User.first(user_name: email, email: email)
-    if user
+    @user = User.first_or_create(user_name: email, email: email)
+    puts @user.to_hash
+    if @user
+      puts "user from oauth"
+      puts @user.to_hash
       ## create a new seession user uuid to store the datamapper object
-      new_uuid = UUID.new
-      session[:user_uuid] = new_uuid.mac_address
-      SessionController.add(new_uuid.mac_address, @user)
+      puts "session[:user_uuid] #{session[:user_uuid]}"
+      puts SessionController.user(session[:user_uuid])
+      puts "current_user"
+      puts current_user
+
+      SessionController.set(session[:user_uuid], @user)
       flash("Login successful")
-      redirect to("/user/#{user.user_name}/dashboard")
+      redirect to("/user/#{@user.user_name}/stream")
     else
-      redirect to("/user/#{user.user_name}/dashboard")
+      puts "kill user hash due to bad user creation in oauth2callback"
+      SessionController.remove(session[:user_uuid])
+      redirect to("/user/#{@user.user_name}/stream")
     end
   end
-  # puts "token id " << session[:token_id].to_s
   redirect to('/')
 end
 
@@ -100,7 +102,7 @@ end
 ##############################################################
 get '/user/:user_name/picasa/' do
   @user = User.first(user_name: current_user.user_name)
-  client = api_client
+  client = @client
 end
 ##############################################################
 
@@ -109,14 +111,13 @@ end
 ## Google Calendar ###########################################
 ## scope: https://www.googleapis.com/auth/calendar ###########
 ##############################################################
-get '/user/:user_name/test/google-calendar' do
-    base_url = "https://www.googleapis.com/calendar/v3"
-    puts session[:token_id]
-    token_pair = TokenPair.get(session[:token_id])
-    puts token_pair
-    calendar_api_url = base_url + "/users/#{current_user.user_name}/calendarList" + "?access_token=#{token_pair.access_token}"
-    puts calendar_api_url
-    response = open(calendar_api_url).read
-    r_hash = JSON.parse(response)
+get '/user/:user_name/google-calendar' do
+  @calendar = SessionController.calendar(session[:user_uuid])
+  @client = SessionController.client(session[:user_uuid])
+  result = @client.execute(:api_method => @calendar.events.list,
+                           :parameters => {'calendarId' => 'primary'})
+  # status, _, _ = result.response
+  # [status, {'Content-Type' => 'application/json'}, result.data.to_json]
+  result.data.to_json
 end
 ##############################################################

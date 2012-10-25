@@ -41,7 +41,7 @@ include TileController
 ##############################################################
 ### Sinatra Sessions (cookies) ###############################
 configure do
-  enable :sessions
+  use Rack::Session::Pool
 end
 ##############################################################
 
@@ -98,9 +98,9 @@ post '/login' do
   @user = User.authenticate(params["username"], params["password"])
   if @user
     ## create a new seession user uuid to store the datamapper object
-    new_uuid = UUID.new
-    session[:user_uuid] = new_uuid.mac_address
-    SessionController.add(new_uuid.mac_address, @user)
+    @new_uuid = UUID.new.generate
+    session[:user_uuid] = @new_uuid
+    SessionController.add(@new_uuid, @user)
     flash("Login successful")
     redirect "/user/" << current_user.user_name << "/stream"
   else

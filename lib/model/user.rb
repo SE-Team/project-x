@@ -26,6 +26,17 @@ class User
     self.hashed_password = User.encrypt(@password, self.salt)
   end
 
+  def to_hash
+    return {id: self.id,
+            user_name: self.user_name,
+            img_url: self.img_url,
+            email: self.email,
+            session_id: self.session_id,
+            created_at: self.created_at,
+            upadted_at: self.upadted_at,
+            last_stream_request: self.last_stream_request}
+  end
+
   def self.encrypt(pass, salt)
     Digest::SHA1.hexdigest(pass + salt)
   end

@@ -93,6 +93,18 @@ class SessionController
     return calendar
   end
 
+  def self.picasa(uuid)
+    picasa = nil
+    if @@users_session_data[uuid][:picasa]
+      picasa = @@users_session_data[uuid][:picasa]
+    else
+      client = get_client(uuid)
+      picasa = client.discovered_api('picasa')
+      @@users_session_data[uuid][:picasa] = picasa
+    end
+    return picasa
+  end
+
   private
 
   def self.get_or_create_user_hash(uuid)

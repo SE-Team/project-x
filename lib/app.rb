@@ -59,12 +59,7 @@ set :public_folder, Proc.new { File.join(root, "lib/public") }
 ## Splash page ###############################################
 get '/' do
   @user = current_user
-  # if session[:token_id]
-    # if token_pair = TokenPair.first(id: session[:token_id].to_i)
-      # @client.authorization.update_token!(token_pair.to_hash)
-    # end
-  # end
-  unless @user == nil
+  if @user
     @user_name = current_user.user_name
   end
   haml :index

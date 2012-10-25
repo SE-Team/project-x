@@ -14,7 +14,7 @@ module OAuthController
 	    end)
 	end
 
-	def api_client(code="")
+	def api_get_client(code="")
 	  	@client ||= (begin
 			config_info = api_config
 			client = Google::APIClient.new

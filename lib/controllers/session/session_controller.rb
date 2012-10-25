@@ -7,6 +7,10 @@ class SessionController
 
   @@users_session_data = Hash.new
 
+  def self.exists?(uuid)
+    return @@users_session_data[uuid] ? true : false
+  end
+
   def self.add(uuid, user={})
   	cur_user_hash = get_or_create_user_hash uuid
     cur_user_hash[:user] = user
@@ -38,7 +42,7 @@ class SessionController
   end
 
   ## if the user doesn't already have a client a new one is created
-  def self.client(uuid, code="")
+  def self.get_client(uuid, code="")
   	client = nil
   	cur_user_hash = get_or_create_user_hash uuid
     if cur_user_hash[:client]
@@ -52,13 +56,11 @@ class SessionController
   end
 
   def self.fetch_access_token!(uuid)
-  	client = client(uuid)
+  	client = get_client(uuid)
   	if token_pair(uuid)
   		access_token_pair = token_pair(uuid)
   		client.authorization.update_token!(access_token_pair.to_hash)
-  		puts "token pair exists for uuid: #{uuid}"
   	end
-
   	if client.authorization.refresh_token && client.authorization.expired?
   		client.authorization.fetch_access_token!
   	end
@@ -70,12 +72,12 @@ class SessionController
     if cur_user_hash[:token]
       return cur_user_hash[:token]
     else
-      client = client uuid
-      token_pair = TokenPair.new
-      token_pair.update_token!(client.authorization)
-      token_pair.save
-      cur_user_hash[:token] = token_pair
-      return token_pair
+      client = get_client(uuid)
+      user_token_pair = TokenPair.new
+      user_token_pair.update_token!(client.authorization)
+      user_token_pair.save
+      cur_user_hash[:token] = user_token_pair
+      return user_token_pair
     end
   end
 
@@ -84,7 +86,7 @@ class SessionController
     if @@users_session_data[uuid][:calendar]
     	calendar = @@users_session_data[uuid][:calendar]
     else
-    	client = client(uuid)
+    	client = get_client(uuid)
     	calendar = client.discovered_api('calendar', 'v3')
     	@@users_session_data[uuid][:calendar] = calendar
     end

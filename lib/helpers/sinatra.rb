@@ -2,7 +2,7 @@ helpers do
 
   def current_user
     cur_user = nil
-    if session[:user_uuid]
+    if SessionController.exists?(session[:user_uuid])
       cur_user = SessionController.user(session[:user_uuid])
     end
     return cur_user

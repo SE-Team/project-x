@@ -32,12 +32,14 @@ end
 
 get '/login/google' do
   new_uuid = UUID.new.generate
+  puts "new UUiD: #{new_uuid}"
   session[:user_uuid] = new_uuid
   SessionController.add(new_uuid)
+  puts "created new user session map"
   client_access_token = SessionController.fetch_access_token!(new_uuid)
   puts "uuid from login/google -> #{new_uuid}"
   puts client_access_token
-  puts SessionController.client(new_uuid)
+  puts SessionController.get_client(new_uuid)
   unless client_access_token || request.path_info =~ /^\/oauth2/
     redirect to('/oauth2authorize')
   end
@@ -47,7 +49,7 @@ end
 ## Authorization Request #####################################
 ##############################################################
 get '/oauth2authorize' do
-  redirect SessionController.client(session[:user_uuid]).authorization.authorization_uri.to_s, 303
+  redirect SessionController.get_client(session[:user_uuid]).authorization.authorization_uri.to_s, 303
 end
 ##############################################################
 
@@ -55,7 +57,7 @@ end
 ## Google OAuth Callback #####################################
 ##############################################################
 get '/oauth2callback' do
-  client = SessionController.client(session[:user_uuid], params[:code])
+  client = SessionController.get_client(session[:user_uuid], params[:code])
   # Persist the token here
   puts "uuid from oauth2callback -> #{session[:user_uuid]}"
   puts client
@@ -113,7 +115,7 @@ end
 ##############################################################
 get '/user/:user_name/google-calendar' do
   @calendar = SessionController.calendar(session[:user_uuid])
-  @client = SessionController.client(session[:user_uuid])
+  @client = SessionController.get_client(session[:user_uuid])
   result = @client.execute(:api_method => @calendar.events.list,
                            :parameters => {'calendarId' => 'primary'})
   # status, _, _ = result.response

@@ -2,15 +2,16 @@ helpers do
 
   def current_user
     cur_user = nil
+    puts SessionController.exists?(session[:user_uuid])
     if SessionController.exists?(session[:user_uuid])
+      puts SessionController.user(session[:user_uuid])
       cur_user = SessionController.user(session[:user_uuid])
     end
     return cur_user
   end
 
   def logged_in?
-    return true if current_user
-    nil
+    SessionController.exists?(session[:user_uuid])
   end
 
   def link_to(name, location, alternative = false)

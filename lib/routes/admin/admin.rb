@@ -39,9 +39,9 @@ end
 
 post '/admin/login' do
   if @user = Admin.authenticate(params["username"], params["password"])
-    session[:user].user_name = @user.user_name
+    current_user.user_name = @user.user_name
     flash("Admin login successful")
-    redirect "/admin/" << session[:user].user_name << "/dashboard"
+    redirect "/admin/" << current_user.user_name << "/dashboard"
   else
     flash("Admin login failed - Try again")
     redirect '/admin/login'
@@ -52,7 +52,7 @@ end
 ## Account ###################################################
 ##############################################################
 get '/admin/:admin_user/dashboard' do
-  @admin = Admin.first(user_name: session[:user].user_name)
+  @admin = Admin.first(user_name: current_user.user_name)
   @users = User.all
   @content = partial(:'admin/dashboard', {admin: @admin, users: @users, api_keys: ApiKey.all})
   @items = [{href: "#", icon: "icon-home", title: "Dashboard"},

@@ -1,6 +1,15 @@
 helpers do
+
+  def current_user
+    cur_user = nil
+    if SessionController.exists?(session[:user_uuid])
+      cur_user = SessionController.user(session[:user_uuid])
+    end
+    return cur_user
+  end
+
   def logged_in?
-    return true if session[:user]
+    return true if current_user
     nil
   end
 

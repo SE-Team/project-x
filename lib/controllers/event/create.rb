@@ -23,7 +23,6 @@ module CreateEventController
 	end
 
 	def create_event_event_form
-		puts "calling create_event_event_form"
 	  {title: "Create an Event",
 	   elements: [create_event_event_info,
 	              create_event_time_info,

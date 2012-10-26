@@ -4,16 +4,17 @@ require 'data_mapper'
 
 class User
   include DataMapper::Resource
-  property :id,                 Serial
-  property :user_name,          String, key: true, length: (3..40), required: true
-  property :img_url,            String
-  property :email,              String
-  property :password,           String
-  property :salt,               String
-  property :session_id,         String
-  property :hashed_password,    String
-  property :created_at,         DateTime, default: DateTime.now
-  property :upadted_at,         DateTime
+  property :id,                   Serial
+  property :user_name,            String, key: true, length: (3..40), required: true
+  property :img_url,              String
+  property :email,                String
+  property :password,             String
+  property :salt,                 String
+  property :session_id,           String
+  property :hashed_password,      String
+  property :created_at,           DateTime, default: DateTime.now
+  property :upadted_at,           DateTime
+  property :last_stream_request,  DateTime
 
   def username= new_username
     @username = new_username.downcase
@@ -23,6 +24,17 @@ class User
     @password = pass
     self.salt = User.random_string(10) unless self.salt
     self.hashed_password = User.encrypt(@password, self.salt)
+  end
+
+  def to_hash
+    return {id: self.id,
+            user_name: self.user_name,
+            img_url: self.img_url,
+            email: self.email,
+            session_id: self.session_id,
+            created_at: self.created_at,
+            upadted_at: self.upadted_at,
+            last_stream_request: self.last_stream_request}
   end
 
   def self.encrypt(pass, salt)
@@ -41,6 +53,21 @@ class User
     str = ""
     1.upto(len) { |i| str << chars[rand(chars.size-1)] }
     return str
+  end
+
+  def stream_events(args=100)
+    events = nil
+    if args.class == Range
+      events = Event.all(Event.tumbler.comments.posted_by => @user_name)
+      return events(limit: args)
+    elsif args.class == Fixnum
+      events = Event.all(Event.tumbler.comments.posted_by => @user_name)
+      return events(limit: args)
+    elsif args.class == Hash
+      return events = Event.all(args)
+    end
+    events = self.events if events.count == 0
+    return events
   end
 end
 

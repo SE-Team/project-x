@@ -13,6 +13,10 @@ require 'dm-serializer'
 ##############################################################
 ## Controllers ###############################################
 require './lib/controllers/form'
+require './lib/controllers/session/session_controller'
+##############################################################
+## Session ###################################################
+require 'uuid'
 ##############################################################
 ## Routes ####################################################
 ## Requiring the additional routes files will add all of their
@@ -37,7 +41,7 @@ include TileController
 ##############################################################
 ### Sinatra Sessions (cookies) ###############################
 configure do
-  enable :sessions
+  use Rack::Session::Pool
 end
 ##############################################################
 
@@ -48,30 +52,23 @@ set :views, Proc.new { File.join(root, "lib/views") }
 set :public_folder, Proc.new { File.join(root, "lib/public") }
 ##############################################################
 
-
-
 ##############################################################
 ## Routes ####################################################
 ##############################################################
 
 ## Splash page ###############################################
 get '/' do
-  @user = session[:user]
-  # if session[:token_id]
-    # if token_pair = TokenPair.first(id: session[:token_id].to_i) 
-      # @client.authorization.update_token!(token_pair.to_hash)
-    # end
-  # end
-  unless @user == nil
-    @user_name = session[:user].user_name
+  @user = current_user
+  if @user
+    @user_name = current_user.user_name
   end
   haml :index
 end
 
 ## About #####################################################
 get '/about' do
-  unless session[:user].user_name == nil
-    @user_name = session[:user].user_name
+  unless current_user.user_name == nil
+    @user_name = current_user.user_name
   end
   haml :about
 end
@@ -83,7 +80,7 @@ get '/contact' do
 end
 ###############################################################
 
-## Login/Logout ##############################################
+## Login/Logout ###############################################
 get '/login' do
   @map = {action: "/login",
           title: "Login"}
@@ -93,10 +90,14 @@ end
 post '/login' do
     # Create a unique id for this user session
     # make sure the id saved
-  if @user = User.authenticate(params["username"], params["password"])
-    session[:user] = @user
+  @user = User.authenticate(params["username"], params["password"])
+  if @user
+    ## create a new seession user uuid to store the datamapper object
+    @new_uuid = UUID.new.generate
+    session[:user_uuid] = @new_uuid
+    SessionController.add(@new_uuid, @user)
     flash("Login successful")
-    redirect "/user/" << session[:user].user_name << "/dashboard"
+    redirect "/user/" << current_user.user_name << "/stream"
   else
     flash("Login failed - Try again")
     redirect '/login'
@@ -104,14 +105,17 @@ post '/login' do
 end
 
 get '/logout' do
-  session[:user] = nil
+  ## remove and clean up session user values
+  SessionController.remove(session[:user_uuid])
+  session[:user_uuid] = nil
+
   flash("Logout successful")
   redirect '/'
 end
 ###############################################################
 
 
-## Register ##################################################
+## Register ###################################################
 get '/register' do
   haml :register
 end

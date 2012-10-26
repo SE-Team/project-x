@@ -10,18 +10,17 @@
 		-form_map[:elements].each do |element|
 			%h4= element[:title]
 			- element[:input_fields].each do |input|
-				-puts input[:type]
-
 				- if input[:type] == :rich_text
 					%label= input[:placeholder].capitalize
-					%textarea#markitup-textarea
+					%textarea
+					/ %textarea#markitup-textarea
 				- else
 					%label= input[:placeholder].capitalize
 					%input.input-xlarge{type: input[:type], placeholder: input[:placeholder], name: input[:name]}
 		%br
 		%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
 
-:javascript
-	$(document).ready(function() {
-	  $("textarea").markItUp();
-	});
+// :javascript
+// 	$(document).ready(function() {
+// 	  $("textarea").markItUp();
+// 	});

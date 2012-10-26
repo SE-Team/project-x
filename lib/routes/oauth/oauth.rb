@@ -108,9 +108,9 @@ get '/user/:user_name/google-calendar' do
                            :parameters => {'calendarId' => 'primary'})
   # status, _, _ = result.response
   # [status, {'Content-Type' => 'application/json'}, result.data.to_json]
-  @picasa = SessionController.picasa(session[:user_uuid])
-  @client = SessionController.get_client(session[:user_uuid])
-  puts @picasa.methods
+  # @picasa = SessionController.picasa(session[:user_uuid])
+  # @client = SessionController.get_client(session[:user_uuid])
+  # puts @picasa.methods
 
   result.data.to_json
 end

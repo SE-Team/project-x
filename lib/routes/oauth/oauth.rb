@@ -29,6 +29,23 @@ end
 ## Routes  ###################################################
 ##############################################################
 
+before do
+  # Make sure access token is up to date for each request
+  SessionController.get_client(session[:user_uuid]).authorization.update_token!(session)
+  if SessionController.get_client(session[:user_uuid]).authorization.refresh_token &&
+      SessionController.get_client(session[:user_uuid]).authorization.expired?
+    SessionController.get_client(session[:user_uuid]).authorization.fetch_access_token!
+  end
+end
+
+after do
+  # Serialize the access/refresh token to the session
+  session[:access_token] = SessionController.get_client(session[:user_uuid]).authorization.access_token
+  session[:refresh_token] = SessionController.get_client(session[:user_uuid]).authorization.refresh_token
+  session[:expires_in] = SessionController.get_client(session[:user_uuid]).authorization.expires_in
+  session[:issued_at] = SessionController.get_client(session[:user_uuid]).authorization.issued_at
+end
+
 
 get '/login/google' do
   new_uuid = UUID.new.generate
@@ -68,9 +85,8 @@ get '/oauth2callback' do
       flash("Login successful")
       redirect to("/user/#{@user.user_name}/stream")
     else
-      puts "kill user hash due to bad user creation in oauth2callback"
       SessionController.remove(session[:user_uuid])
-      redirect to("/user/#{@user.user_name}/stream")
+      redirect to("/")
     end
   end
   redirect to('/')
@@ -85,14 +101,12 @@ end
 ## Picasa ####################################################
 ## scope: https://picasaweb.google.com/data/ #################
 ##############################################################
-get '/user/:user_name/picasa/' do
-  @picasa = SessionController.picasa(session[:user_uuid])
+get '/user/:user_name/drive' do
+  @drive = SessionController.drive(session[:user_uuid]  )
   @client = SessionController.get_client(session[:user_uuid])
-  puts @picasa.methods
-  # result = @client.execute(:api_method => @picasa.events.list,
-  #                          :parameters => {'calendarId' => 'primary'})
-  # result.data.to_json
-  "picasa methods" << @picasa.to_s
+  result = @client.execute(:api_method => @drive.files.list,
+                           :parameters => {})
+  result.data.to_json
 end
 ##############################################################
 
@@ -115,3 +129,12 @@ get '/user/:user_name/google-calendar' do
   result.data.to_json
 end
 ##############################################################
+
+
+################################################################################
+# INFO and Helpers
+################################################################################
+# in irb
+# list API methods:
+# client.discovered_apis
+# client.discovered_apis.each{|api| puts "name: #{api.name}, title: #{api.title}, version: #{api.version}"}

@@ -57,7 +57,6 @@ class User
 
   def stream_events(args=100)
     events = nil
-    stream_search_term = {Event.tumbler.comments.posted_by => @user_name}
     if args.class == Range
       events = Event.all(Event.tumbler.comments.posted_by => @user_name)
       return events(limit: args)
@@ -67,6 +66,7 @@ class User
     elsif args.class == Hash
       return events = Event.all(args)
     end
+    events = self.events if events.count == 0
     return events
   end
 end

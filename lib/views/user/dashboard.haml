@@ -66,7 +66,6 @@
 				}).done(function (response) {
 					if (response.length > 0) {
 						var html = $('<div>').html(response);
-
 						// add the new elements to the isotope container
 						$container.prepend(html).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
 						// add the click handlers for the new elements

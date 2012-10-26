@@ -93,16 +93,16 @@ class SessionController
     return calendar
   end
 
-  def self.picasa(uuid)
-    picasa = nil
-    if @@users_session_data[uuid][:picasa]
-      picasa = @@users_session_data[uuid][:picasa]
+  def self.drive(uuid)
+    drive = nil
+    if @@users_session_data[uuid][:drive]
+      drive = @@users_session_data[uuid][:drive]
     else
       client = get_client(uuid)
-      picasa = client.discovered_api('picasa')
-      @@users_session_data[uuid][:picasa] = picasa
+      drive = client.discovered_api('drive', 'v2')
+      @@users_session_data[uuid][:drive] = drive
     end
-    return picasa
+    return drive
   end
 
   private
@@ -121,6 +121,14 @@ class SessionController
                      settings = YAML::load(File.open('lib/config/config.yml'))
                      settings
     end)
+  end
+
+  def self.get_in(hash, keys)
+    cur_hash = hash
+    keys.each do |kw|
+      cur_hash = cur_hash[kw]
+    end
+    cur_hash
   end
 
   def self.create_client(uuid, code="")

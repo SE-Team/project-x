@@ -8,7 +8,7 @@ class SessionController
   @@users_session_data = Hash.new
 
   def self.exists?(uuid)
-    return @@users_session_data[uuid] ? true : false
+    return @@users_session_data[uuid][:user] ? true : false
   end
 
   def self.add(uuid, user={})

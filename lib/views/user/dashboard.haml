@@ -60,6 +60,7 @@
 
 			$('.element').click(function(e) {
 				if ($(e.target).hasClass('event-load-btn')) {
+				} else if ($(e.target).hasClass('google-event-btn')) {
 				} else {
 					$(this).toggleClass('large');
 					$container.isotope('reLayout');

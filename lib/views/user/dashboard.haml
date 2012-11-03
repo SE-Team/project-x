@@ -40,6 +40,15 @@
 			// add the new elements to the isotope container
 			$container.isotope('insert', html);
 			// add the click handlers for the new elements
+			$('.sync_goog').click(function(e) {
+				var e_id = $(this).parent().parent().parent().parent().attr('data-symbol');
+				e.preventDefault();
+				$.ajax({
+					type: "POST",
+					url: "/#{@user.email}/sync/add/"+e_id,
+				});
+			});
+
 			$('.element').click(function(e) {
 				if ($(e.target).hasClass('event-load-btn')) {
 				} else {
@@ -66,7 +75,6 @@
 				}).done(function (response) {
 					if (response.length > 0) {
 						var html = $('<div>').html(response);
-
 						// add the new elements to the isotope container
 						$container.prepend(html).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
 						// add the click handlers for the new elements
@@ -84,3 +92,4 @@
 		};
 		doStuff();
 	});
+

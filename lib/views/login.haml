@@ -18,4 +18,5 @@
 				%h4= "Or login with"
 		.row
 			.span4.offset4.well
-				%a.btn.btn-primary{href: "#{to('/oauth2authorize')}"}=  "Gmail"
+				%a.btn{href: to('/login/google')}
+					%img{src: "/images/goog-login-button.png"}

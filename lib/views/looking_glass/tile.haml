@@ -11,6 +11,8 @@
 				%p.user_name= map[:user_name]
 			.row
 				%p.comment-count= "#{map[:tumbler].comments.count}"
+				%a.btn.btn-small.sync_goog{href:"#"}
+					%i.icon-picture
 			.row-fluid.window-pane-buttons
 				#event-btns.btn-group
 					%span.open-event-btn{href: ""}

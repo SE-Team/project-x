@@ -9,12 +9,12 @@ gem 'thin'
 gem 'shotgun'
 gem 'google-api-client' , '~>0.4.3', :require => 'google/api_client'
 gem 'dm-rspec'
-# gem 'picasa'
+gem 'uuid'
 
 group :development do
   gem 'dm-sqlite-adapter'
 end
 
-group :production do 
+group :production do
   gem 'dm-postgres-adapter'
 end

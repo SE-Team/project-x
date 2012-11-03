@@ -26,6 +26,17 @@ class User
     self.hashed_password = User.encrypt(@password, self.salt)
   end
 
+  def to_hash
+    return {id: self.id,
+            user_name: self.user_name,
+            img_url: self.img_url,
+            email: self.email,
+            session_id: self.session_id,
+            created_at: self.created_at,
+            upadted_at: self.upadted_at,
+            last_stream_request: self.last_stream_request}
+  end
+
   def self.encrypt(pass, salt)
     Digest::SHA1.hexdigest(pass + salt)
   end
@@ -46,7 +57,6 @@ class User
 
   def stream_events(args=100)
     events = nil
-    stream_search_term = {Event.tumbler.comments.posted_by => @user_name}
     if args.class == Range
       events = Event.all(Event.tumbler.comments.posted_by => @user_name)
       return events(limit: args)
@@ -56,6 +66,7 @@ class User
     elsif args.class == Hash
       return events = Event.all(args)
     end
+    events = self.events if events.count == 0
     return events
   end
 end

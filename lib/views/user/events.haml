@@ -20,7 +20,6 @@
 %script{ :type => "text/javascript", :src =>"/js/jquery.isotope.min.js"}
 %script{ :type => "text/javascript", :src =>"/js/user.dash.js"}
 
-
 :javascript
 	$(function() {
 		var $container = $('#isotope-container');
@@ -49,23 +48,3 @@
 			});
 		});
 	});
-
-	// $(function() {
-	// 	var loop = true;
-	// 	function doStuff() {
-	// 		if (loop) {
-	// 			var now = Date();
-	// 			$.ajax({
-	// 				type: "POST",
-	// 				url: "/api/user/stream/update",
-	// 				data: {user_id: "#{@user.id}",
-	// 					   user_salt: "#{@user.salt}",
-	// 					   time: now}
-	// 			}).done(function (response) {
-	// 				console.log(response);
-	// 			});
-	// 			setTimeout(doStuff, 1000);
-	// 		}
-	// 	};
-	// 	doStuff();
-	// });

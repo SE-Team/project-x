@@ -139,3 +139,13 @@ post "/api/user/stream/update" do
   end
   return response_str
 end
+
+
+#############################################
+
+post '/api/sync/toggle_event' do
+   @event = Event.get(params[:event_id])
+   return @event.toggle_google_calendar_event(session[:user_uuid]).to_s
+end
+
+#############################################

@@ -645,3 +645,9 @@ bottom:14px;
 -ms-transform:scale(.3)
 }
 }
+
+.synched-btn-decoration {
+	border-color: #FF0;
+	border-width: 2px;
+	border-style: solid;
+}

@@ -11,7 +11,7 @@
 				%p.user_name= map[:user_name]
 			.row
 				%p.comment-count= "#{map[:tumbler].comments.count}"
-				%a.btn.btn-small.sync_goog{href:"#"}
+				%a.btn.btn-small.google-event-btn{id: "google-btn-#{map[:id]}", href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
 					%i.icon-picture
 			.row-fluid.window-pane-buttons
 				#event-btns.btn-group

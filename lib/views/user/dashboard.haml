@@ -40,12 +40,21 @@
 			// add the new elements to the isotope container
 			$container.isotope('insert', html);
 			// add the click handlers for the new elements
-			$('.sync_goog').click(function(e) {
-				var e_id = $(this).parent().parent().parent().parent().attr('data-symbol');
+			$('.google-event-btn').click(function(e) {
+				var event_id = $(this).parent().parent().parent().parent().attr('data-symbol');
 				e.preventDefault();
 				$.ajax({
 					type: "POST",
-					url: "/#{@user.email}/sync/add/"+e_id,
+					url: "/api/sync/toggle_event",
+					data: {event_id: event_id}
+				}).done(function(response){
+						console.log(response);
+						var div_id_name = '#google-btn-' + event_id;
+						if (response == "synched") {
+							$(div_id_name).addClass("synched-btn-decoration");
+						} else {
+							$(div_id_name).removeClass("synched-btn-decoration");
+						}
 				});
 			});
 
@@ -69,9 +78,9 @@
 					type: "POST",
 					url: "/api/user/stream/update",
 					data: {user_id: "#{@user.id}",
-						   user_salt: "#{@user.salt}",
-						   time: now,
-						   range: "0 10"}
+							   user_salt: "#{@user.salt}",
+							   time: now,
+							   range: "0 10"}
 				}).done(function (response) {
 					if (response.length > 0) {
 						var html = $('<div>').html(response);

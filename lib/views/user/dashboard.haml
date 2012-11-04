@@ -4,6 +4,7 @@
 			%a.little_mt.btn{href: "#filter", "data-option-value".to_sym => "*"} all
 			- categories.each do |cat|
 				%a.little_mt.btn{href: "##{cat}", "data-option-value".to_sym => ".#{cat}"} #{cat}
+			%a.little_mt.btn{href: "#eventful", "data-option-value".to_sym => ".eventful"} eventful
 
 	.loading
 		#circularG
@@ -102,4 +103,3 @@
 		};
 		doStuff();
 	});
-

@@ -29,6 +29,8 @@ include ApiController
 ##############################################################
 
 
+require 'eventful/api'
+
 @temp_key = "44:2c:03:30:95:3e"
 
 get '/api-key' do
@@ -89,6 +91,8 @@ post "/api/user/events" do
 end
 
 post "/api/user/stream" do
+  eventful = Eventful::API.new 'H5n5DpNG7ChgjJkH'
+  eventful_response = eventful.call('events/search', location: "Chico, CA, USA", page_size: 100)
   response_str = ""
   user = User.first(id: params[:user_id])
   if user
@@ -104,7 +108,15 @@ post "/api/user/stream" do
                              event_time: event.event_date,
                              img_url: event.img_url,
                              user_name: event.user.user_name,
-                             event: event})
+                             event: event,
+                             eventful: false})
+      response_str += element
+    end
+
+    eventful_events = eventful_response["events"]["event"]
+    eventful_events.each do |e|
+      element = render_pane({eventful_event: e,
+                             eventful: true})
       response_str += element
     end
   end

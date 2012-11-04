@@ -1,20 +1,37 @@
-%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}"}
-	.container
-		.marketing
-			- if map.has_key? :img_url
-				%img{src: "#{map[:img_url]}"}
-			.row
-				%h1.window-pane= map[:title]
-			.row
-				%h3.name= map[:category]
-				%p.event-date= map[:event_time].strftime("%m/%d/%Y")
-				%p.user_name= map[:user_name]
-			.row
-				%p.comment-count= "#{map[:tumbler].comments.count}"
-				%a.btn.btn-small.google-event-btn{id: "google-btn-#{map[:id]}", href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
-					%i.icon-picture
-			.row-fluid.window-pane-buttons
-				#event-btns.btn-group
-					%span.open-event-btn{href: ""}
-						%a.btn.btn-small.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
-							%i.icon-picture.event-load-btn
+-if map[:eventful] == true
+	%div{class: "element", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "eventful", rel: "tooltip", "data-original-title".to_sym => "eventful"}
+		.container
+			.marketing
+				-if map[:eventful_event]["image"]
+					%img{src: "#{map[:eventful_event]["image"]["medium"]["url"]}"}
+				.row
+					%h1.window-pane= map[:eventful_event]["title"]
+				.row
+					%h4.name= "eventful"
+					%p.event-date= map[:eventful_event][:event_time]
+				.row
+					#event-btns.btn-group
+						%span.open-event-btn{href: ""}
+-else
+	%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}"}
+		.container
+			.marketing
+				- if map.has_key? :img_url
+					%img{src: "#{map[:img_url]}"}
+				.row
+					%h1.window-pane= map[:title]
+				.row
+					%h3.name= map[:category]
+					%p.event-date= map[:event_time].strftime("%m/%d/%Y")
+					%p.user_name= map[:user_name]
+				.row
+					%p.comment-count= "#{map[:tumbler].comments.count}"
+					%a.btn.btn-small.google-event-btn{id: "google-btn-#{map[:id]}", href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
+						%i.icon-picture
+				.row-fluid.window-pane-buttons
+					#event-btns.btn-group
+						%span.open-event-btn{href: ""}
+							%a.btn.btn-small.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
+								%i.icon-picture.event-load-btn
+
+

@@ -22,4 +22,4 @@ google_api:
     - 'https://www.googleapis.com/auth/calendar'
     # - 'https://www.googleapis.com/auth/plus'
    redirect_uri: '/oauth2callback'
-   registered_redirect_uri: http://localhost:9393/oauth2callback
+   registered_redirect_uri: 'http://intense-hamlet-3672.herokuapp.com/oauth2callback'

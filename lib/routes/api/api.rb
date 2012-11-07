@@ -145,10 +145,10 @@ post "/api/user/stream/update" do
       response_str += element
     end
   end
-  if events && events.count > 0
+  # if events && events.count > 0
     user.update(last_stream_request: DateTime.now)
     user.save
-  end
+  # end
   return response_str
 end
 

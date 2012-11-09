@@ -22,11 +22,18 @@ module CreateEventController
 	                  {name: "body", type: :rich_text, placeholder: "body"}]}
 	end
 
+	def create_event_media_info
+	  {title: "Event Media",
+	   input_fields: [{name: "image", type: :text, placeholder: "image"},
+	                  {name: "video", type: :text, placeholder: "video"}]}
+	end
+
 	def create_event_event_form
 	  {title: "Create an Event",
 	   elements: [create_event_event_info,
 	              create_event_time_info,
-	              create_event_location_info],
+	              create_event_location_info,
+	              create_event_media_info],
 	   action: "/create-event",
 	   method: "post"}
 	end

@@ -3,6 +3,18 @@ require 'data_mapper'
 
 
 class User
+  class Link  #from http://datamapper.org/docs/associations.html
+    include DataMapper::Resource
+
+    storage_names[:default] = 'user_links'
+
+    # the user who is following someone
+    belongs_to :follower, 'User', :key => true
+
+    # the user who is followed by someone
+    belongs_to :followed, 'User', :key => true
+  end
+
   include DataMapper::Resource
   property :id,                   Serial
   property :user_name,            String, key: true, length: (3..40), required: true
@@ -68,19 +80,5 @@ class User
     end
     events = self.events if events.count == 0
     return events
-  end
-end
-
-class User
-  class Link  #from http://datamapper.org/docs/associations.html
-    include DataMapper::Resource
-
-    storage_names[:default] = 'user_links'
-
-    # the user who is following someone
-    belongs_to :follower, 'User', :key => true
-
-    # the user who is followed by someone
-    belongs_to :followed, 'User', :key => true
   end
 end

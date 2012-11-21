@@ -31,74 +31,29 @@ class User
 
   has n, :s_messages
   has n, :r_messages
-  # If we want to know all the people that John follows, we need to look
-  # at every 'Link' where John is a :follower. Knowing these, we know all
-  # the people that are :followed by John.
-  #
-  # If we want to know all the people that follow Jane, we need to look
-  # at every 'Link' where Jane is :followed. Knowing these, we know all
-  # the people that are a :follower of Jane.
-  #
-  # This means that we need to establish two different relationships to
-  # the 'Link' model. One where the user's role is :follower and one
-  # where the user's role is to be :followed by someone.
 
-  # In this relationship, the user is the follower
-  has n, :links_to_followed_people, 'User::Link', :child_key => [:follower_id]
+  def followers
+    Link.all(followed: self).map {|l| l.follower}
+  end
 
-  # # In this relationship, the user is the one followed by someone
-  has n, :links_to_followers, 'User::Link', :child_key => [:followed_id]
-
-  # # We can then use these two relationships to relate any user to
-  # # either the people followed by the user, or to the people this
-  # # user follows.
-
-  # # Every 'Link' where John is a :follower points to a user that
-  # # is followed by John.
-  has n, :followed_people, self,
-    :through => :links_to_followed_people, # The user is a follower
-    :via     => :followed
-
-  # # Every 'Link' where Jane is :followed points to a user that
-  # # is one of Jane's followers.
-  has n, :followers, self,
-    :through => :links_to_followers, # The user is followed by someone
-    :via     => :follower
+  def followed
+    Link.all(follower: self).map {|l| l.followed}
+  end
 
   # Follow one or more other people
-  def follow(others)
-    # followed_people.concat(Array(others))
-    followed_people.concat(Array(others))
-    response = save
-    puts "follow sucess = " << response.to_s
+  def follow(user)
+    link = User::Link.create(follower: self, followed: user)
     self
   end
 
   # Unfollow one or more other people
-  def unfollow(others)
-    links_to_followed_people.all(:followed => Array(others)).destroy!
+  def unfollow(user)
+    User::Link.all(:followed_id => user.id, :follower_id => self.id).destroy!
     response = reload
-    puts "unfollow sucess = " << response.to_s
-    self
   end
 
   has n, :friendships, :child_key => [:source_id]
 
-  # We name the relationship :friends cause that's the original intention
-  #
-  # The target model of this relationship will be the User model as well,
-  # so we can just pass self where DataMapper expects the target model
-  # You can also use User or 'User' in place of self here. If you're
-  # constructing the options programmatically, you might even want to pass
-  # the target model using the :model option instead of the 3rd parameter.
-  #
-  # We "go through" the :friendship relationship in order to get at the actual
-  # friends. Since we named our relationship :friends, DataMapper assumes
-  # that the Friendship model contains a :friend relationship. Since this
-  # is not the case in our example, because we've named the relationship
-  # pointing to the actual friend User :target, we have to tell DataMapper
-  # to use that relationship instead, when looking for the relationship to
-  # piggy back on. We do so by passing the :via option with our :target
 
   has n, :friends, self, :through => :friendships, :via => :target
 

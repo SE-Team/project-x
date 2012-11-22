@@ -4,11 +4,11 @@
 	.page-header
 		-unless admin == nil?
 			.page-header
-				%h1="Admin Dashboard"  
+				%h1="Admin Dashboard"
 			%h3= "Admin"
 		-else
 			redirect '/'
-	
+
 %section
 	%h1= "Users"
 	.accordion{id: "userEventAccordion"}
@@ -44,13 +44,13 @@
 													%br
 
 								.row-fluid
-									%a.btn.btn-small{href: "#"}	
+									%a.btn.btn-small{href: "#"}
 										%i.icon-trash
-									%a.btn.btn-small{href: "#"}	
+									%a.btn.btn-small{href: "#"}
 										%i.icon-flag
 									%hr
 
-	
+
 %section{styles: "word-wrap: break-word;"}
 	%h1= "API Keys"
 	%a.btn.btn-primary{href: "/api-key"}= "Create API Key"

@@ -36,20 +36,28 @@ class User
     Link.all(followed: self).map {|l| l.follower}
   end
 
-  def followed
+  def following
     Link.all(follower: self).map {|l| l.followed}
   end
 
   # Follow one or more other people
   def follow(user)
     link = User::Link.create(follower: self, followed: user)
-    self
+    link
   end
 
   # Unfollow one or more other people
   def unfollow(user)
     User::Link.all(:followed_id => user.id, :follower_id => self.id).destroy!
     response = reload
+  end
+
+  def following?(user)
+    following.map{|u| u.user_name}.include?(user.user_name)
+  end
+
+  def followed_by?(user)
+    followers.map{|u| u.user_name}.include?(user.user_name)
   end
 
   has n, :friendships, :child_key => [:source_id]

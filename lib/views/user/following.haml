@@ -1,0 +1,23 @@
+.span9
+	%h3= title
+	.row
+		%table.table.table-condensed.table-hover
+			%thead
+				%tr
+					%th
+					%th
+						%p= "User"
+					%th
+						%p= "email"
+					%th
+
+			%tbody
+				- users.each do |u|
+					%tr{class: "following-user-#{u.user_name}"}
+						%td
+						%td
+							%a= u.user_name
+						%td
+							%a= u.email
+						%td
+							%a.btn.btn-warning= "unfollow"

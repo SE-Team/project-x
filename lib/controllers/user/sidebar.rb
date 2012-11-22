@@ -5,7 +5,7 @@ module UserSidebarController
 	   {href: "/user/#{user.user_name}/messages", icon: "icon-envelope", title: "Messages", badge: {value: "#{user.r_messages.all(new_message: true).count}"}},
 	   :divider,
 	   {href: "/user/#{user.user_name}/friends", icon: "icon-user", title: "Friends"},
-	   {href: "/user/#{user.user_name}/following", icon: "icon-tag", title: "Following", badge: {value: "#{user.followed_people.count}"}},
+	   {href: "/user/#{user.user_name}/following", icon: "icon-tag", title: "Following", badge: {value: "#{user.following.count}"}},
 	   {href: "/user/#{user.user_name}/followers", icon: "icon-tags", title: "Followers", badge: {value: "#{user.followers.count}"}},
 	   :divider,
 	   {href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
@@ -17,8 +17,8 @@ module UserSidebarController
 	end
 
 	def user_sidebar(user)
-	  @map = {title: user.user_name,
-	          items: user_sidebar_items(user)}
+	  @map = {title: current_user.user_name,
+	          items: user_sidebar_items(current_user)}
 	  @sidebar = partial(:'user/sidebar', {map: @map})
 	end
 end

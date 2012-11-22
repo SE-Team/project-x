@@ -8,13 +8,15 @@
 					%img{src: event.img_url}
 			.row
 				%p
-					Category: 
+					Category:
 					%strong
 						#{event.category.name}
-			.row	
+			.row
 				%p= event.event_date.strftime("%m/%d/%Y")
-			.row	
+			.row
 				%p= event.body
+	.row
+		%a.btn.btn-warning= "Follow #{event.user.user_name}"
 	.row
 		%h4= "comments"
 		%hr

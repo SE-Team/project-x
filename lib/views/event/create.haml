@@ -2,8 +2,6 @@
 	.bs-docs-example
 		%form{action: "/user/#{current_user.user_name}/event/create-event", method: "post"}
 			%legend= "Create an event"
-			%h4= "Event info"
-			%label= "Title"
 			%input{}
 		%br
 		%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}

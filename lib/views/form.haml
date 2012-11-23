@@ -4,19 +4,36 @@
 %link{ :href => "/markitup/skins/markitup/style.css", :type => "text/css", :rel => "stylesheet" }
 %link{ :href => "/markitup/sets/html/style.css", :type => "text/css", :rel => "stylesheet" }
 
+:javascript
+	$('#form_tip').popover({trigger:'hover', placement:'top'})
+
 .bs-docs-example
 	%form{action: form_map.has_key?("action") ? form_map[:action] : "", method: form_map.has_key?("method") ? form_map[:method] : "post"}
 		%legend= form_map[:title]
+
 		-form_map[:elements].each do |element|
-			%h4= element[:title]
+
+			- if element[:instr]
+				%div#form_tip{:title => element[:instr]}
+					%h4= element[:title]
+
+			- else
+				%h4= element[:title]
+
 			- element[:input_fields].each do |input|
+
+				- if input[:name]
+					%name= input[:name]
+					%br
+
 				- if input[:type] == :rich_text
-					%label= input[:placeholder].capitalize
 					%textarea
-					/ %textarea#markitup-textarea
+					/%textarea#markitup-textarea
 				- else
-					%label= input[:placeholder].capitalize
-					%input.input-xlarge{type: input[:type], placeholder: input[:placeholder], name: input[:name]}
+					%input.input-xlarge{type: input[:type], placeholder: input[:placeholder], autofocus: input[:autofocus], id: input[:id]}
+
+				%br
+
 		%br
 		%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
 

@@ -10,9 +10,10 @@
 				%i.icon-cog#advanced-search-icon
 			-if logged_in?
 				%ul.nav.pull-right
+					%img.profile_pic.pull-left{:src => gravatar_for(current_user,30)}
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
-							#{current_user.user_name}
+							Me
 							%i.icon-chevron-down
 						%ul.dropdown-menu
 							%li

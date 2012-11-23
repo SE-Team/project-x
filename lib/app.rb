@@ -91,6 +91,15 @@ post '/login' do
     # Create a unique id for this user session
     # make sure the id saved
   @user = User.authenticate(params["username"], params["password"])
+  puts
+  puts
+  puts
+  puts
+  puts "@user"
+  puts @user
+  puts
+  puts
+  puts
   if @user
     ## create a new seession user uuid to store the datamapper object
     @new_uuid = UUID.new.generate

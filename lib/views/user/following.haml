@@ -13,11 +13,30 @@
 
 			%tbody
 				- users.each do |u|
-					%tr{class: "following-user-#{u.user_name}"}
+					%tr
 						%td
 						%td
 							%a= u.user_name
 						%td
 							%a= u.email
 						%td
-							%a.btn.btn-warning= "unfollow"
+							%a.btn.btn-warning.unfollow-btn{id: "following-user-#{u.id}"}= "unfollow"
+
+:javascript
+	$('.unfollow-btn').click(function(e) {
+		var obj = event.target;
+		var following_user_id = $(obj).attr('id').split('-')[2];
+		$.ajax({
+			type: "PUT",
+			url: '/api/update/user/unfollow',
+			data: { followed_id: following_user_id,
+							follower_id: "#{@user.id}" }
+		}).done(function( msg ) {
+			if (msg == "true") {
+				console.log(msg);
+				// $(obj).remove('icon-star-empty');
+			} else {
+				// console.log("failed to unfollow user")
+			}
+		});
+	});

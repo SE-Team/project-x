@@ -1,6 +1,6 @@
 .span9
 	%h3= title
-	.row
+	.row#following-row
 		%table.table.table-condensed.table-hover
 			%thead
 				%tr
@@ -13,30 +13,33 @@
 
 			%tbody
 				- users.each do |u|
-					%tr
+					%tr{id: "following-user-#{u.id}"}
 						%td
 						%td
 							%a= u.user_name
 						%td
 							%a= u.email
 						%td
-							%a.btn.btn-warning.unfollow-btn{id: "following-user-#{u.id}"}= "unfollow"
+							%a.btn.btn-warning.unfollow-btn{id: "#{u.user_name}-follow-btn"}= "unfollow"
 
 :javascript
 	$('.unfollow-btn').click(function(e) {
-		var obj = event.target;
-		var following_user_id = $(obj).attr('id').split('-')[2];
-		$.ajax({
-			type: "PUT",
-			url: '/api/update/user/unfollow',
-			data: { followed_id: following_user_id,
-							follower_id: "#{@user.id}" }
-		}).done(function( msg ) {
-			if (msg == "true") {
-				console.log(msg);
-				// $(obj).remove('icon-star-empty');
-			} else {
-				// console.log("failed to unfollow user")
-			}
-		});
+		var followed_username = $(event.target).attr('id').split('-')[0]
+	  if(confirm("Are you sure you want to stop following " + followed_username + "?")){
+			var obj = $(event.target).parent().parent()
+			var following_user_id = $(obj).attr('id').split('-')[2];
+			$.ajax({
+				type: "PUT",
+				url: '/api/update/user/unfollow',
+				data: { followed_id: following_user_id,
+								follower_id: "#{@user.id}" }
+			}).done(function( msg ) {
+				if (msg == "true") {
+					$("#following-user-" + following_user_id).remove();
+					$('#following-row').prepend("<div class='alert alert-success unfollow-success-msg'>Successfully unfollowed " + followed_username + "</div>")
+				} else {
+					console.log("failed to unfollow user")
+				}
+			});
+		}
 	});

@@ -1,9 +1,3 @@
-%script{type: "text/javascript", src: "/markitup/jquery.markitup.js"}
-%script{type: "text/javascript", src: "/markitup/sets/html/set.js"}
-
-%link{ :href => "/markitup/skins/markitup/style.css", :type => "text/css", :rel => "stylesheet" }
-%link{ :href => "/markitup/sets/html/style.css", :type => "text/css", :rel => "stylesheet" }
-
 :javascript
 	$('#form_tip').popover({trigger:'hover', placement:'top'})
 
@@ -36,8 +30,3 @@
 
 		%br
 		%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
-
-// :javascript
-// 	$(document).ready(function() {
-// 	  $("textarea").markItUp();
-// 	});

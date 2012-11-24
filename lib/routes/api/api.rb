@@ -161,3 +161,29 @@ post '/api/sync/toggle_event' do
 end
 
 #############################################
+
+################################################################################
+## Follwing ####################################################################
+
+post '/api/update/user/follow' do
+  @followed_user = User.first(id: params[:followed_id])
+  @follower_user = User.first(id: params[:follower_id])
+  if @follower_user
+    result = @follower_user.follow(@followed_user)
+    return result.nil? ? "false" : "true"
+  end
+end
+
+put '/api/update/user/unfollow' do
+  @followed_user = User.first(id: params[:followed_id])
+  @follower_user = User.first(id: params[:follower_id])
+  if @follower_user
+    result = @follower_user.unfollow(@followed_user)
+    return result.nil? ? "false" : "true"
+  end
+end
+
+
+################################################################################
+
+

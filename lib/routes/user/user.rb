@@ -213,3 +213,33 @@ post'/user/:username/create-event' do
   redirect '/user/' << current_user.user_name << "/stream"
 end
 ##############################################################
+
+##############################################################
+## Following #################################################
+get '/user/:username/followers' do
+  @user = current_user
+  if @user
+    @users = @user.followers
+    @content = partial :'user/followers', users: @users, title: "Followers"
+    @sidebar = user_sidebar @user
+    haml :with_sidebar
+  else
+    redirect '/'
+  end
+end
+
+get '/user/:username/following' do
+  @user = current_user
+  if @user
+    @users = @user.following
+    @content = partial :'user/following', users: @users, title: "Following"
+    @sidebar = user_sidebar @user
+    haml :with_sidebar
+  else
+    redirect '/'
+  end
+end
+##############################################################
+
+
+

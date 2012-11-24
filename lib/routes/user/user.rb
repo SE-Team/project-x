@@ -198,6 +198,7 @@ post'/user/:username/create-event' do
   @time = Time.now
   @event.title = params["title"]
   @event.body = params["body"]
+  @event.img_url = params["img_url"] if params["img_url"]
   @event.user = @user
   if @event.save
     flash("Event created")

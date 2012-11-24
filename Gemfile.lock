@@ -64,6 +64,8 @@ GEM
       data_objects (= 0.10.10)
     do_sqlite3 (0.10.10)
       data_objects (= 0.10.10)
+    eventfulapi (2.2.1)
+      mime-types (> 0.0.0)
     eventmachine (1.0.0)
     extlib (0.9.15)
     faraday (0.7.6)
@@ -88,7 +90,8 @@ GEM
       addressable (~> 2.2.6)
     macaddr (1.6.1)
       systemu (~> 2.5.0)
-    multi_json (1.3.6)
+    mime-types (1.19)
+    multi_json (1.3.7)
     multipart-post (1.1.5)
     rack (1.4.1)
     rack-protection (1.2.0)
@@ -111,9 +114,10 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     tilt (1.3.3)
-    uuid (2.3.5)
+    uuid (2.3.6)
       macaddr (~> 1.0)
     uuidtools (2.1.3)
+    xml-simple (1.1.2)
 
 PLATFORMS
   ruby
@@ -125,9 +129,11 @@ DEPENDENCIES
   dm-rspec
   dm-serializer
   dm-sqlite-adapter
+  eventfulapi
   google-api-client (~> 0.4.3)
   haml
   shotgun
   sinatra (= 1.3.3)
   thin
   uuid
+  xml-simple (~> 1.1.2)

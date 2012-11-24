@@ -167,9 +167,19 @@ end
 
 post '/api/update/user/follow' do
   @followed_user = User.first(id: params[:followed_id])
-  @following_user = User.first(id: params[:following_id])
-  if @user
-    return !@following_user.follow(@followed_user).nil?
+  @follower_user = User.first(id: params[:follower_id])
+  if @follower_user
+    result = @follower_user.follow(@followed_user)
+    return result.nil? ? "false" : "true"
+  end
+end
+
+put '/api/update/user/unfollow' do
+  @followed_user = User.first(id: params[:followed_id])
+  @follower_user = User.first(id: params[:follower_id])
+  if @follower_user
+    result = @follower_user.unfollow(@followed_user)
+    return result.nil? ? "false" : "true"
   end
 end
 

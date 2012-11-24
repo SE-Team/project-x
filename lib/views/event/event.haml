@@ -19,7 +19,7 @@
 		-if current_user.following?(event.user)
 			%p.btn.btn-primary.following-btn= "Following #{event.user.user_name}"
 		-else
-			%a.btn.btn-warning.follow-btn{id: "followed-user-#{event.user.id}"}= "Follow #{event.user.user_name}"
+			%a.btn.btn-warning.follow-btn{id: "followed-user-#{event.user.user_name}-#{event.user.id}"}= "Follow #{event.user.user_name}"
 	.row
 		%h4= "comments"
 		%hr
@@ -45,7 +45,8 @@
 
 	$('.follow-btn').click(function(e) {
 		var obj = event.target;
-		var followed_user_id = $(obj).attr('id').split('-')[2];
+		var followed_user_id = $(obj).attr('id').split('-')[3];
+		var followed_username = $(obj).attr('id').split('-')[2];
 		$.ajax({
 			type: "POST",
 			url: '/api/update/user/follow',
@@ -54,8 +55,8 @@
 		}).done(function( msg ) {
 			if (msg == "true") {
 				$('.follow-btn').remove()
-				$('#follow-tray').prepend("<div class='alert alert-success unfollow-success-msg'>Successfully following " + followed_username + "</div>")
-				$('#follow-tray').append("<p class='btn btn-primary following-btn'>Following #{event.user.user_name}</p>")
+				$('#follow-tray').prepend("<div class='alert alert-success unfollow-success-msg'> <button type='button' class='close' data-dismiss='alert'>×</button> Successfully following <b>" + followed_username + "</b></div>")
+				$('#follow-tray').append("<p class='btn btn-primary following-btn'>Following <b>#{event.user.user_name}</b></p>")
 			} else {
 				console.log("failed to follow user")
 			}

@@ -36,7 +36,7 @@
 			}).done(function( msg ) {
 				if (msg == "true") {
 					$("#following-user-" + following_user_id).remove();
-					$('#following-row').prepend("<div class='alert alert-success unfollow-success-msg'>Successfully unfollowed " + followed_username + "</div>")
+					$('#following-row').prepend("<div class='alert alert-success unfollow-success-msg'><button type='button' class='close' data-dismiss='alert'>×</button> Successfully unfollowed <b>" + followed_username + "</b></div>")
 				} else {
 					console.log("failed to unfollow user")
 				}

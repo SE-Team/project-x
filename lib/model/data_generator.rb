@@ -394,5 +394,16 @@ class DataGenerator
 		puts "."
 	end
 
+	def rand_followships(max_followers_per_user=5)
+		puts "Generate random followships between users."
+		User.all.each do |u|
+			print "."
+			(0..max_followers_per_user).each do |i|
+				u.follow(User[i])
+			end
+		end
+		puts "."
+	end
+
 end
 

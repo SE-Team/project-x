@@ -173,6 +173,8 @@ if User.all.count == 0
   print "."
   dg.rand_users
   print "."
+  dg.rand_followships
+  print "."
   dg.rand_events 100
   print "."
   dg.rand_comments

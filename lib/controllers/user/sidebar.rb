@@ -10,7 +10,8 @@ module UserSidebarController
 	end
 
 	def user_sidebar(user)
-	  @map = {title: current_user.user_name,
+	  @map = {
+            #title: current_user.user_name,
 	          items: user_sidebar_items(current_user)}
 	  @sidebar = partial(:'user/sidebar', {map: @map})
 	end

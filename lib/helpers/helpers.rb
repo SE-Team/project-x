@@ -46,4 +46,13 @@ module Helpers
   def ajax_tile(event)
     puts event
   end
+
+  def follow_btn(user)
+    "<a class='btn btn-warning'> Follow #{user.user_name} </a>"
+  end
+
+  def unfollow_btn(user)
+    "<a class='btn btn-primary'> Follow #{user.user_name} </a>"
+  end
+
 end

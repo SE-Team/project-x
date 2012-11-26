@@ -93,6 +93,18 @@ class SessionController
     return calendar
   end
 
+  def self.plus(uuid)
+    plus = nil
+    if @@users_session_data[uuid][:plus]
+      plus = @@users_session_data[uuid][:plus]
+    else
+      client = get_client(uuid)
+      plus = client.discovered_api('plus', 'v1')
+      @@users_session_data[uuid][:plus] = plus
+    end
+    return plus
+  end
+
   def self.drive(uuid)
     drive = nil
     if @@users_session_data[uuid][:drive]

@@ -15,7 +15,7 @@ class Event
 	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       		Text  	# A text block, for longer string data.
 	property :img_url,    		String
-	property :video_url,    		String
+	property :video_url,    	String
 	property :google_calendar_id,	String
 
 	after :update, :update_time

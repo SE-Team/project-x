@@ -1,9 +1,3 @@
-%script{type: "text/javascript", src: "/markitup/jquery.markitup.js"}
-%script{type: "text/javascript", src: "/markitup/sets/html/set.js"}
-
-%link{ :href => "/markitup/skins/markitup/style.css", :type => "text/css", :rel => "stylesheet" }
-%link{ :href => "/markitup/sets/html/style.css", :type => "text/css", :rel => "stylesheet" }
-
 .bs-docs-example
 	%form{action: form_map.has_key?("action") ? form_map[:action] : "", method: form_map.has_key?("method") ? form_map[:method] : "post"}
 		%legend= form_map[:title]
@@ -19,8 +13,3 @@
 					%input.input-xlarge{type: input[:type], placeholder: input[:placeholder], name: input[:name]}
 		%br
 		%input.btn{ :name => "submit", :type => "submit", :value => "Submit"}
-
-// :javascript
-// 	$(document).ready(function() {
-// 	  $("textarea").markItUp();
-// 	});

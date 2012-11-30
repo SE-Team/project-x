@@ -10,6 +10,7 @@ gem 'shotgun'
 gem 'google-api-client' , '~>0.4.3', :require => 'google/api_client'
 gem 'dm-rspec'
 gem 'uuid'
+gem "xml-simple", "~> 1.1.2"
 
 gem 'eventfulapi'
 

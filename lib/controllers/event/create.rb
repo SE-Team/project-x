@@ -9,9 +9,7 @@ module CreateEventController
 
 	def create_event_location_info
 	  {title: "Location",
-	   input_fields: [{name: "city", type: :text, placeholder: "city"},
-	                  {name: "country", type: :text, placeholder: "country"},
-	                  {name: "country-code", type: :text, placeholder: "country code"}]}
+	   input_fields: [{name: "location", type: :text, placeholder: "location"}]}
 	end
 
 	def create_event_event_info
@@ -24,8 +22,8 @@ module CreateEventController
 		{title: "Event Media",
   	 instr: "Specify an absolute URL to embed an image and/or video.",
    	 input_fields:
-	   	[{name: "image-url", type: :url, placeholder: "http://www..."},
-       {name: "video-url", type: :url, placeholder: "http://www..."}]}
+	   	[{name: "image-url", type: :url, placeholder: "image url"},
+       {name: "video-url", type: :url, placeholder: "video url"}]}
 	end
 
 	def create_event_event_form

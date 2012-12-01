@@ -280,9 +280,10 @@ display:none
 .element.large .window-pane-buttons {
 top: 298px;
 width: 350px;
-height: 45px;
+height: 38px;
 background: #666;
 display:block;
+border-bottom: 7px solid #00A3D9;
 }
 
 .element.large .window-pane-buttons .google-event-btn{

@@ -55,8 +55,8 @@
 		}).done(function( msg ) {
 			if (msg == "true") {
 				$('.follow-btn').remove()
-				$('#follow-tray').prepend("<div class='alert alert-success unfollow-success-msg'>Successfully following " + followed_username + "</div>")
-				$('#follow-tray').append("<p class='btn btn-primary following-btn'>Following #{event.user.user_name}</p>")
+				$('#follow-tray').prepend("<div class='alert alert-success unfollow-success-msg'> <button type='button' class='close' data-dismiss='alert'>×</button> Successfully following <b>" + followed_username + "</b></div>")
+				$('#follow-tray').append("<p class='btn btn-primary following-btn'>Following <b>#{event.user.user_name}</b></p>")
 			} else {
 				console.log("failed to follow user")
 			}

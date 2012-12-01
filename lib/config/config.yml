@@ -22,4 +22,10 @@ google_api:
     - 'https://www.googleapis.com/auth/calendar'
     # - 'https://www.googleapis.com/auth/plus'
    redirect_uri: '/oauth2callback'
-   registered_redirect_uri: http://localhost:9393/oauth2callback
+   registered_redirect_uri: 'http://localhost:9393/oauth2callback'
+
+the_tv_db:
+  production:
+    api_key: 'F03ECBE1DA2F8B58'
+  dev:
+    api_key: 'F03ECBE1DA2F8B58'

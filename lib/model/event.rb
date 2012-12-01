@@ -4,19 +4,20 @@ require './lib/controllers/session/session_controller'
 class Event
 
 	include DataMapper::Resource
-	property :id,         		Serial 	# An auto-increment integer key
-	property :title,      		String, 	required: true 	# A varchar type string, for short strings
-	property :permission, 		String, 	default: "public"
-	property :event_date, 		DateTime, 	default: DateTime.now
-	property :category_name, 	String, 	default: ""
-	property :updated_at, 		DateTime
-	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
-	property :body,       		Text  	# A text block, for longer string data.
-	property :img_url,    		Text
-	property :video_url,    	String
+	property :id,         			Serial 		# An auto-increment integer key
+	property :title,      			String, 	required: true 	# A varchar type string, for short strings
+	property :permission, 			String, 	default: "public"
+	property :event_date, 			DateTime, 	default: DateTime.now
+	property :category_name, 		String, 	default: ""
+	property :updated_at, 			DateTime
+	property :created_at, 			DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
+	property :body,       			Text  		# A text block, for longer string data.
+	property :img_url,    			String
+	property :video_url,    		String
 	property :google_calendar_id,	String
 
 	validates_length_of :body, :max => 1000
+	#validates_format_of :img_url, :with => /regex/https?:\/\/.*\.(?:png|jpg)
 
 	after :update, :update_time
 

@@ -1,9 +1,6 @@
 require 'data_mapper'
 require './lib/controllers/session/session_controller'
 
-require 'pp'
-
-
 class Event
 
 	include DataMapper::Resource
@@ -15,7 +12,8 @@ class Event
 	property :updated_at, 		DateTime
 	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       		Text  	# A text block, for longer string data.
-	property :img_url,    		String
+	property :img_url,    		Text
+	property :video_url,    	String
 	property :google_calendar_id,	String
 
 	validates_length_of :body, :max => 1000

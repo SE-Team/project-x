@@ -5,9 +5,10 @@ require 'pp'
 
 
 class Event
+
 	include DataMapper::Resource
 	property :id,         		Serial 	# An auto-increment integer key
-	property :title,      		String 	# A varchar type string, for short strings
+	property :title,      		String, 	required: true 	# A varchar type string, for short strings
 	property :permission, 		String, 	default: "public"
 	property :event_date, 		DateTime, 	default: DateTime.now
 	property :category_name, 	String, 	default: ""
@@ -16,6 +17,8 @@ class Event
 	property :body,       		Text  	# A text block, for longer string data.
 	property :img_url,    		String
 	property :google_calendar_id,	String
+
+	validates_length_of :body, :max => 1000
 
 	after :update, :update_time
 

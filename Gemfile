@@ -11,7 +11,7 @@ gem 'google-api-client' , '~>0.4.3', :require => 'google/api_client'
 gem 'dm-rspec'
 gem 'uuid'
 
-gem 'eventful/api'
+gem 'eventfulapi'
 
 group :development do
   gem 'dm-sqlite-adapter'

@@ -6,13 +6,14 @@
 			-else
 				%a.brand{:href => '/'} Project X
 			%input.search-query.nav-search#search-input{:type => 'text', :placeholder => "Search"}
-			%a.btn#advanced-search-btn{href: '/advanced-search', rel: "tooltip", "data-original-title".to_sym => "Advanced Search", "data-placement".to_sym => "bottom"}
-				%i.icon-cog#advanced-search-icon
+			-#%a.btn#advanced-search-btn{href: '/advanced-search', rel: "tooltip", "data-original-title".to_sym => "Advanced Search", "data-placement".to_sym => "bottom"}
+				-#%i.icon-cog#advanced-search-icon
 			-if logged_in?
 				%ul.nav.pull-right
+					%img.profile_pic.pull-left{:src => gravatar_for(current_user,30)}
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
-							#{current_user.user_name}
+							Me
 							%i.icon-chevron-down
 						%ul.dropdown-menu
 							%li
@@ -41,21 +42,15 @@
 									%i.icon-off
 									Logout!
 			-if logged_in?
-				%ol.user-links.nav.pull-right
-					%li
-						.notifier-icon
-							%a#notifications-tooltip{href: '#', rel: "tooltip", "data-original-title".to_sym => "Notifications", "data-placement".to_sym => "bottom"}
-								%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
-							- if needs_notification?(current_user)
-								.notifier-badge
-									.notifier-value{class: "#{get_value_class(current_user)}"}= notification_count(current_user)
-					%li
-						%a{href: '#'}
-							%icon.icon-th-large
-					%li
-						%a{href: '#'}
-							%icon.icon-calendar
-				-else
+				-if needs_notification?(current_user)
+					%ol.user-links.nav.pull-right
+						%li
+							.notifier-icon
+								%a#notifications-tooltip{href: '#', rel: "tooltip", "data-original-title".to_sym => "Notifications", "data-placement".to_sym => "bottom"}
+									%img{src: "/images/glyphicons/png/glyphicons_010_envelope.png"}
+									.notifier-badge
+										.notifier-value{class: "#{get_value_class(current_user)}"}= notification_count(current_user)
+			-else
 				%ul.nav.pull-right
 					%li
 						%a{:href => "/register"}

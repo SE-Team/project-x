@@ -3,7 +3,8 @@
 		.row
 			%small= msg.created_at
 			%h2= msg.subject
-			%h4= msg.source
+			%a{href: "/user/#{msg.source}/events"}
+				#{msg.source}
 		.row
 			%p= msg.body
 		.row

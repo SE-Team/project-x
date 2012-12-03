@@ -41,7 +41,7 @@ task :deploy_to_heroku do
 	ENV['DEV_MODE'] = false
 end
 ################################################################################
- 
+
 ################################################################################
 ## RSpec Rake tasks ############################################################
 ## Can be run with:
@@ -76,4 +76,10 @@ class String
     tr("-", "_").
     return downcase
   end
+end
+
+directory "lib/tasks"
+
+task create: "tasks/diagrams.rb" do
+
 end

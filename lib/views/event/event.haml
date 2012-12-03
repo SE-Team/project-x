@@ -7,7 +7,6 @@
 				- unless event.img_url.nil?
 					%img{src: event.img_url}
 			.row
-				%p= "video"
 				- unless event.video_url.nil?
 					%p= "the video should be here"
 					%p= youtube_embed(event.video_url)

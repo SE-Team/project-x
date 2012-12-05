@@ -8,7 +8,7 @@
 					%h1.window-pane= map[:eventful_event]["title"]
 				.row
 					%h4.name= "eventful"
-					%p.event-date= map[:eventful_event][:event_time]
+					-#%p.event-date= map[:eventful_event][:event_time]
 					%p.user_name= map[:user_name]
 				.row
 					#event-btns.btn-group
@@ -22,17 +22,16 @@
 				.row
 					%h1.window-pane= map[:title]
 				.row
-					%h3.name= map[:category]
+					-#%h3.name= map[:category]
 					%p.event-date= map[:event_time].strftime("%m/%d/%Y")
-					%p.user_name= map[:user_name]
-				.row
-					%p.comment-count= "#{map[:tumbler].comments.count}"
-					%a.btn.btn-small.google-event-btn{id: "google-btn-#{map[:id]}", href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
-						%i.icon-picture
+					-#%p.user_name= map[:user_name]
+				-#.row
+					-#%p.comment-count= "#{map[:tumbler].comments.count}"
+						-#%i.icon-picture
 				.row-fluid.window-pane-buttons
 					#event-btns.btn-group
 						%span.open-event-btn{href: ""}
-							%a.btn.btn-small.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
-								%i.icon-picture.event-load-btn
-
-
+							%a.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
+								More Info
+							%a.google-event-btn{id: "google-btn-#{map[:id]}", href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
+								Add to calendar

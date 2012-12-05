@@ -1,4 +1,1 @@
 Software Engineering Project
-
-Team
-

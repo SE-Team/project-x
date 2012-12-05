@@ -189,15 +189,16 @@ get '/user/:username/create-event' do
 end
 
 post'/user/:username/create-event' do
+  puts params
   @user = current_user
   @event = Event.new
-  @location = Location.new
-  @location.geo_location = params["country-code"]
-  @location.city = params["city"]
-  @location.country = params["country"]
-  @time = Time.now
+  # @location = Location.new
+  # @location.geo_location = params["location"]
+  # @time = Time.now
   @event.title = params["title"]
   @event.body = params["body"]
+  @event.img_url = params["image-url"]
+  # @event.video_url = params["video-url"]
   @event.user = @user
   if @event.save
     flash("Event created")

@@ -26,7 +26,7 @@
 									- else
 										%i.icon-star-empty.rmsg-star{id: "msg-#{msg.id}-star"}
 						%td
-							%a{href: "/user/#{msg.source}/stream"}= msg.source
+							%a{href: "./rmessage/#{msg.id}"}= msg.source
 						%td
 							-if msg.new_message
 								%span.label.label-success= "new"

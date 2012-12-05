@@ -1,5 +1,5 @@
 require 'data_mapper'
-require 'spec/rake/spectask'
+# require 'spec/rake/spectask'
 require 'yaml'
 
 ################################################################################
@@ -41,7 +41,7 @@ task :deploy_to_heroku do
 	ENV['DEV_MODE'] = false
 end
 ################################################################################
- 
+
 ################################################################################
 ## RSpec Rake tasks ############################################################
 ## Can be run with:
@@ -49,20 +49,20 @@ end
 ## or some more specific spec tasks like
 ## $ rake spec_util
 ################################################################################
-Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = Dir.glob('./lib/spec/**/*_spec.rb')
-  t.spec_opts << '--format specdoc'
-end
+# Spec::Rake::SpecTask.new(:spec) do |t|
+#   t.spec_files = Dir.glob('./lib/spec/**/*_spec.rb')
+#   t.spec_opts << '--format specdoc'
+# end
 
-Spec::Rake::SpecTask.new(:spec_util) do |t|
-  t.spec_files = Dir.glob('./lib/spec/lib/util/*_spec.rb')
-  t.spec_opts << '--format specdoc'
-end
+# Spec::Rake::SpecTask.new(:spec_util) do |t|
+#   t.spec_files = Dir.glob('./lib/spec/lib/util/*_spec.rb')
+#   t.spec_opts << '--format specdoc'
+# end
 ################################################################################
 
 ################################################################################
 ################################################################################
-task :new_mvc :name do |t, mvc_name|
+task :new_mvc, :name do |t, mvc_name|
 	m_name = "./lib/model/" << mvc_name.underscore << ".rb"
 	model_file = File.exists?File.new("./lib/")
 end
@@ -74,6 +74,12 @@ class String
     gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
     gsub(/([a-z\d])([A-Z])/,'\1_\2').
     tr("-", "_").
-    downcase
+    return downcase
   end
+end
+
+directory "lib/tasks"
+
+task create: "tasks/diagrams.rb" do
+
 end

@@ -56,6 +56,9 @@
 						} else {
 							$(div_id_name).removeClass("synched-btn-decoration");
 						}
+					if ($.browser.mozilla) {
+						$('.element > img').addClass("moz-tile-img");
+					}
 				});
 			});
 
@@ -96,6 +99,10 @@
 								$container.isotope('reLayout');
 							}
 						});
+					}
+					console.log($('.element > img').addClass("moz-tile-img"));
+					if ($.browser.mozilla) {
+						$('.element > img').addClass("moz-tile-img");
 					}
 				});
 				setTimeout(doStuff, 10000);

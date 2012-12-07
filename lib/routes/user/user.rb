@@ -183,7 +183,8 @@ end
 get '/user/:username/create-event' do
   @user = current_user
   form_map = create_event_event_form
-  @content = partial(:form, {form_map: form_map})
+  @content = partial(:'event/create_event')
+  # @content = partial(:form, {form_map: form_map})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
@@ -192,8 +193,7 @@ post'/user/:username/create-event' do
   puts params
   @user = current_user
   @event = Event.new
-  # @location = Location.new
-  # @location.geo_location = params["location"]
+  @event.location = params["location"]
   # @time = Time.now
   @event.title = params["title"]
   @event.body = params["body"]

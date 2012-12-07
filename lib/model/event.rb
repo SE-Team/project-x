@@ -17,11 +17,13 @@ class Event
 	property :video_url,    		String
 =======
 	property :id,         		Serial 	# An auto-increment integer key
-	property :title,      		String 	# A varchar type string, for short strings
+	property :title,      		String, default: "" 	# A varchar type string, for short strings
 	property :location, 			String, default: ""
 	property :permission, 		String, 	default: "public"
 	property :event_date, 		DateTime, 	default: DateTime.now
 	property :category_name, 	String, 	default: ""
+	property :start_date, 		DateTime
+	property :end_date, 			DateTime
 	property :updated_at, 		DateTime
 	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       		Text  	# A text block, for longer string data.
@@ -35,9 +37,20 @@ class Event
 
 	after :update, :update_time
 
+	# after :create, :clean_title
+
 	def update_time
 		@updated_at = DateTime.now
 	end
+
+	# def clean_title
+	# 	self.title = self.title.downcase
+	# end
+
+	# def title
+	# 	puts self.title
+	# 	self.title.word.split(" ").map{|w| w.capitalize}.join(" ")
+	# end
 
 	def toggle_google_calendar_event(user_uuid)
 		success = false

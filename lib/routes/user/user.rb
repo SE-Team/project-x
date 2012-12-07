@@ -183,26 +183,30 @@ end
 get '/user/:username/create-event' do
   @user = current_user
   form_map = create_event_event_form
-  @content = partial(:form, {form_map: form_map})
+  @content = partial(:'event/create_event')
+  # @content = partial(:form, {form_map: form_map})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
 end
 
 post'/user/:username/create-event' do
-  puts params
   @user = current_user
   @event = Event.new
-  # @location = Location.new
-  # @location.geo_location = params["location"]
-  # @time = Time.now
+  @event.location = params["location"]
+  @event.start_date = DateTime.strptime(params["start"], '%m/%d/%Y %H:%M') if params["start"]
+  @event.end_date = DateTime.strptime(params["end"], '%m/%d/%Y %H:%M') if params["end"]
   @event.title = params["title"]
   @event.body = params["body"]
   @event.img_url = params["image-url"]
   # @event.video_url = params["video-url"]
   @event.user = @user
   if @event.save
-    flash("Event created")
-    redirect '/user/' << current_user.user_name << "/stream"
+    category = Category.create(event: @event)
+    @event.category.name = params["category"]
+    if @event.save
+      flash("Event created")
+      redirect '/user/' << current_user.user_name << "/stream"
+    end
   else
     tmp = []
     event.errors.each do |e|

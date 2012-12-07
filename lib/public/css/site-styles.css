@@ -704,3 +704,7 @@ bottom:14px;
 .moz-tile-img {
   position: relative;
 }
+
+#start_time table {
+  background-color: red;
+}

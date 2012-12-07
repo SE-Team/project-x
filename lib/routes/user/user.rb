@@ -194,7 +194,8 @@ post'/user/:username/create-event' do
   @user = current_user
   @event = Event.new
   @event.location = params["location"]
-  # @time = Time.now
+  @event.start_date = DateTime.strptime(params["start"], '%m/%d/%Y %H:%M')
+  @event.end_date = DateTime.strptime(params["end"], '%m/%d/%Y %H:%M')
   @event.title = params["title"]
   @event.body = params["body"]
   @event.img_url = params["image-url"]

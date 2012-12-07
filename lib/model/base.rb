@@ -11,7 +11,6 @@ require './lib/model/user/message'
 require './lib/model/category'
 require './lib/model/categorization'
 require './lib/model/admin'
-require './lib/model/time'
 require './lib/model/oauth/token_pair'
 require './lib/model/user/account_setting'
 require './lib/model/tumbler'
@@ -129,7 +128,6 @@ end
 
 class Event
   belongs_to :user
-  has n, :times
   has 1, :tumbler
   has 1, :category
   after :create, :init_meta
@@ -144,10 +142,6 @@ class Event
 end
 
 class Metadata
-  belongs_to :event
-end
-
-class Time
   belongs_to :event
 end
 

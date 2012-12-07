@@ -9,6 +9,8 @@ class Event
 	property :permission, 		String, 	default: "public"
 	property :event_date, 		DateTime, 	default: DateTime.now
 	property :category_name, 	String, 	default: ""
+	property :start_date, 		DateTime
+	property :end_date, 			DateTime
 	property :updated_at, 		DateTime
 	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       		Text  	# A text block, for longer string data.

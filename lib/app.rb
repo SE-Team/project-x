@@ -67,7 +67,7 @@ end
 
 ## About #####################################################
 get '/about' do
-  unless current_user.user_name == nil
+  if logged_in?
     @user_name = current_user.user_name
   end
   haml :about

@@ -8,7 +8,6 @@ require './lib/model/event'
 require './lib/model/user'
 require './lib/model/comment'
 require './lib/model/user/message'
-require './lib/model/location'
 require './lib/model/category'
 require './lib/model/categorization'
 require './lib/model/admin'
@@ -130,7 +129,6 @@ end
 
 class Event
   belongs_to :user
-  has n, :locations
   has n, :times
   has 1, :tumbler
   has 1, :category
@@ -146,10 +144,6 @@ class Event
 end
 
 class Metadata
-  belongs_to :event
-end
-
-class Location
   belongs_to :event
 end
 

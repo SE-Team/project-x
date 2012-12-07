@@ -134,10 +134,6 @@ class Event
 
   def init_meta
     self.tumbler = Tumbler.create(event: self)
-    if self.category.nil?
-        category = Category.create(name: "etc", event: self)
-        category.save
-    end
   end
 end
 

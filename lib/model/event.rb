@@ -4,7 +4,7 @@ require './lib/controllers/session/session_controller'
 class Event
 	include DataMapper::Resource
 	property :id,         		Serial 	# An auto-increment integer key
-	property :title,      		String 	# A varchar type string, for short strings
+	property :title,      		String, default: "" 	# A varchar type string, for short strings
 	property :location, 			String, default: ""
 	property :permission, 		String, 	default: "public"
 	property :event_date, 		DateTime, 	default: DateTime.now
@@ -20,9 +20,20 @@ class Event
 
 	after :update, :update_time
 
+	# after :create, :clean_title
+
 	def update_time
 		@updated_at = DateTime.now
 	end
+
+	# def clean_title
+	# 	self.title = self.title.downcase
+	# end
+
+	# def title
+	# 	puts self.title
+	# 	self.title.word.split(" ").map{|w| w.capitalize}.join(" ")
+	# end
 
 	def toggle_google_calendar_event(user_uuid)
 		success = false

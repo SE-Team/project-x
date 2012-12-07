@@ -49,6 +49,9 @@
 			.row
 				%p= event.event_date.strftime("%m/%d/%Y")
 			.row
+				%p= "Start time: #{event.start_date.strftime("%m/%d/%Y")}"
+				%p= "End time: #{event.end_date.strftime("%m/%d/%Y")}"
+			.row
 				%p= event.body
 	.row
 		#event_map{:style => "width:400px;height:300px;"}

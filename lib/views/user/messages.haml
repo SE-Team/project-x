@@ -65,7 +65,7 @@
 									- if msg.star
 										%i.icon-star.smsg-star{id: "msg-#{msg.id}-star"}
 									- else
-										%i.icon-star-empty.smsg-star{id: "msg-#{msg.id}-star"}
+									%i.icon-star-empty.smsg-star{id: "msg-#{msg.id}-star"}
 						%td
 							%a{href: "./smessage/#{msg.id}"}= msg.subject
 						%td
@@ -76,8 +76,6 @@
 						%td= msg.created_at.strftime("%m/%d/%Y")
 						%td
 							%a{href: "./smessage/#{msg.id}"}= msg.target
-						
-
 :javascript
 	$('.rmsg-star').click(function(e) {
 		var obj = event.target;

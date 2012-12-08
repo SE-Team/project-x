@@ -19,6 +19,8 @@ class User
   property :id,                   Serial
   property :user_name,            String, key: true, length: (3..40), required: true
   property :img_url,              String
+  property :display_name,         String
+  property :location,             String
   property :email,                String
   property :password,             String
   property :salt,                 String

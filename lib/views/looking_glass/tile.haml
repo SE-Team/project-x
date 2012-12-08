@@ -23,7 +23,7 @@
 					%h1.window-pane= map[:title]
 				.row
 					-#%h3.name= map[:category]
-					%p.event-date= map[:start_date].strftime("%m/%d/%Y")
+					%p.event-date= map[:start_date]#.strftime("%m/%d/%Y")
 					-#%p.user_name= map[:user_name]
 				-#.row
 					-#%p.comment-count= "#{map[:tumbler].comments.count}"

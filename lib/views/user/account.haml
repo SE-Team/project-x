@@ -8,20 +8,15 @@
 .content.span9
 	-#%h2.center= user.user_name.to_s
 	%img.center_block.mid_mb{:src => gravatar_for(user,200)}
-	%form.form-horizontal
-		.control-group
-			%label.control-label{:for => "inputEmail"} 
-				Email:
-			.controls
-				%input#inputEmail{:value => "#{user.email.to_s}", :placeholder => "Email", :type => "email"}
+	%form.form-horizontal{ :action => "/user/#{user.email}/account", :method => "post"}
 		.control-group
 			%label.control-label{:for => "inputUrl"} 
 				Display Name
 			.controls
-				%input#inputDisplayName{:value => "#{user.img_url.to_s}", :placeholder => "Display Name", :type => "url"}
+				%input#inputDisplayName{:value => "#{user.display_name}", :placeholder => "Display Name", :type => "text", :name => "display_name"}
 		.control-group
 			%label.control-label{:for => "inputUrl"} 
 				Location
 			.controls
-				%input#inputUrl{:value => "#{user.img_url.to_s}", :placeholder => "Location", :type => "url"}
+				%input#inputUrl{:value => "#{user.location}", :placeholder => "Location", :type => "text", :name => "location"}
 		%input.center_block{:type => "submit", :class => "btn", :value => "Update"}/	

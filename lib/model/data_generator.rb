@@ -229,7 +229,7 @@ class DataGenerator
 		 "entertainment",
 		 "personal",
 		 "school",
-		 "outdoors",
+		 "outdoor",
 		 "etc"]
 	end
 
@@ -348,7 +348,7 @@ class DataGenerator
 							  "entertainment",
 							  "personal",
 							  "school",
-							  "outdoors",
+							  "outdoor",
 							  "etc"]
 				rand_category = categories[rand(categories.size)]
 				title_seed = rand(titles.count)

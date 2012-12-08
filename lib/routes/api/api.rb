@@ -77,7 +77,7 @@ post "/api/user/events" do
   response_str = ""
     user.events.each do |event|
       element = render_pane({title: event.title,
-                             classes: event.category_name,
+                             classes: event.category.name,
                              id: event.id,
                              category: event.category.name,
                              tumbler: event.tumbler,
@@ -101,7 +101,7 @@ post "/api/user/stream" do
     events = user.stream_events(100)
     events.each do |event|
       element = render_pane({title: event.title,
-                             classes: event.category_name,
+                             classes: event.category.name,
                              id: event.id,
                              category: event.category.name,
                              tumbler: event.tumbler,
@@ -134,11 +134,12 @@ post "/api/user/stream/update" do
     events = events[(range_vals[0].to_i..range_vals[1].to_i)]
     events.each do |event|
       element = render_pane({title: event.title,
-                             classes: event.category_name,
+                             classes: event.category.name,
                              id: event.id,
                              category: event.category.name,
                              tumbler: event.tumbler,
-                             event_time: event.event_date,
+                             start_date: event.start_date,
+                             end_date: event.end_date,
                              img_url: event.img_url,
                              user_name: event.user.user_name,
                              event: event})

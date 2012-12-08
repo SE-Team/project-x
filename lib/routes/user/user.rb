@@ -37,10 +37,26 @@ include NavbarController
 
 ## Events ####################################################
 ##############################################################
+def categories
+  ["outdoor",
+  "personal",
+  "music",
+  "tv",
+  "movies",
+  "entertainment",
+  "art",
+  "community",
+  "etc",
+  "school",
+  "sports",
+  "political",
+  "charity"]
+end
+
 get '/user/:user_name/stream' do
   @user = current_user
   unless @user.nil?
-    @categories = @user.account_setting.categories.split('&')
+    @categories = categories
     @sidebar = user_sidebar(@user)
     @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
     haml :'user/dashboard', locals: {categories: @categories}, layout: :'layout/user'
@@ -52,7 +68,7 @@ end
 get '/user/:user_name/events' do
   @user = current_user
   unless @user.nil?
-    @categories = @user.account_setting.categories.split('&')
+    @categories = categories
     @sidebar = user_sidebar(@user)
     @breadcrumbs = bread_crumbs_partial request.path_info.split('/')
     haml :'user/events', locals: {categories: @categories}, layout: :'layout/user'
@@ -113,6 +129,14 @@ get '/user/:username/account' do
   @content = partial(:'user/account', {user: @user})
   @sidebar = user_sidebar(@user)
   haml :with_sidebar
+end
+
+post '/user/:username/account' do
+  @user = current_user
+  @user.display_name = params[:display_name]
+  @user.location = params[:location]
+  @user.save!
+  redirect '/'
 end
 
 get '/user/:username/profile' do
@@ -246,5 +270,11 @@ get '/user/:username/following' do
 end
 ##############################################################
 
-
+post '/user/:username/account' do
+  @user = current_user
+  @user.display_name = params[:display_name]
+  @user.location = params[:location]
+  @user.save!
+  redirect '/'
+end
 

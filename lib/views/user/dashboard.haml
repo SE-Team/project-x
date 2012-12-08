@@ -42,7 +42,8 @@
 			$container.isotope('insert', html);
 			// add the click handlers for the new elements
 			$('.google-event-btn').click(function(e) {
-				var event_id = $(this).parent().parent().parent().parent().attr('data-symbol');
+				var event_id = $(this).parent().parent().parent().parent().parent().parent().attr('data-symbol');
+				console.log(event_id);
 				e.preventDefault();
 				$.ajax({
 					type: "POST",

@@ -262,5 +262,11 @@ get '/user/:username/following' do
 end
 ##############################################################
 
-
+post '/user/:username/account' do
+  @user = current_user
+  @user.display_name = params[:display_name]
+  @user.location = params[:location]
+  @user.save!
+  redirect '/'
+end
 

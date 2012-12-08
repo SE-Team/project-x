@@ -8,20 +8,20 @@
 .content.span9
 	-#%h2.center= user.user_name.to_s
 	%img.center_block.mid_mb{:src => gravatar_for(user,200)}
-	%form.form-horizontal
+	%form.form-horizontal{:action => "", :method => "post"}
 		.control-group
-			%label.control-label{:for => "inputEmail"} 
+			%label.control-label{:for => "inputEmail"}
 				Email:
 			.controls
-				%input#inputEmail{:value => "#{user.email.to_s}", :placeholder => "Email", :type => "email"}
+				%input#inputEmail{:name => "email", :value => "#{user.email}", :type => "text"}
 		.control-group
-			%label.control-label{:for => "inputUrl"} 
+			%label.control-label{:for => "inputDisplayName"}
 				Display Name
 			.controls
-				%input#inputDisplayName{:value => "#{user.img_url.to_s}", :placeholder => "Display Name", :type => "url"}
+				%input#inputDisplayName{:name => "display_name", :placeholder => "#{user.display_name ? user.display_name : 'Display Name'}", :type => "text"}
 		.control-group
-			%label.control-label{:for => "inputUrl"} 
+			%label.control-label{:for => "location"}
 				Location
 			.controls
-				%input#inputUrl{:value => "#{user.img_url.to_s}", :placeholder => "Location", :type => "url"}
-		%input.center_block{:type => "submit", :class => "btn", :value => "Update"}/	
+				%input#location{:name => "location", :placeholder => "Location", :type => "text"}
+		%input.center_block{:type => "submit", :class => "btn", :name => "Update"}/

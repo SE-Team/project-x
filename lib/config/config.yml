@@ -6,9 +6,7 @@ google_api:
    scope:
     - 'https://www.googleapis.com/auth/userinfo.profile'
     - 'https://www.googleapis.com/auth/userinfo.email'
-    # - 'https://picasaweb.google.com/data/'
     - 'https://www.googleapis.com/auth/calendar'
-    # - 'https://www.googleapis.com/auth/plus'
    redirect_uri: '/oauth2callback'
    registered_redirect_uri: 'http://intense-hamlet-3672.herokuapp.com/oauth2callback'
   dev:
@@ -18,9 +16,7 @@ google_api:
    scope:
     - 'https://www.googleapis.com/auth/userinfo.profile'
     - 'https://www.googleapis.com/auth/userinfo.email'
-    # - 'https://picasaweb.google.com/data/'
     - 'https://www.googleapis.com/auth/calendar'
-    # - 'https://www.googleapis.com/auth/plus'
    redirect_uri: '/oauth2callback'
    registered_redirect_uri: 'http://localhost:9393/oauth2callback'
 

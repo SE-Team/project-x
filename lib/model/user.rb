@@ -23,6 +23,8 @@ class User
   property :location,             String
   property :email,                String
   property :password,             String
+  property :display_name,         String
+  property :location,             String
   property :salt,                 String
   property :session_id,           String
   property :hashed_password,      String

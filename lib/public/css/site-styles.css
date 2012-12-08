@@ -151,7 +151,7 @@ color:#FFF
 }
 
 .element img {
-width:110px;
+height:110px;
 }
 
 .element.large .symbol {
@@ -159,7 +159,8 @@ font-size:4.5em
 }
 
 .element.large img {
-width:350px;
+height:350px;
+min-width: 350px;
 }
 
 .element.large h1 {
@@ -378,6 +379,10 @@ margin-top:5px
 margin-top:15px
 }
 
+.mid_mb {
+margin-bottom:15px !important;
+}
+
 .twitter-photo {
 width:50px;
 height:50px
@@ -414,7 +419,7 @@ padding-top:7px
 
 .center_block {
    margin: 0 auto;
-   display:block;
+   display:block !important;
 }
 
 .center {
@@ -704,3 +709,4 @@ bottom:14px;
 .moz-tile-img {
   position: relative;
 }
+

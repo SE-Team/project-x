@@ -6,8 +6,8 @@
 // 		%p= 'email: ' <<  user.email.to_s
 
 .content.span9
-	%h2.center= user.user_name.to_s
-	%img.center_block{:src => gravatar_for(user,200)}
+	-#%h2.center= user.user_name.to_s
+	%img.center_block.mid_mb{:src => gravatar_for(user,200)}
 	%form.form-horizontal
 		.control-group
 			%label.control-label{:for => "inputEmail"} 
@@ -16,6 +16,12 @@
 				%input#inputEmail{:value => "#{user.email.to_s}", :placeholder => "Email", :type => "email"}
 		.control-group
 			%label.control-label{:for => "inputUrl"} 
-				Image URL:
+				Display Name
 			.controls
-				%input#inputUrl{:value => "#{user.img_url.to_s}", :placeholder => "Image URL", :type => "url"}
+				%input#inputDisplayName{:value => "#{user.img_url.to_s}", :placeholder => "Display Name", :type => "url"}
+		.control-group
+			%label.control-label{:for => "inputUrl"} 
+				Location
+			.controls
+				%input#inputUrl{:value => "#{user.img_url.to_s}", :placeholder => "Location", :type => "url"}
+		%input.center_block{:type => "submit", :class => "btn", :value => "Update"}/	

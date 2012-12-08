@@ -8,9 +8,8 @@ class Event
 	property :location, 			String, default: ""
 	property :permission, 		String, 	default: "public"
 	property :event_date, 		DateTime, 	default: DateTime.now
-	property :category_name, 	String, 	default: ""
-	property :start_date, 		DateTime
-	property :end_date, 			DateTime
+	property :start_date, 		DateTime, default: DateTime.now
+	property :end_date, 			DateTime, default: DateTime.now
 	property :updated_at, 		DateTime
 	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       		Text  	# A text block, for longer string data.
@@ -56,7 +55,7 @@ class Event
 			else
 			  	result = client.execute(:api_method => service.events.insert,
 			                          :parameters => {'calendarId' => SessionController.user(user_uuid).email},
-			                          :body => JSON.dump(generate_google_event_json("Test Location", self.body, self.title)),
+			                          :body => JSON.dump(generate_google_event_json),
 			                          :headers => {'Content-Type' => 'application/json'})
 			  	success = update google_calendar_id: result.data.id
 				return_msg = "synched"
@@ -65,16 +64,14 @@ class Event
 		return success ? return_msg : "failed"
 	end
 
-	def generate_google_event_json(location, description, title)
-    start_date = "2012-11-5"
-    end_date = "2012-11-8"
+	def generate_google_event_json
     {
-    	"start" => { "date" => start_date },
-	    "end" => { "date" => end_date },
-	    "location" => location,
+    	"start" => { "date" => event.start_date.strftime("%Y-%m-%d") },
+	    "end" => { "date" => event.end_date.strftime("%Y-%m-%d") },
+	    "location" => self.location,
 	    "transparency" => "transparent",
-	    "description" => body,
-	    "summary" => title,
+	    "description" => self.body,
+	    "summary" => self.title,
 	    "status" => "confirmed"
  	}
 	end

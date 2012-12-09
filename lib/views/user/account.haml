@@ -10,18 +10,13 @@
 	%img.center_block.mid_mb{:src => gravatar_for(user,200)}
 	%form.form-horizontal{:action => "", :method => "post"}
 		.control-group
-			%label.control-label{:for => "inputEmail"}
-				Email:
-			.controls
-				%input#inputEmail{:name => "email", :value => "#{user.email}", :type => "text"}
-		.control-group
 			%label.control-label{:for => "inputDisplayName"}
 				Display Name
 			.controls
-				%input#inputDisplayName{:name => "display_name", :placeholder => "#{user.display_name ? user.display_name : 'Display Name'}", :type => "text"}
+				%input#inputDisplayName{:name => "display_name", :placeholder => "Display Name", :type => "text", :value => "#{user.display_name}"}
 		.control-group
 			%label.control-label{:for => "location"}
 				Location
 			.controls
-				%input#location{:name => "location", :placeholder => "Location", :type => "text"}
+				%input#location{:value => "#{user.location}",:name => "location", :placeholder => "Location", :type => "text"}
 		%input.center_block{:type => "submit", :class => "btn", :name => "Update"}/

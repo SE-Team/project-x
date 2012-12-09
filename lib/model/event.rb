@@ -70,8 +70,8 @@ class Event
 
 	def generate_google_event_json
     {
-    	"start" => { "date" => event.start_date.strftime("%Y-%m-%d") },
-	    "end" => { "date" => event.end_date.strftime("%Y-%m-%d") },
+    	"start" => { "date" => self.start_date.strftime("%Y-%m-%d") },
+	    "end" => { "date" => self.end_date.strftime("%Y-%m-%d") },
 	    "location" => self.location,
 	    "transparency" => "transparent",
 	    "description" => self.body,

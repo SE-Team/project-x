@@ -131,6 +131,14 @@ get '/user/:username/account' do
   haml :with_sidebar
 end
 
+post '/user/:username/account' do
+  @user = current_user
+  @user.display_name = params[:display_name]
+  @user.location = params[:location]
+  @user.save!
+  redirect '/'
+end
+
 get '/user/:username/profile' do
   @user = current_user
   @content = partial(:'user/profile', {user: @user})

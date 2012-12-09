@@ -229,7 +229,7 @@ class DataGenerator
 		 "entertainment",
 		 "personal",
 		 "school",
-		 "outdoors",
+		 "outdoor",
 		 "etc"]
 	end
 

@@ -4,6 +4,8 @@
 			.marketing
 				-if map[:eventful_event]["image"]
 					%img{src: "#{map[:eventful_event]["image"]["medium"]["url"]}"}
+				-else
+					%img{:src => "http://www.seeklogo.com/images/E/Eventful-logo-986CB6CAFC-seeklogo.com.gif"}
 				.row
 					%h1.window-pane= map[:eventful_event]["title"]
 				.row
@@ -13,6 +15,7 @@
 				.row
 					#event-btns.btn-group
 						%span.open-event-btn{href: ""}
+				%a{:target => "_blank",:href => "http://eventful.com/events/#{map[:eventful_event]["id"]}"} More Info
 -else
 	%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}"}
 		.container

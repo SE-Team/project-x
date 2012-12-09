@@ -108,7 +108,7 @@ class Category
 
   # def name=(n)
   #   @name = n
-  #   event.category_name  = n
+  #   event.category.name  = n
   # end
 end
 

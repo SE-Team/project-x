@@ -7,7 +7,7 @@
 
 .content.span9
 	-#%h2.center= user.user_name.to_s
-	%img.center_block.mid_mb{:src => gravatar_for(user,200)}
+	%img.img-circle.center_block.mid_mb{:src => gravatar_for(user,200)}
 	%form.form-horizontal{:action => "", :method => "post"}
 		.control-group
 			%label.control-label{:for => "inputDisplayName"}

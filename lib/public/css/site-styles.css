@@ -713,54 +713,54 @@ bottom:14px;
   background-color: red;
 }
 
-.etc.element .event-date { border-bottom: 4px solid red; }
+.etc.element .event-date { border-bottom: 4px solid #17B2AF; }
 .etc.element.large .event-date { border-bottom: 0px; }
-.etc.large .window-pane-buttons { border-bottom: 7px solid red; }
+.etc.large .window-pane-buttons { border-bottom: 7px solid #17B2AF; }
 
-.outdoor.element .event-date { border-bottom: 4px solid orange; }
+.outdoor.element .event-date { border-bottom: 4px solid #32943E; }
 .outdoor.element.large .event-date { border-bottom: 0px; }
-.outdoor.large .window-pane-buttons { border-bottom: 7px solid orange;}
+.outdoor.large .window-pane-buttons { border-bottom: 7px solid #32943E;}
 
-.entertainment.element .event-date { border-bottom: 4px solid yellow; }
+.entertainment.element .event-date { border-bottom: 4px solid #CCAE1B; }
 .entertainment.element.large .event-date { border-bottom: 0px; }
-.entertainment.large .window-pane-buttons { border-bottom: 7px solid yellow; }
+.entertainment.large .window-pane-buttons { border-bottom: 7px solid #CCAE1B; }
 
-.personal.element .event-date { border-bottom: 4px solid green; }
+.personal.element .event-date { border-bottom: 4px solid #E76295; }
 .personal.element.large .event-date { border-bottom: 0px; }
-.personal.large .window-pane-buttons { border-bottom: 7px solid green; }
+.personal.large .window-pane-buttons { border-bottom: 7px solid #E76295; }
 
-.tv.element .event-date { border-bottom: 4px solid blue; }
+.tv.element .event-date { border-bottom: 4px solid #3BFFFC; }
 .tv.element.large .event-date { border-bottom: 0px; }
-.tv.large .window-pane-buttons { border-bottom: 7px solid blue; }
+.tv.large .window-pane-buttons { border-bottom: 7px solid #3BFFFC; }
 
-.music.element .event-date { border-bottom: 4px solid purple; }
+.music.element .event-date { border-bottom: 4px solid #6C42CB; }
 .music.element.large .event-date { border-bottom: 0px; }
-.music.large .window-pane-buttons { border-bottom: 7px solid purple; }
+.music.large .window-pane-buttons { border-bottom: 7px solid #6C42CB; }
 
-.movies.element .event-date { border-bottom: 4px solid aqua; }
+.movies.element .event-date { border-bottom: 4px solid #FFFB48; }
 .movies.element.large .event-date { border-bottom: 0px; }
-.movies.large .window-pane-buttons { border-bottom: 7px solid aqua; }
+.movies.large .window-pane-buttons { border-bottom: 7px solid #FFFB48; }
 
-.art.element .event-date { border-bottom: 4px solid brown; }
+.art.element .event-date { border-bottom: 4px solid #916334; }
 .art.element.large .event-date { border-bottom: 0px; }
-.art.large .window-pane-buttons { border-bottom: 7px solid brown; }
+.art.large .window-pane-buttons { border-bottom: 7px solid #916334; }
 
-.community.element .event-date { border-bottom: 4px solid crimson; }
+.community.element .event-date { border-bottom: 4px solid #A4B5BF; }
 .community.element.large .event-date { border-bottom: 0px; }
-.community.large .window-pane-buttons { border-bottom: 7px solid crimson; }
+.community.large .window-pane-buttons { border-bottom: 7px solid #A4B5BF; }
 
-.sports.element .event-date { border-bottom: 4px solid #00A3D9; }
+.sports.element .event-date { border-bottom: 4px solid #DE8021; }
 .sports.element.large .event-date { border-bottom: 0px; }
-.sports.large .window-pane-buttons { border-bottom: 7px solid red; }
+.sports.large .window-pane-buttons { border-bottom: 7px solid #DE8021; }
 
-.school.element.large .event-date { border-bottom: darkolivegreen; }
-.school.element .event-date { border-bottom: 4px solid #00A3D9; }
-.school.large .window-pane-buttons { border-bottom: 7px solid darkolivegreen; }
+.school.element.large .event-date { border-bottom: 4px solid #2A47E8; }
+.school.element .event-date { border-bottom: 0px; }
+.school.large .window-pane-buttons { border-bottom: 7px solid #2A47E8; }
 
-.political.element.large .event-date { border-bottom: deepskyblue; }
-.political.element .event-date { border-bottom: 4px solid #00A3D9; }
-.political.large .window-pane-buttons { border-bottom: 7px solid deepskyblue; }
+.political.element.large .event-date { border-bottom: 4px solid #736868; }
+.political.element .event-date { border-bottom: 0px; }
+.political.large .window-pane-buttons { border-bottom: 7px solid 736868; }
 
-.charity.element.large .event-date { border-bottom: darkorange; }
-.charity.element .event-date { border-bottom: 4px solid #00A3D9; }
-.charity.large .window-pane-buttons { border-bottom: 7px solid darkorange; }
+.charity.element.large .event-date { border-bottom: 4px solid #807F67; }
+.charity.element .event-date { border-bottom: 0px; }
+.charity.large .window-pane-buttons { border-bottom: 7px solid #807F67; }

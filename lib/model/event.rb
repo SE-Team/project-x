@@ -11,6 +11,7 @@ class Event
 	property :event_date, 		DateTime, 	default: DateTime.now
 	property :start_date, 		DateTime, default: DateTime.now
 	property :end_date, 			DateTime, default: DateTime.now
+	property :synched, 				Boolean, default: false
 	property :updated_at, 		DateTime
 	property :created_at, 		DateTime, 	default: DateTime.now  # A DateTime, for any date you might like.
 	property :body,       		Text  	# A text block, for longer string data.
@@ -55,6 +56,7 @@ class Event
 				                        :parameters => {'calendarId' => user.email,
 				                        				'eventId' => google_calendar_event.id})
 				success = update google_calendar_id: nil
+				self.synched = false
 				return_msg = "unsynched"
 			else
 			  	result = client.execute(:api_method => service.events.insert,
@@ -62,6 +64,7 @@ class Event
 			                          :body => JSON.dump(generate_google_event_json),
 			                          :headers => {'Content-Type' => 'application/json'})
 			  	success = update google_calendar_id: result.data.id
+				self.synched = true
 				return_msg = "synched"
 		  	end
 		end
@@ -77,7 +80,7 @@ class Event
 	    "description" => self.body,
 	    "summary" => self.title,
 	    "status" => "confirmed"
- 	}
+ 		}
 	end
 
 end

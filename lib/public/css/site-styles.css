@@ -226,7 +226,7 @@ display:block
 .element.large,.variable-sizes .element.large,.variable-sizes .element.large.width2.height2 {
 font-size:3em;
 width:350px;
-height:342px;
+height:325px;
 z-index:100
 }
 
@@ -282,33 +282,33 @@ display:none
 }
 
 .element.large .window-pane-buttons {
-top: 298px;
-width: 350px;
-height: 38px;
-background: #666;
-display:block;
+  top: 283px;
+  width: 350px;
+  height: 38px;
+  background: #666;
+  display:block;
 }
 
 .element.large .window-pane-buttons .google-event-btn{
-   float:right;
-   left: 175px;
-   width: 175px;
-   color: white;
-   background: transparent;
-   font-size:18px;
-   padding: 12px 0 0 0;
-   height: 33px;
-   border: 0;
+  float:right;
+  left: 175px;
+  width: 175px;
+  color: white;
+  background: transparent;
+  font-size:18px;
+  padding: 12px 0 0 0;
+  height: 33px;
+  border: 0;
 }
 
 .element.large .event-load-btn {
-   width: 175px;
-   height: 33px;
-   color: white;
-   background: transparent;
-   font-size:18px;
-   padding: 12px 0 0 0;
-   border: 0;
+  width: 175px;
+  height: 33px;
+  color: white;
+  background: transparent;
+  font-size:18px;
+  padding: 12px 0 0 0;
+  border: 0;
 }
 
 

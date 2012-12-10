@@ -764,3 +764,5 @@ bottom:14px;
 .charity.element.large .event-date { border-bottom: darkorange; }
 .charity.element .event-date { border-bottom: 4px solid #00A3D9; }
 .charity.large .window-pane-buttons { border-bottom: 7px solid darkorange; }
+
+.eventful.large .window-pane-buttons { border-bottom: 7px solid purple; }

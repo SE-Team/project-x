@@ -1,5 +1,5 @@
 -if map[:eventful] == true
-	%div{class: "element", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "eventful", rel: "tooltip", "data-original-title".to_sym => "eventful"}
+	%div{class: "eventful element", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "eventful", rel: "tooltip", "data-original-title".to_sym => "eventful"}
 		.container
 			.marketing
 				-if map[:eventful_event]["image"]
@@ -11,11 +11,11 @@
 				.row
 					%h4.name= "eventful"
 					-#%p.event-date= map[:eventful_event][:event_time]
-					%p.user_name= map[:user_name]
-				.row
+				.row-fluid.window-pane-buttons
 					#event-btns.btn-group
 						%span.open-event-btn{href: ""}
-				%a{:target => "_blank",:href => "http://eventful.com/events/#{map[:eventful_event]["id"]}"} More Info
+							%a.event-load-btn{:target => "_blank",:href => "http://eventful.com/events/#{map[:eventful_event]["id"]}"}
+								More Info
 -else
 	%div{class: "element #{map[:category]}", id: "element-#{map[:id]}", "data-symbol".to_sym => "#{map[:id]}", "data-category".to_sym => "#{map[:category]}", rel: "tooltip", "data-original-title".to_sym => "#{map[:user_name]}"}
 		.container

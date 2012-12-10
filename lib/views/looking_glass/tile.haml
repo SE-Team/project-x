@@ -37,5 +37,5 @@
 						%span.open-event-btn{href: ""}
 							%a.event-load-btn{href: "/user/#{map[:user_name]}/event/#{map[:id]}"}
 								More Info
-							%a.google-event-btn{id: "google-btn-#{map[:id]}", href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
+							%a.google-event-btn{id: "google-btn-#{map[:id]}", "data-event-id" => map[:event].id, href:"#", class: "#{map[:event].google_calendar_id ? "synched-btn-decoration" : ""}"}
 								Add to calendar

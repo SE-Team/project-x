@@ -83,6 +83,6 @@ class User
       return events = Event.all(args)
     end
     events = self.events if events.count == 0
-    return events
+    return events.uniq
   end
 end

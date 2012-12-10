@@ -226,7 +226,7 @@ display:block
 .element.large,.variable-sizes .element.large,.variable-sizes .element.large.width2.height2 {
 font-size:3em;
 width:350px;
-height:342px;
+height:325px;
 z-index:100
 }
 
@@ -268,6 +268,9 @@ background: #f2f2f2;
 width: 110px;
 position: abolsute;
 top: 90px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
 }
 
 .window-pane p {
@@ -279,33 +282,33 @@ display:none
 }
 
 .element.large .window-pane-buttons {
-top: 298px;
-width: 350px;
-height: 38px;
-background: #666;
-display:block;
+  top: 283px;
+  width: 350px;
+  height: 38px;
+  background: #666;
+  display:block;
 }
 
 .element.large .window-pane-buttons .google-event-btn{
-   float:right;
-   left: 175px;
-   width: 175px;
-   color: white;
-   background: transparent;
-   font-size:18px;
-   padding: 12px 0 0 0;
-   height: 33px;
-   border: 0;
+  float:right;
+  left: 175px;
+  width: 175px;
+  color: white;
+  background: transparent;
+  font-size:18px;
+  padding: 12px 0 0 0;
+  height: 33px;
+  border: 0;
 }
 
 .element.large .event-load-btn {
-   width: 175px;
-   height: 33px;
-   color: white;
-   background: transparent;
-   font-size:18px;
-   padding: 12px 0 0 0;
-   border: 0;
+  width: 175px;
+  height: 33px;
+  color: white;
+  background: transparent;
+  font-size:18px;
+  padding: 12px 0 0 0;
+  border: 0;
 }
 
 
@@ -713,54 +716,58 @@ bottom:14px;
   background-color: red;
 }
 
-.etc.element .event-date { border-bottom: 4px solid red; }
+.etc.element .event-date { border-bottom: 4px solid #17B2AF; }
 .etc.element.large .event-date { border-bottom: 0px; }
-.etc.large .window-pane-buttons { border-bottom: 7px solid red; }
+.etc.large .window-pane-buttons { border-bottom: 7px solid #17B2AF; }
 
-.outdoor.element .event-date { border-bottom: 4px solid orange; }
+.outdoor.element .event-date { border-bottom: 4px solid #32943E; }
 .outdoor.element.large .event-date { border-bottom: 0px; }
-.outdoor.large .window-pane-buttons { border-bottom: 7px solid orange;}
+.outdoor.large .window-pane-buttons { border-bottom: 7px solid #32943E;}
 
-.entertainment.element .event-date { border-bottom: 4px solid yellow; }
+.entertainment.element .event-date { border-bottom: 4px solid #CCAE1B; }
 .entertainment.element.large .event-date { border-bottom: 0px; }
-.entertainment.large .window-pane-buttons { border-bottom: 7px solid yellow; }
+.entertainment.large .window-pane-buttons { border-bottom: 7px solid #CCAE1B; }
 
-.personal.element .event-date { border-bottom: 4px solid green; }
+.personal.element .event-date { border-bottom: 4px solid #E76295; }
 .personal.element.large .event-date { border-bottom: 0px; }
-.personal.large .window-pane-buttons { border-bottom: 7px solid green; }
+.personal.large .window-pane-buttons { border-bottom: 7px solid #E76295; }
 
-.tv.element .event-date { border-bottom: 4px solid blue; }
+.tv.element .event-date { border-bottom: 4px solid #3BFFFC; }
 .tv.element.large .event-date { border-bottom: 0px; }
-.tv.large .window-pane-buttons { border-bottom: 7px solid blue; }
+.tv.large .window-pane-buttons { border-bottom: 7px solid #3BFFFC; }
 
-.music.element .event-date { border-bottom: 4px solid purple; }
+.music.element .event-date { border-bottom: 4px solid #6C42CB; }
 .music.element.large .event-date { border-bottom: 0px; }
-.music.large .window-pane-buttons { border-bottom: 7px solid purple; }
+.music.large .window-pane-buttons { border-bottom: 7px solid #6C42CB; }
 
-.movies.element .event-date { border-bottom: 4px solid aqua; }
+.movies.element .event-date { border-bottom: 4px solid #FFFB48; }
 .movies.element.large .event-date { border-bottom: 0px; }
-.movies.large .window-pane-buttons { border-bottom: 7px solid aqua; }
+.movies.large .window-pane-buttons { border-bottom: 7px solid #FFFB48; }
 
-.art.element .event-date { border-bottom: 4px solid brown; }
+.art.element .event-date { border-bottom: 4px solid #916334; }
 .art.element.large .event-date { border-bottom: 0px; }
-.art.large .window-pane-buttons { border-bottom: 7px solid brown; }
+.art.large .window-pane-buttons { border-bottom: 7px solid #916334; }
 
-.community.element .event-date { border-bottom: 4px solid crimson; }
+.community.element .event-date { border-bottom: 4px solid #A4B5BF; }
 .community.element.large .event-date { border-bottom: 0px; }
-.community.large .window-pane-buttons { border-bottom: 7px solid crimson; }
+.community.large .window-pane-buttons { border-bottom: 7px solid #A4B5BF; }
 
-.sports.element .event-date { border-bottom: 4px solid #00A3D9; }
+.sports.element .event-date { border-bottom: 4px solid #DE8021; }
 .sports.element.large .event-date { border-bottom: 0px; }
-.sports.large .window-pane-buttons { border-bottom: 7px solid red; }
+.sports.large .window-pane-buttons { border-bottom: 7px solid #DE8021; }
 
-.school.element.large .event-date { border-bottom: darkolivegreen; }
-.school.element .event-date { border-bottom: 4px solid #00A3D9; }
+.school.element .event-date { border-bottom: 4px solid darkolivegreen; }
+.school.element.large .event-date { border-bottom: 0px; }
 .school.large .window-pane-buttons { border-bottom: 7px solid darkolivegreen; }
 
-.political.element.large .event-date { border-bottom: deepskyblue; }
-.political.element .event-date { border-bottom: 4px solid #00A3D9; }
+.political.element .event-date { border-bottom: 4px solid deepskyblue; }
+.political.element.large .event-date { border-bottom: 0px; }
 .political.large .window-pane-buttons { border-bottom: 7px solid deepskyblue; }
 
-.charity.element.large .event-date { border-bottom: darkorange; }
-.charity.element .event-date { border-bottom: 4px solid #00A3D9; }
+.charity.element .event-date { border-bottom: 4px solid darkorange; }
+.charity.element.large .event-date { border-bottom: 0px; }
 .charity.large .window-pane-buttons { border-bottom: 7px solid darkorange; }
+
+.eventful.element .event-date { border-bottom: 4px solid purple; }
+.eventful.element.large .event-date { border-bottom: 0px; }
+.eventful.large .window-pane-buttons { border-bottom: 7px solid purple; }

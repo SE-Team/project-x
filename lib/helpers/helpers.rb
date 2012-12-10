@@ -55,4 +55,15 @@ module Helpers
     "<a class='btn btn-primary'> Follow #{user.user_name} </a>"
   end
 
+  def youtube_embed(youtube_url)
+    if youtube_url[/youtu\.be\/([^\?]*)/]
+      youtube_id = $1
+    else
+      youtube_url[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
+      youtube_id = $5
+    end
+      "<iframe title='YouTube video player' width='480' height='360' src='http://www.youtube.com/embed/#{ youtube_id }' frameborder='0' allowfullscreen></iframe>"
+      #'%iframe{:allowfullscreen => "", :frameborder => "0", :height => "360", :src => "http://www.youtube.com/embed/\#{ youtube_id }", :title => "YouTube video player", :width => "480"}'
+  end
+
 end

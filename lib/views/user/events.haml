@@ -23,7 +23,7 @@
 :javascript
 	$(function() {
 		var $container = $('#isotope-container');
-		var newElements = "start";
+		var newElements = "";
 		$.ajax({
 			type: "POST",
 			url: "/api/user/events",
@@ -39,8 +39,32 @@
 			// add the new elements to the isotope container
 			$container.isotope('insert', html);
 			// add the click handlers for the new elements
+			$('.google-event-btn').click(function(e) {
+				console.log("sync event")
+				var event_id = $(this).parent().parent().parent().parent().parent().parent().attr('data-symbol');
+				console.log(event_id);
+				e.preventDefault();
+				$.ajax({
+					type: "POST",
+					url: "/api/sync/toggle_event",
+					data: {event_id: event_id}
+				}).done(function(response){
+						console.log(response);
+						var div_id_name = '#google-btn-' + event_id;
+						if (response == "synched") {
+							$(div_id_name).addClass("synched-btn-decoration");
+						} else {
+							$(div_id_name).removeClass("synched-btn-decoration");
+						}
+					if ($.browser.mozilla) {
+						$('.element > img').addClass("moz-tile-img");
+					}
+				});
+			});
+
 			$('.element').click(function(e) {
 				if ($(e.target).hasClass('event-load-btn')) {
+				} else if ($(e.target).hasClass('google-event-btn')) {
 				} else {
 					$(this).toggleClass('large');
 					$container.isotope('reLayout');

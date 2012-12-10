@@ -68,8 +68,7 @@
   %label Body
   %textarea
   %label Category
-  %select{name: "category"}
-    %option{value: "TV"}= "TV"
+  %select#categories-tooltip{name: "category", rel: "tooltip", "data-original-title".to_sym => "Select Categories", "data-placement".to_sym => "right"}
     %option{value: "outdoor"}= "Outdoor"
     %option{value: "personal"}= "Personal"
     %option{value: "music"}= "Music"
@@ -99,3 +98,12 @@
   %input.input-xlarge{:name => "video-url", :placeholder => "video url", :type => "url"}
   %br
   %input.btn{:name => "submit", :type => "submit", :value => "Submit"}
+
+:javascript
+  function toggleCategoriesTooltip() {
+    var notifier = $('#categories-tooltip')
+    notifier.tooltip('toggle');
+  }
+
+  $('#categories-tooltip').hover(toggleCategoriesTooltip);
+

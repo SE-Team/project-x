@@ -10,6 +10,7 @@
 					%h1.window-pane= map[:eventful_event]["title"]
 				.row
 					%h4.name= "eventful"
+					%p.event-date= map[:eventful_event]["start_time"].strftime("%m/%d/%Y")
 					-#%p.event-date= map[:eventful_event][:event_time]
 				.row-fluid.window-pane-buttons
 					#event-btns.btn-group

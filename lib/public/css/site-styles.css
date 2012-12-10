@@ -268,6 +268,9 @@ background: #f2f2f2;
 width: 110px;
 position: abolsute;
 top: 90px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
 }
 
 .window-pane p {
@@ -753,16 +756,18 @@ bottom:14px;
 .sports.element.large .event-date { border-bottom: 0px; }
 .sports.large .window-pane-buttons { border-bottom: 7px solid red; }
 
-.school.element.large .event-date { border-bottom: darkolivegreen; }
-.school.element .event-date { border-bottom: 4px solid #00A3D9; }
+.school.element .event-date { border-bottom: 4px solid darkolivegreen; }
+.school.element.large .event-date { border-bottom: 0px; }
 .school.large .window-pane-buttons { border-bottom: 7px solid darkolivegreen; }
 
-.political.element.large .event-date { border-bottom: deepskyblue; }
-.political.element .event-date { border-bottom: 4px solid #00A3D9; }
+.political.element .event-date { border-bottom: 4px solid deepskyblue; }
+.political.element.large .event-date { border-bottom: 0px; }
 .political.large .window-pane-buttons { border-bottom: 7px solid deepskyblue; }
 
-.charity.element.large .event-date { border-bottom: darkorange; }
-.charity.element .event-date { border-bottom: 4px solid #00A3D9; }
+.charity.element .event-date { border-bottom: 4px solid darkorange; }
+.charity.element.large .event-date { border-bottom: 0px; }
 .charity.large .window-pane-buttons { border-bottom: 7px solid darkorange; }
 
+.eventful.element .event-date { border-bottom: 4px solid purple; }
+.eventful.element.large .event-date { border-bottom: 0px; }
 .eventful.large .window-pane-buttons { border-bottom: 7px solid purple; }

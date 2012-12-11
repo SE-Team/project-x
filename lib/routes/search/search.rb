@@ -49,9 +49,7 @@ get '/search/:args' do
   search_term = "%"
   search_term << params[:args].gsub('%20', '%')
   search_term << "%"
-  e1 = Event.all(:title.downcase.like => search_term.downcase, permission: "public")
-  e2 = Event.all(:category_name.like => search_term.downcase, permission: "public")
-  @events = e1.zip(e2).flatten.compact
+  @events = Event.all(:title.like => search_term, permission: "public")
   categories = Set[]
   @events.each do |e|
     categories.add(e.category.name)

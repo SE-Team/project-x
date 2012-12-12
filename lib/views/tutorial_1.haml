@@ -1,0 +1,70 @@
+.container
+  .marketing
+    %h1 Project-X Tutorial
+    %h3 Using Project-X & How It Works
+    %br
+      %div
+        %div
+          %h2 Login
+          %h4
+            Do you have a Google account? If so, then you are well prepared to use Project-X.
+          %a{:href => "http://www.google.com"} If not, create your Google account here.
+          %br
+            %br
+              %img{:alt => "", :src => "/images/tutorial/google_sign_in.png"}/
+              %h5 Allow access
+              %h6
+                By granting Project-X access to your Google account you are authorizing us to access the information necessary to enable you to add Events of your choosing to your Google Calendar. For this to work Google provides Project-X with a temporary OAuth token necessary to post these events to your Calendar.
+              %br
+                %br
+                  %img{:alt => "", :src => "/images/tutorial/allow_access.png"}/
+        %br
+          %div
+            %h2 The Event Stream
+            %h4
+              Here you can search and filter through a myriad of Events. Events are categorized so that you can easily filter the Stream the category selected - click a category to filter.
+            %br
+              %h5
+                Choose between: Outdoor, Personal, Music, TV, Movies, Entertainment, Art, Community, School, Sports, Political, Charity, Etc (for Events not covered by these categories), or All (to unfilter).
+              %h5
+                Categories are readily identifiable by their associated color.
+              %br
+                %img{:alt => "", :src => "/images/tutorial/event_stream.png"}/
+                %h6
+                  The Event Stream represests all of the Events in our database and even some form external sources that are not yet within the database, but which are automatically added when a user expresses interest in the Event by choosing to add it to their Calendar; by doing this we are able to keep our database concise and store Events more appropriate to users' interests.
+          %br
+            %div
+              %h2 Event Tiles
+              %h4
+                Each Event is represented by a tile in the Stream.
+              %h5
+                Click on a tile to expand it and reveal further options - "More Info" to view the Event's detail page, or "Add To Calendar" to add it to your Google calendar.
+              %br
+                %img{:alt => "", :src => "/images/tutorial/echidna_tile.png"}/
+                %h6
+                  Using AJAX the Event Stream is updated automatically, without page reload, in real-time, as new events are created.
+            %br
+              %div
+                %h2 Creating Events
+                %h4
+                  To create an Event click on "Create Event" in the sidebar and then fill in the form.
+                %h5
+                  Enter the details of the Event, select a category, and enter the URL of an image to be shown in the tile and detail page.
+                %h6
+                  If there is no location, as in the case of a TV event, this field may be left blank.
+                %br
+                  %img{:alt => "", :src => "/images/tutorial/create_event.png"}/
+              %br
+                %div
+                  %h2 Event Detail Pages
+                  %h4
+                    After expanding a tile and click "More Info" to view that Event's detail page.
+                  %h5
+                    Here you can learn more about the Event - read a detailed description, get the address/location and view it on a Google map, get the date and time details, read user comments and post your own, and opt to follow the event's creator to add their events to your Stream.
+                  %br
+                    %img{:alt => "", :src => "/images/tutorial/event_details_a.png"}/
+                    %img{:alt => "", :src => "/images/tutorial/event_details_b.png"}/
+.container
+  .marketing
+    %h2
+      %a{:href => "./tutorial-2"} Additional Features - Tutorial Part 2

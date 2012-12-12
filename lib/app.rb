@@ -74,6 +74,14 @@ get '/about' do
 end
 ###############################################################
 
+get '/tutorial-1' do
+  haml :tutorial_1
+end
+
+get '/tutorial-2' do
+  haml :tutorial_2
+end
+
 ## Contact ####################################################
 get '/contact' do
   haml :contact

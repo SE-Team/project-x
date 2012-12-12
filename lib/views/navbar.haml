@@ -13,7 +13,13 @@
 					%img.profile_pic.pull-left{:src => gravatar_for(current_user,30)}
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
-							Me
+							- if current_user.display_name.nil?
+								%span= "Me"
+							- else
+								- if current_user.display_name.length > 0
+									%span= current_user.display_name
+								- else
+									%span= "Me"
 							%i.icon-chevron-down
 						%ul.dropdown-menu
 							%li
@@ -58,6 +64,7 @@
 					%li
 						%a{:href => "/login"}
 							Login
+
 :javascript
 	$('#search-input').keypress(function(e) {
 		if(e.which == 13) {

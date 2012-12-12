@@ -81,18 +81,6 @@ class SessionController
     end
   end
 
-  def self.calendar(uuid)
-  	calendar = nil
-    if @@users_session_data[uuid][:calendar]
-    	calendar = @@users_session_data[uuid][:calendar]
-    else
-    	client = get_client(uuid)
-    	calendar = client.discovered_api('calendar', 'v3')
-    	@@users_session_data[uuid][:calendar] = calendar
-    end
-    return calendar
-  end
-
   def self.plus(uuid)
     plus = nil
     if @@users_session_data[uuid][:plus]
@@ -117,30 +105,25 @@ class SessionController
     return drive
   end
 
-  private
-
-  def self.get_or_create_user_hash(uuid)
-  	if @@users_session_data[uuid]
-  		return @@users_session_data[uuid]
-  	else
-  		@@users_session_data[uuid] = {}
-  		return @@users_session_data[uuid]
-  	end
+  def self.calendar(uuid)
+  	calendar = nil
+    if @@users_session_data[uuid][:calendar]
+    	calendar = @@users_session_data[uuid][:calendar]
+    else
+    	client = get_client(uuid)
+    	calendar = client.discovered_api('calendar', 'v3')
+    	@@users_session_data[uuid][:calendar] = calendar
+    end
+    return calendar
   end
+
+  private
 
   def self.api_config
     @settings ||= (begin
                      settings = YAML::load(File.open('lib/config/config.yml'))
                      settings
     end)
-  end
-
-  def self.get_in(hash, keys)
-    cur_hash = hash
-    keys.each do |kw|
-      cur_hash = cur_hash[kw]
-    end
-    cur_hash
   end
 
   def self.create_client(uuid, code="")
@@ -152,5 +135,22 @@ class SessionController
     client.authorization.redirect_uri = get_in(config_info, ["google_api", "dev", "registered_redirect_uri"])
     client.authorization.code = code
     return client
+  end
+
+  def self.get_or_create_user_hash(uuid)
+  	if @@users_session_data[uuid]
+  		return @@users_session_data[uuid]
+  	else
+  		@@users_session_data[uuid] = {}
+  		return @@users_session_data[uuid]
+  	end
+  end
+
+  def self.get_in(hash, keys)
+    cur_hash = hash
+    keys.each do |kw|
+      cur_hash = cur_hash[kw]
+    end
+    cur_hash
   end
 end

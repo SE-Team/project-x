@@ -2,6 +2,7 @@ module UserSidebarController
 	def user_sidebar_items(user)
       [{href: "/user/#{user.user_name}/create-event", icon: "icon-flag", title: "Create Event"},
       :divider,
+	   {href: "/user/#{user.user_name}/stream", icon: "icon-home", title: "My Stream", badge: {value: "#{user.events.all.count}"}},
 	   {href: "/user/#{user.user_name}/events", icon: "icon-home", title: "My Events", badge: {value: "#{user.events.all.count}"}},
 	   {href: "/user/#{user.user_name}/messages", icon: "icon-envelope", title: "Messages", badge: {value: "#{user.r_messages.all(new_message: true).count}"}},
 	   :divider,

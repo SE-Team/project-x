@@ -51,7 +51,6 @@
 					url: "/api/sync/toggle_event",
 					data: {event_id: event_id}
 				}).done(function(response){
-						console.log(response);
 						var div_id_name = '#google-btn-' + event_id;
 						if (response == "synched") {
 							$(div_id_name).addClass("synched-btn-decoration");
@@ -74,40 +73,3 @@
 			});
 		});
 	});
-
-	// $(function() {
-	// 	var loop = true;
-	// 	var $container = $('#isotope-container');
-	// 	function doStuff() {
-	// 		if (loop) {
-	// 			var now = Date();
-	// 			$.ajax({
-	// 				type: "POST",
-	// 				url: "/api/user/stream/update",
-	// 				data: {user_id: "#{@user.id}",
-	// 						   user_salt: "#{@user.salt}",
-	// 						   time: now,
-	// 						   range: "0 10"}
-	// 			}).done(function (response) {
-	// 				if (response.length > 0) {
-	// 					var html = $('<div>').html(response);
-	// 					// add the new elements to the isotope container
-	// 					$container.prepend(html).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
-	// 					// add the click handlers for the new elements
-	// 					$('.element').click(function(e) {
-	// 						if ($(e.target).hasClass('event-load-btn')) {
-	// 						} else {
-	// 							$(this).toggleClass('large');
-	// 							$container.isotope('reLayout');
-	// 						}
-	// 					});
-	// 				}
-	// 				if ($.browser.mozilla) {
-	// 					$('.element > img').addClass("moz-tile-img");
-	// 				}
-	// 			});
-	// 			setTimeout(doStuff, 10000);
-	// 		}
-	// 	};
-	// 	doStuff();
-	// });

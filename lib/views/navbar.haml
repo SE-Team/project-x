@@ -13,7 +13,7 @@
 					%img.profile_pic.pull-left{:src => gravatar_for(current_user,30)}
 					%li.dropdown
 						%a{"data-toggle" => "dropdown", :href => "#"}
-							Me
+							%span= current_user.display_name.size > 0 ? current_user.display_name : "Me"
 							%i.icon-chevron-down
 						%ul.dropdown-menu
 							%li

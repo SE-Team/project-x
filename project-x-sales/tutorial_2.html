@@ -1,0 +1,225 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Project X</title>
+    <meta content='' name='description' />
+    <meta content='' name='author' />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le styles -->
+    <link href='public/bootstrap/css/bootstrap.css' rel='stylesheet' type='text/css' />
+    <link href='public/bootstrap/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
+    <link href='public/bootstrap/css/docs.css' rel='stylesheet' type='text/css' />
+    <!-- add body padding styles -->
+    <!-- %link{ :href => "/css/pretify.css", :type => "text/css", :rel => "stylesheet" } -->
+    <script src='public/js/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='public/js/jquery-ui-1.8.23.custom.min.js' type='text/javascript'></script>
+    <link href='public/css/site-styles.css' rel='stylesheet' type='text/css' />
+    <!-- Le fav and touch icons -->
+    <link href='public/bootstrap/images/apple-touch-icon.png' rel='apple-touch-icon' />
+    <link href='public/images/favicon.ico' rel='shortcut icon' />
+    <link href='public/bootstrap/images/apple-touch-icon-72x72.png' rel='apple-touch-icon' sizes='72x72' />
+    <link href='public/bootstrap/images/apple-touch-icon-114x114.png' rel='apple-touch-icon' sizes='114x114' />
+    <!-- %script{ :type => "text/javascript", :src =>"https://maps.googleapis.com/maps/api/js?sensor=false"} -->
+  </head>
+  <body>
+    <div>
+      <div class='navbar navbar-fixed-top'>
+        <div class='navbar-inner'>
+          <div class='container-fluid'>
+            <a class='brand' href='http://intense-hamlet-3672.herokuapp.com'>Project X</a>
+            <input class='search-query nav-search' id='search-input' placeholder='Search' type='text' />
+            <ul class='nav pull-right'>
+              <li>
+                <a href='http://intense-hamlet-3672.herokuapp.com/register'>
+                  Sign Up
+                </a>
+              </li>
+              <li>
+                <a href='http://intense-hamlet-3672.herokuapp.com/login'>
+                  Login
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<script type='text/javascript'>
+  //<![CDATA[
+    $('#search-input').keypress(function(e) {
+    	if(e.which == 13) {
+    		var searchTerm = $("#search-input").val();
+    		var msg = "search for: " + searchTerm;
+    		window.location.replace("http://intense-hamlet-3672.herokuapp.com/search/" + encodeURIComponent(searchTerm));
+    	}
+    });
+    
+    function toggleNotificationTooltip() {
+    	var notifier = $('#notifications-tooltip')
+    	notifier.tooltip('toggle');
+    }
+    
+    $('#notifications-tooltip').hover(toggleNotificationTooltip);
+    
+    function toggleAdvancedSearchTooltip() {
+    	var notifier = $('#advanced-search-btn')
+    	notifier.tooltip('toggle');
+    }
+    
+    $('#advanced-search-btn').hover(toggleAdvancedSearchTooltip);
+  //]]>
+</script></div>
+    <div><script type='text/javascript'>
+  //<![CDATA[
+    $(function() {
+    	$('#myCarousel').carousel({
+    		// set the slide interval time in miliseconds
+    		interval: 3000
+    	});
+    });
+  //]]>
+</script>
+</div>
+  
+  <div class='container'>
+    <div class='marketing'>
+      <h1>Additional Features</h1>
+      <h3>Tutorial Continued...</h3>
+      <br>
+    </div>
+  </div>
+
+  <div class='container'>
+    <div class='marketing'>
+      <h2>Back to the side-bar</h2>
+    </div>
+  </div>
+
+  <br>
+
+  <div>
+    <div class='row-fluid'>
+      <div class='span2'>
+        
+      </div>
+
+      <div class='span2'>
+        <img alt='' src='public/images/tutorial/side_bar.png' />
+      </div>
+
+      <div class='span6'>
+        <ul>
+          <li>
+            <h5>My Events</h5>
+            <h5>
+              In addition to creating events users can view their own personal Event Stream by clicking "My Events". This will focus the Stream to include only Events that you have created or added to your Calendar.
+            </h5>
+          </li>
+          <li>
+            <h5>Messages</h5>
+            <h5>
+              Clicking "Messages" will take you to your messages page where you can send messages to other users and view both your inbox and outbox (messages previously sent by you).
+            </h5>
+          </li>
+          <li>
+            <h5>Follwing & Followers</h5>
+            <h5>
+              Upon viewing an Event's detail page you can opt to follow a user - this will add Events that they create to your personal Stream (your "My Events"). Likewise, other users may choose to follow you.
+              By clicking "Following" or "Followers" you may view a list of either those users that you are following or those that are following you.  
+            </h5>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class='container'>
+    <div class='marketing'>
+
+      <div>
+        <h2>More on Messages</h2>
+        <h5>
+          To view a message click on the its row in the list of messages.
+        </h5>
+        <img alt='' src='public/images/tutorial/messages.png' />
+        <h6>
+          If your inbox or sent-box is empty, then you have no messages.
+        </h6>
+        <br>
+        <h5>
+          To create a message click the "Create" button, specify the recipient(s), provide a title, compose your message, and click "Send".
+        </h5>
+        <img alt='' src='public/images/tutorial/create_message.png' />
+      </div>
+
+      <br>
+
+      <div>
+        <h2>More on Following & Followers</h2>
+        <h5>
+          To view your "Following" or "Followers" list click on the corresponding link in the side-bar. Your choice of Followings will be represented in your Stream (under "My Events") bringing Events created by these users into the mix. Following a user will also provide them with your username and email so that they may communicate with you.
+        </h5>
+        <img alt='' src='public/images/tutorial/following.png' />
+        <h6>
+          To stop following a particular user simply click the "Unfollow" button for that entry.
+        </h6>
+        <h5>By viewing your followers you can easily get in contact with these users via Project-X Messages or email.  
+        </h5>
+        <img alt='' src='public/images/tutorial/followers.png' />
+      </div>
+
+    </div>
+  </div>
+
+  <div class='container'>
+    <div class='marketing'>
+      <h2>
+        <a href='http://intense-hamlet-3672.herokuapp.com'>Onward To Project-X!</a>
+      </h2>
+
+      <h5>
+        <a href='./tutorial_1.html'>Back to: Tutorial - Part 1</a>
+      </h5>
+
+    </div>
+  </div>
+
+  </body>
+  <footer>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class='footer'>
+          <div class='container'>
+            <div class='row'>
+              <p class='pull-right'>&copy; Company 2012</p>
+              <nav class='pull-left'>
+                <a class='pull-left' href='./index.html'>| Index |</a>
+                <a class='pull-left' href='./about.html'>| About |</a>
+                <a class='pull-left' href='./tutorial_1.html'>| Tutorial 1 |</a>
+                <a class='pull-left' href='./tutorial_2.html'>| Tutorial 2 |</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </footer>
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src='public/bootstrap/js/basic/bootstrap-transition.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-alert.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-modal.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-dropdown.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-scrollspy.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-tab.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-tooltip.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-popover.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-button.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-collapse.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-carousel.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-typeahead.js' type='text/javascript'></script>
+</htm

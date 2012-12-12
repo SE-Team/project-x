@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Project X</title>
+    <meta content='' name='description' />
+    <meta content='' name='author' />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le styles -->
+    <link href='public/bootstrap/css/bootstrap.css' rel='stylesheet' type='text/css' />
+    <link href='public/bootstrap/css/bootstrap-responsive.css' rel='stylesheet' type='text/css' />
+    <link href='public/bootstrap/css/docs.css' rel='stylesheet' type='text/css' />
+    <!-- add body padding styles -->
+    <!-- %link{ :href => "/css/pretify.css", :type => "text/css", :rel => "stylesheet" } -->
+    <script src='public/js/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='public/js/jquery-ui-1.8.23.custom.min.js' type='text/javascript'></script>
+    <link href='public/css/site-styles.css' rel='stylesheet' type='text/css' />
+    <!-- Le fav and touch icons -->
+    <link href='public/bootstrap/images/apple-touch-icon.png' rel='apple-touch-icon' />
+    <link href='public/images/favicon.ico' rel='shortcut icon' />
+    <link href='public/bootstrap/images/apple-touch-icon-72x72.png' rel='apple-touch-icon' sizes='72x72' />
+    <link href='public/bootstrap/images/apple-touch-icon-114x114.png' rel='apple-touch-icon' sizes='114x114' />
+    <!-- %script{ :type => "text/javascript", :src =>"https://maps.googleapis.com/maps/api/js?sensor=false"} -->
+  </head>
+  <body>
+    <div>
+      <div class='navbar navbar-fixed-top'>
+        <div class='navbar-inner'>
+          <div class='container-fluid'>
+            <a class='brand' href='http://intense-hamlet-3672.herokuapp.com'>Project X</a>
+            <input class='search-query nav-search' id='search-input' placeholder='Search' type='text' />
+            <ul class='nav pull-right'>
+              <li>
+                <a href='http://intense-hamlet-3672.herokuapp.com/register'>
+                  Sign Up
+                </a>
+              </li>
+              <li>
+                <a href='http://intense-hamlet-3672.herokuapp.com/login'>
+                  Login
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+<script type='text/javascript'>
+  //<![CDATA[
+    $('#search-input').keypress(function(e) {
+    	if(e.which == 13) {
+    		var searchTerm = $("#search-input").val();
+    		var msg = "search for: " + searchTerm;
+    		window.location.replace("http://intense-hamlet-3672.herokuapp.com/search/" + encodeURIComponent(searchTerm));
+    	}
+    });
+    
+    function toggleNotificationTooltip() {
+    	var notifier = $('#notifications-tooltip')
+    	notifier.tooltip('toggle');
+    }
+    
+    $('#notifications-tooltip').hover(toggleNotificationTooltip);
+    
+    function toggleAdvancedSearchTooltip() {
+    	var notifier = $('#advanced-search-btn')
+    	notifier.tooltip('toggle');
+    }
+    
+    $('#advanced-search-btn').hover(toggleAdvancedSearchTooltip);
+  //]]>
+</script></div>
+    <div><script type='text/javascript'>
+  //<![CDATA[
+    $(function() {
+    	$('#myCarousel').carousel({
+    		// set the slide interval time in miliseconds
+    		interval: 3000
+    	});
+    });
+  //]]>
+</script>
+</div>
+
+  <div class='container'>
+    <div class='marketing'>
+      <h1>Project-X Tutorial</h1>
+
+      <h3>Using Project-X & How It Works</h3>
+      <br>
+
+      <div>
+        <div>
+          <h2>Login</h2>
+          <h4>
+            Do you have a Google account? If so, then you are well prepared to use Project-X.
+          </h4>
+          <a href="http://www.google.com">If not, create your Google account here.</a>
+          <br><br>
+          <img alt='' src='public/images/tutorial/google_sign_in.png' />
+          <h5>Allow access</h5>
+          <h6>
+            By granting Project-X access to your Google account you are authorizing us to access the information necessary to enable you to add Events of your choosing to your Google Calendar. For this to work Google provides Project-X with a temporary OAuth token necessary to post these events to your Calendar.
+          </h6>
+          <br><br>
+          <img alt='' src='public/images/tutorial/allow_access.png' />
+        </div>
+
+          <br>
+
+        <div>
+          <h2>The Event Stream</h2>
+          <h4>
+            Here you can search and filter through a myriad of Events. Events are categorized so that you can easily filter the Stream the category selected - click a category to filter.   
+          </h4>
+          <br>
+          <h5>
+            Choose between: Outdoor, Personal, Music, TV, Movies, Entertainment, Art, Community, School, Sports, Political, Charity, Etc (for Events not covered by these categories), or All (to unfilter).
+          </h5>
+          <h5>
+            Categories are readily identifiable by their associated color.
+          </h5>
+          <br>
+          <img alt='' src='public/images/tutorial/event_stream.png' />
+          <h6>
+            The Event Stream represests all of the Events in our database and even some form external sources that are not yet within the database, but which are automatically added when a user expresses interest in the Event by choosing to add it to their Calendar; by doing this we are able to keep our database concise and store Events more appropriate to users' interests.
+          </h6>
+        </div>
+
+        <br>
+
+        <div>
+          <h2>Event Tiles</h2>
+          <h4>
+            Each Event is represented by a tile in the Stream.
+          </h4>
+          <h5>
+            Click on a tile to expand it and reveal further options - "More Info" to view the Event's detail page, or "Add To Calendar" to add it to your Google calendar. 
+          </h5>
+          <br>
+          <img alt='' src='public/images/tutorial/echidna_tile.png' />
+          <h6>
+            Using AJAX the Event Stream is updated automatically, without page reload, in real-time, as new events are created.
+          </h6>
+        </div>
+
+        <br>
+
+        <div>
+          <h2>Creating Events</h2>
+          <h4>
+            To create an Event click on "Create Event" in the sidebar and then fill in the form.
+          </h4>
+          <h5>
+            Enter the details of the Event, select a category, and enter the URL of an image to be shown in the tile and detail page.
+          </h5>
+          <h6>
+          If there is no location, as in the case of a TV event, this field may be left blank.
+          </h6>
+          <br>
+          <img alt='' src='public/images/tutorial/create_event.png' />
+        </div>
+
+        <br>
+
+        <div>
+          <h2>Event Detail Pages</h2>
+          <h4>
+            After expanding a tile and click "More Info" to view that Event's detail page.
+          </h4>
+          <h5>
+            Here you can learn more about the Event - read a detailed description, get the address/location and view it on a Google map, get the date and time details, read user comments and post your own, and opt to follow the event's creator to add their events to your Stream.
+          </h5>
+          <br>
+          <img alt='' src='public/images/tutorial/event_details_a.png' />
+          <img alt='' src='public/images/tutorial/event_details_b.png' />
+        </div>
+
+      </div> 
+    </div>
+  </div>
+
+  <div class='container'>
+    <div class='marketing'>
+      <h2>
+        <a href='./tutorial_2.html'>Additional Features - Tutorial Part 2</a>
+      </h2>
+    </div>
+  </div>
+
+</div></div>
+  </body>
+  <footer>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class='footer'>
+          <div class='container'>
+            <div class='row'>
+              <p class='pull-right'>&copy; Company 2012</p>
+              <nav class='pull-left'>
+                <a class='pull-left' href='./index.html'>| Index |</a>
+                <a class='pull-left' href='./about.html'>| About |</a>
+                <a class='pull-left' href='./tutorial_1.html'>| Tutorial 1 |</a>
+                <a class='pull-left' href='./tutorial_2.html'>| Tutorial 2 |</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </footer>
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src='public/bootstrap/js/basic/bootstrap-transition.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-alert.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-modal.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-dropdown.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-scrollspy.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-tab.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-tooltip.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-popover.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-button.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-collapse.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-carousel.js' type='text/javascript'></script>
+  <script src='public/bootstrap/js/basic/bootstrap-typeahead.js' type='text/javascript'></script>
+</htm

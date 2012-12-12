@@ -10,7 +10,7 @@ class TokenPair
   property :expires_in,     Integer
   property :issued_at,      Integer
   property :created_at,     DateTime, default: DateTime.now
-  property :upadted_at,     DateTime
+  property :updated_at,     DateTime
 
   def update_token!(object)
     self.refresh_token = object.refresh_token

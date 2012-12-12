@@ -17,7 +17,7 @@ class Admin
 	property :salt,             	String
 	property :hashed_password,  	String
 	property :created_at,       	DateTime, default: DateTime.now
-	property :upadted_at,       	DateTime
+	property :updated_at,       	DateTime
 	property :access_level, Integer
 	
 	def username= new_username

@@ -98,7 +98,7 @@ post "/api/user/stream" do
   if user
     ## if valid user, then update new stream items
     ## for now just grabbing new events
-    events = user.stream_events(100)
+    events = user.stream_events(100).uniq
     events.each do |event|
       element = render_pane({title: event.title,
                              classes: event.category.name,

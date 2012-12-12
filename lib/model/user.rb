@@ -29,7 +29,7 @@ class User
   property :session_id,           String
   property :hashed_password,      String
   property :created_at,           DateTime, default: DateTime.now
-  property :upadted_at,           DateTime
+  property :updated_at,           DateTime
   property :last_stream_request,  DateTime
 
   def username= new_username
@@ -49,7 +49,7 @@ class User
             email: self.email,
             session_id: self.session_id,
             created_at: self.created_at,
-            upadted_at: self.upadted_at,
+            updated_at: self.updated_at,
             last_stream_request: self.last_stream_request}
   end
 
